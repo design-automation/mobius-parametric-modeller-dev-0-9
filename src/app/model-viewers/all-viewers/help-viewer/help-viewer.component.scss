@@ -1,0 +1,274 @@
+@use "sass:math";
+@import '~scss/colors';
+@import '~scss/variables';
+@import '../general-viewer.scss';
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono');
+
+#help-container {
+    margin-top: 40px;
+    padding: 0px;
+
+    height: calc(100vh - 40px); //$header-height
+    width: 100%;
+    min-width: fit-content;
+
+    overflow: auto;
+    resize: none;
+
+    background-color: transparent;
+    color: $color8;
+    border: none;
+}
+
+.container{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    box-sizing: border-box;
+
+    height: fit-content;
+    width: 100%;
+    min-width: 200px;
+    padding: $small-padding;
+}
+
+$ln-height: $fsize2 + 3px;
+
+.body--container{
+    padding: 6px 0px;
+    border-top: 1px solid $color1;
+    h5{
+        margin-bottom: math.div($ln-height, 4);
+    }
+}
+
+
+.descr--container, .param--container, .ret--container, .exam--container{
+    padding: 0px;
+    line-height: $ln-height;
+    margin-bottom: math.div($ln-height, 2);
+    h5{
+        margin-bottom: math.div($ln-height, 4);
+    }
+    ul{
+        margin: 0px;
+        padding-left: $small-padding;
+        background-color: transparent;
+        li{
+            display: list-item;
+            .li--item{
+                display: flex;
+                flex-flow: row nowrap;
+                padding:0px;
+                font-style: normal;
+                font-weight: 400;
+                span{
+                    margin-right: 2px;
+                    font-weight: 550;
+                }
+                &:hover{
+                    background-color: transparent;
+                }
+            }
+            &:hover{
+                background-color: transparent;
+            }
+        }
+    }
+}
+
+.exam--container{
+    h5{
+        margin-top: math.div($ln-height, 4);
+    }
+    .examp{
+        padding: 0px;
+        // p{
+        //     padding-left: $small-padding;
+        // }
+        ul{
+            margin-bottom: 6px;
+            padding: 0px;
+            background-color: transparent;
+            li{
+                display: flex;
+                border: 1px solid $color1;
+                color: $color8;
+                font-style: normal;
+                font-family: 'Ubuntu Mono';
+                padding: 0px 0px 0px 2px;
+                margin: 4px 0px;
+                background-color: transparent !important;
+            }
+            p{
+                background-color: transparent !important;
+            }
+        }
+    }
+}
+
+.hyperlink{
+    color: $color1;
+    :link {
+        color: $color1;
+    }
+    :visited {
+        color: $color2;
+    }
+    :hover {
+        color: $color3;
+    }
+}
+
+
+h1 {
+    // display: inline-block;
+    margin: 0px;
+    padding: 0px 0px 0px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 30px;
+    cursor: pointer;
+
+    .activeModName{
+        display: inline-block;
+        min-width: 50px;
+    }
+    
+}
+h2{
+    padding: 0px;
+    padding-bottom: 6px;
+    font-size: 14px;
+}
+
+p{
+    padding-bottom: 10px;
+}
+
+.moduleDesc{
+    font-size: 12px;
+    padding: 0px 0px 10px 0px;
+}
+
+#helpMenu {
+    display: none;
+    position: absolute;
+    width: fit-content;
+
+    transition: display 0.4s;
+    // top: 60px;
+    overflow-y: scroll;
+    max-height: 300px;
+
+    z-index: 3;
+    background-color: $color6;
+    border: 1px solid $color1;
+
+    button{
+        cursor: pointer;
+        display: block;
+        min-width: 100px;
+        max-width: 200px;
+        background-color: $color6;
+        border: 0px;
+        margin: 0px;
+        line-height: $fsize3;
+        height: $fsize3;
+        font-size: $fsize2;
+    }
+
+    li{
+        cursor: pointer;
+        display: block;
+        min-width: 100px;
+        max-width: 300px;
+        overflow: hidden;
+        line-height: 20px;
+        background-color: $color6;
+        border: 0px;
+        margin: 0px;
+        padding: 0px 10px 0px 10px;
+        line-height: $fsize3;
+        height: $fsize3;
+        font-size: $fsize2;
+        color: $color8;
+        &:hover{
+            color: $selected-color;
+            background-color: $color5;
+        }
+    }
+
+}
+
+.accordion {
+    position: relative;
+    background-color: $color4;
+    color: $color8;
+    cursor: pointer;
+    width: 100%;
+    height: 24px;
+    padding: 2px 8px 10px 8px;
+    border: none;
+    display: block;
+    text-align: left;
+    outline: none;
+    font-size: $fsize2;
+    transition: 0.4s;
+    font-weight: 550;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: $inputTextFontFam;
+    font-weight: 700;
+
+    &.mainAccordion{
+        &.active {
+            &:after {
+                content: "\2bc6"; /* Unicode character for "minus" sign (-) */
+            }
+        }
+        &:after{
+            content: '\2bc8'; 
+            font-size: 12px;
+            font-style: normal;
+            // color: #777;
+            float: right;
+            margin-left: 5px;
+        }
+    }
+    &.active {
+        background-color: $color3; 
+    }
+    &:hover {
+        background-color: $color3; 
+        .helpButton {
+            display: inline-block;
+            bottom: 1px;
+        }
+    }
+    &:disabled{
+        color: $color3;
+        background-color: $color5;
+        pointer-events: none;
+    }
+}
+
+.panel {
+    width: inherit;
+    border-left: 2px solid $color3;
+    margin-left: 3px;
+    display: none;
+    // background-color: $color5;
+    overflow: hidden;
+    button{
+        font-family: $inputTextFontFam;
+        font-weight: 700;
+        color: $selected-color;
+        font-style: italic;
+        white-space: nowrap;
+    }
+
+    &.opened{
+        display: block;
+    }
+}

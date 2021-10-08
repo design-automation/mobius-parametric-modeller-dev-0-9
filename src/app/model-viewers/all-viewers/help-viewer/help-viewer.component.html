@@ -1,0 +1,26 @@
+<div id="help-container" (click)='urlCheck($event)'>
+    <h1 id = 'help-tab' (click)='openHelpMenu($event)'><span class='activeModName'>Select Module</span><span>▾</span></h1>
+    <div id="helpMenu">
+        <ng-container *ngFor='let modGroup of modList'>
+            <button id={{modGroup.name}} class="accordion mainAccordion" 
+            (click)='toggleAccordion($event, modGroup.name)' >{{modGroup.name}}</button>
+            <div class="panel">
+                <li *ngFor='let mod of modGroup.modnames' (click)="switchHelp(modGroup, mod)">
+                    {{mod}}
+                </li>
+            </div>
+        </ng-container>
+    </div>
+
+    <div class = 'container' *ngIf='output; else module_help'>
+        <showdown [value]="output" ngPreserveWhitespaces></showdown>
+    </div>
+
+    <ng-template #module_help>
+        <div class = 'container'> 
+            <ng-container *ngIf='activeMod'>
+                <showdown [src]="activeMod" ngPreserveWhitespaces></showdown>
+            </ng-container>
+        </div>
+    </ng-template>
+</div>
