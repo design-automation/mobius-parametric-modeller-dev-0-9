@@ -7,16 +7,12 @@
     "paths": {
       "@assets/*" : ["assets/*"],
       "@env/*" : ["environments/*"],
-      "@libs/*" : ["assets/libs/*"],
       "@store" : ["app/core/store"],
       "@models/*" : ["app/shared/models/*"],
       "@utils" : ["app/shared/utils"],
       "@shared/*" : ["app/shared/*"],
       "@views" : ["app/views"],
       "@services" : ["app/shared/services"],
-      "@modules" : ["assets/core/modules"],
-      "@modules/*" : ["assets/core/modules/*"],
-      "@libs": ["assets/libs"],
       "@test" : ["app/views"]
     }
   },

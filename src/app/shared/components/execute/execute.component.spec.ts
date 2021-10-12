@@ -6,14 +6,8 @@
 // import { MatIconModule } from '@angular/material/icon';
 // import { SpinnerComponent } from '../spinner/spinner.component';
 // import { FlowchartUtils } from '@models/flowchart';
-// import { _model } from '@modules';
 // // import * as galleryUrl from '@assets/gallery/__config__.json';
 // import { DataOutputService } from '@shared/services/dataOutput.service';
-// import { _parameterTypes } from '@assets/core/_parameterTypes';
-// import { EEntType } from '@libs/geo-info/common';
-
-// import * as testUrl from '@assets/unit_tests/unit_test.json';
-// import * as compUrl from '@assets/unit_tests/unit_test_comp.json';
 
 // describe('Execute Component test', () => {
 //     let loadURLfixture:   ComponentFixture<LoadUrlComponent>;

@@ -9,7 +9,7 @@ import { DownloadUtils } from './download.utils';
 import { mergeInputsFunc, printFuncString, pythonListFunc, ExecuteComponent } from '../execute/execute.component';
 import { InputType } from '@models/port';
 import { CodeUtils } from '@shared/components/execute/code.util';
-import { _varString } from '@assets/core/modules';
+import { _varString } from '@design-automation/mobius-sim';
 
 @Component({
   selector: 'javascript-save',

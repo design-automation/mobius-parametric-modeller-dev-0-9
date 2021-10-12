@@ -7,7 +7,7 @@
 import { INode } from '@models/node';
 import { IEdge } from '@models/edge';
 import { IFunction } from '@models/procedure';
-import { GIModel } from '@assets/libs/geo-info/GIModel';
+import { GIModel } from '@design-automation/mobius-sim';
 
 export interface IFlowchart {
     id: string;

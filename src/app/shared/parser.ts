@@ -1,10 +1,8 @@
-import { inline_func } from '@assets/core/inline/inline';
 import { IProcedure, ProcedureTypes } from '@models/procedure';
 import { IArgument } from '@models/code';
 import { INode } from '@models/node';
 import { InputType } from '@models/port';
-import { _parameterTypes } from '@assets/core/_parameterTypes';
-import { modify } from '@assets/core/modules';
+import { inline_func, _parameterTypes } from '@design-automation/mobius-sim';
 
 enum strType {
     NUM,

@@ -1,4 +1,3 @@
-import { GIModel } from '@libs/geo-info/GIModel';
 // import @angular stuff
 import {
     Component, OnInit, Input, Output, EventEmitter,
@@ -7,11 +6,10 @@ import {
 import { DataThreejs } from '../data/data.threejs';
 // import { IModel } from 'gs-json';
 import { DataService } from '../data/data.service';
-import { EEntType, EEntTypeStr, Txyz } from '@libs/geo-info/common';
 import { DropdownMenuComponent } from '../html/dropdown-menu.component';
 import { ModalService } from '../html/modal-window.service';
 import { ThreeJSViewerService } from './threejs-viewer.service';
-import { sortByKey } from '@libs/util/maps';
+import { GIModel, EEntType, EEntTypeStr, sortByKey} from '@design-automation/mobius-sim';
 
 let renderCheck = true;
 
@@ -1550,7 +1548,7 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
         }
 
         const point_indices: number[] = [];
-        const positions: Txyz[] = [];
+        const positions = [];
         verts_flat.map((v, i) => {
             positions.push(this.model.modeldata.attribs.posis.getVertCoords(v));
             point_indices.push(i);

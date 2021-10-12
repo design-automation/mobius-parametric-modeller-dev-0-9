@@ -9,7 +9,7 @@ import { IdGenerator } from '@utils';
 import { IMobius } from '@models/mobius';
 import { INode, NodeUtils } from '@models/node';
 import JSZip from 'jszip';
-import { _parameterTypes } from '@assets/core/modules';
+import { _parameterTypes } from '@design-automation/mobius-sim';
 
 declare global {
     interface Navigator {

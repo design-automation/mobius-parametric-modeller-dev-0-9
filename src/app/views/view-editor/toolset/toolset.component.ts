@@ -8,12 +8,11 @@ import { ModuleList, ModuleDocList } from '@shared/decorators';
 import { INode, NodeUtils } from '@models/node';
 
 import { DownloadUtils } from '@shared/components/file/download.utils';
-import { inline_query_expr, inline_func, inline_sort_expr} from '@assets/core/inline/inline';
 import { DataService } from '@services';
 import { InputType } from '@models/port';
 import { IdGenerator } from '@utils';
 import { SaveFileComponent } from '@shared/components/file';
-import * as Modules from '@modules';
+import { Modules } from '@design-automation/mobius-sim';
 
 const keys = Object.keys(ProcedureTypes);
 const inputEvent = new Event('input', {

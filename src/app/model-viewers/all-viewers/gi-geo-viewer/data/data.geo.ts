@@ -1,6 +1,5 @@
-import { GIModel } from '@libs/geo-info/GIModel';
+import { GIModel, LONGLAT, EEntType} from '@design-automation/mobius-sim';
 import { GeoSettings } from '../gi-geo-viewer.settings';
-import { TAttribDataTypes, LONGLAT, EEntType } from '@libs/geo-info/common';
 import * as itowns from 'itowns/dist/itowns';
 import * as THREE from 'three';
 import * as suncalc from 'suncalc';
@@ -260,7 +259,7 @@ export class DataGeo {
         this.elevation = 0;
         if (this.model.modeldata.attribs.query.hasModelAttrib('geolocation')) {
             const geoloc: any = this.model.modeldata.attribs.get.getModelAttribVal('geolocation');
-            const long_value: TAttribDataTypes  = geoloc.longitude;
+            const long_value  = geoloc.longitude;
             if (typeof long_value !== 'number') {
                 throw new Error('Longitude attribute must be a number.');
             }
@@ -268,7 +267,7 @@ export class DataGeo {
             if (this.longitude < -180 || this.longitude > 180) {
                 throw new Error('Longitude attribute must be between -180 and 180.');
             }
-            const lat_value: TAttribDataTypes = geoloc.latitude;
+            const lat_value = geoloc.latitude;
             if (typeof lat_value !== 'number') {
                 throw new Error('Latitude attribute must be a number');
             }
@@ -277,7 +276,7 @@ export class DataGeo {
                 throw new Error('Latitude attribute must be between 0 and 90.');
             }
             if (geoloc.elevation) {
-                const ele_value: TAttribDataTypes = geoloc.elevation;
+                const ele_value = geoloc.elevation;
                 if (typeof ele_value !== 'number') {
                     throw new Error('Elevation attribute must be a number');
                 }

@@ -4,7 +4,7 @@ import {  } from '@angular/core';
 // import app services
 import { DataAframeService } from '../data/data.aframe.service';
 import { DataService as ThreeJSDataService } from '../../gi-viewer/data/data.service';
-import { GIModel } from '@libs/geo-info/GIModel';
+import { GIModel } from '@design-automation/mobius-sim';
 
 declare var AFRAME;
 // const SKY_REFRESH_RATE = 200;
@@ -72,6 +72,10 @@ export class AframeMainComponent implements AfterViewInit, OnChanges, OnDestroy,
             setTimeout(() => {
                 data.updateCamera(this.dataService.aframe_cam);
                 this.dataService.aframe_cam = null;
+                data.disableCamSwitch = true;
+                setTimeout(() => {
+                    data.disableCamSwitch = false;
+                }, 1000);
             }, 0);
         }
         setTimeout(() => {

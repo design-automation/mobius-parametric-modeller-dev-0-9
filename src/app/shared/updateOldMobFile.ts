@@ -1,16 +1,15 @@
 import { ProcedureTypes } from '@models/procedure';
 import { ModuleList } from './decorators';
-import * as funcs from '@modules';
-import * as deprecated from '@assets/core/deprecated.json';
+// import * as deprecated from '@assets/core/deprecated.json';
 
 import * as circularJSON from 'circular-json';
-import { _parameterTypes } from '@assets/core/_parameterTypes';
-import { fn } from '@angular/compiler/src/output/output_ast';
 import { VERSION } from '@env/version';
 import { IMobius } from '@models/mobius';
 import { INode } from '@models/node';
 import { InputType } from '@models/port';
+import { Modules as funcs, _parameterTypes } from '@design-automation/mobius-sim';
 
+const deprecated = {default: []}
 
 export function checkMobFile(file: IMobius) {
     if (file.version === VERSION.version) {

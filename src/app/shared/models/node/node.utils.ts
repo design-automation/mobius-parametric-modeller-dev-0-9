@@ -4,7 +4,7 @@ import { InputType, PortUtils } from '@models/port';
 import * as circularJSON from 'circular-json';
 import { IdGenerator } from '@utils';
 import { ModuleList, ModuleDocList } from '@shared/decorators';
-import { _parameterTypes } from '@assets/core/_parameterTypes';
+import { _parameterTypes } from '@design-automation/mobius-sim';
 import { modifyLocalFuncVar } from '@shared/parser';
 
 export abstract class NodeUtils {

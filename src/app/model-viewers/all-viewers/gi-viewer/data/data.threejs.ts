@@ -1,16 +1,12 @@
 import * as THREE from 'three';
-import { GIModel } from '@libs/geo-info/GIModel';
-import { IThreeJS } from '@libs/geo-info/ThreejsJSON';
-import { EEntType, EAttribNames, TPlane, TColor } from '@libs/geo-info/common';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
 import { DataService } from '@services';
-import { Vector } from '@assets/core/modules/basic/calc';
 import { ISettings } from './data.threejsSettings';
 
 import { DataThreejsLookAt } from './data.threejsLookAt';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper';
-import { xfromSourceTargetMatrix } from '@assets/libs/geom/matrix';
+import { GIModel, EEntType, EAttribNames, xfromSourceTargetMatrix} from '@design-automation/mobius-sim';
 
 enum MaterialType {
     MeshBasicMaterial = 'MeshBasicMaterial',
@@ -122,7 +118,7 @@ export class DataThreejs extends DataThreejsLookAt {
     private _replaceColors(materials: object[], keys: string[]): void {
         for (const mat of materials) {
             for (const color_key of keys) {
-                const rgb: TColor = mat[color_key];
+                const rgb = mat[color_key];
                 if (rgb === undefined) { continue; }
                 if (!Array.isArray(rgb)) { continue; }
                 mat[color_key] = new THREE.Color(rgb[0], rgb[1], rgb[2]);
@@ -131,7 +127,7 @@ export class DataThreejs extends DataThreejsLookAt {
     }
     private async _addGeom(model: GIModel) {
         // Add geometry
-        const threejs_data: IThreeJS = model.get3jsData(this.nodeIndex);
+        const threejs_data = model.get3jsData(this.nodeIndex);
         this.select_maps = {
             _t: threejs_data.tri_select_map,
             _e: threejs_data.edge_select_map,
@@ -652,7 +648,7 @@ export class DataThreejs extends DataThreejsLookAt {
     private _addPoints(points_i: number[],
                         posis_buffer: THREE.Float32BufferAttribute,
                         colors_buffer: THREE.Float32BufferAttribute,
-                        color: TColor,
+                        color: any,
                         size: number = 1): void {
         const geom = new THREE.BufferGeometry();
         geom.setIndex(points_i);
@@ -732,8 +728,8 @@ export class DataThreejs extends DataThreejsLookAt {
             }
             const xAxis = new THREE.Vector3().copy(coords[2]).sub(coords[1]);
             const yAxis = new THREE.Vector3().copy(coords[0]).sub(coords[1]);
-            const fromPlane = <TPlane> [[0, 0, 0], [lengthCheck[1], 0, 0], [0, lengthCheck[0], 0]];
-            const toPlane = <TPlane> [
+            const fromPlane = <any> [[0, 0, 0], [lengthCheck[1], 0, 0], [0, lengthCheck[0], 0]];
+            const toPlane = <any> [
                 [coords[1].x, coords[1].y, coords[1].z],
                 [xAxis.x, xAxis.y, xAxis.z],
                 [yAxis.x, yAxis.y, yAxis.z]

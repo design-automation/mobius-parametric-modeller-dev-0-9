@@ -5,12 +5,9 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { GIModel } from '@libs/geo-info/GIModel';
 import { DataService } from '../data/data.service';
-import { EEntType, EEntTypeStr } from '@libs/geo-info/common';
-import { GIAttribsThreejs } from '@assets/libs/geo-info/attribs/GIAttribsThreejs';
 import { ATabsComponent } from './tabs.component';
-import { _EEntType } from '@assets/core/modules/basic/attrib';
+import { GIModel, _EEntType, EEntType, EEntTypeStr, GIAttribsThreejs} from '@design-automation/mobius-sim';
 
 enum SORT_STATE {
     DEFAULT,

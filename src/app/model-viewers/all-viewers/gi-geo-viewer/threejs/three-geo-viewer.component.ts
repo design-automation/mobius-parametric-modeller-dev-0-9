@@ -1,4 +1,4 @@
-import { GIModel } from '@libs/geo-info/GIModel';
+import { GIModel } from '@design-automation/mobius-sim';
 import { OnChanges, OnDestroy, DoCheck } from '@angular/core';
 // import @angular stuff
 import { Component, Input, OnInit } from '@angular/core';

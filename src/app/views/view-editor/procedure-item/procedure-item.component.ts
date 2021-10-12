@@ -3,14 +3,11 @@ import { Component, Input, Output,  EventEmitter, OnDestroy} from '@angular/core
 import { IProcedure, ProcedureTypes } from '@models/procedure';
 import { ModuleDocList } from '@shared/decorators';
 
-import { _parameterTypes } from '@assets/core/_parameterTypes';
-
-import { inline_func } from '@assets/core/inline/inline';
-import * as Modules from '@modules';
 import { DataService } from '@services';
 import { IArgument } from '@models/code';
 
 import { modifyArgument, checkNodeValidity, modifyLocalFuncVar} from '@shared/parser';
+import { Modules, _parameterTypes } from '@design-automation/mobius-sim';
 
 
 const REGEXP = /^(container--item|container--line|line--item|input--var|input--arg|module-name|function-text|global-function-text|basic-function-text)/i;

@@ -1,4 +1,4 @@
-import { GIModel } from '@libs/geo-info/GIModel';
+import { GIModel } from '@design-automation/mobius-sim';
 // import @angular stuff
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 // import app services
@@ -186,14 +186,6 @@ export class AframeViewerComponent implements OnInit, OnDestroy {
         const selectedIndex = Number(value);
         this.selectedCamPos = selectedIndex;
         const aframeData = this.dataService.getAframeData();
-        // if (selectedIndex === this.camPosList.length - 1) {
-        //     aframeData.updateCameraPos(null);
-        //     this.vr.enabled = true;
-        //     this.vr.background_url = this.settings.vr.background_url;
-        //     this.vr.foreground_url = this.settings.vr.foreground_url;
-        //     aframeData.updateVRSettings(this.vr);
-        //     aframeData.refreshModel(this.threeJSDataService.getThreejsScene());
-        // } else
         if (selectedIndex === 0) {
             aframeData.updateCameraPos(null);
             this.vr.enabled = false;

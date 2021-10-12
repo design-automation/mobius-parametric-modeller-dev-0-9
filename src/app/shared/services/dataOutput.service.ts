@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { INode } from '@models/node';
-import { _parameterTypes } from '@assets/core/_parameterTypes';
-import { WebWorkerService } from 'ngx-web-worker';
-import { GIMetaData } from '@assets/libs/geo-info/GIMetaData';
-import { GIModel } from '@assets/libs/geo-info/GIModel';
+import { GIModel, _parameterTypes } from '@design-automation/mobius-sim';
 
 @Injectable()
 export class DataOutputService {

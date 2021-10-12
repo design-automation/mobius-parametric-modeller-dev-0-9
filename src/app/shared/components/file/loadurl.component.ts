@@ -1,12 +1,8 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { IMobius } from '@models/mobius';
-import { Observable } from 'rxjs';
 import { ProcedureTypes } from '@shared/models/procedure';
 import * as circularJSON from 'circular-json';
-import * as funcs from '@modules';
 import { DataService } from '@services';
-import { _parameterTypes } from '@assets/core/_parameterTypes';
-import { ModuleList } from '@shared/decorators';
 import { Router } from '@angular/router';
 import { checkNodeValidity } from '@shared/parser';
 import { IdGenerator, updateLocalViewerSettings, updateGeoViewerSettings, updateAframeViewerSettings } from '@utils';

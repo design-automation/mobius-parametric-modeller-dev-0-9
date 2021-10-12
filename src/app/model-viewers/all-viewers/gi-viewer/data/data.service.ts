@@ -1,5 +1,4 @@
-import { GIModel } from '@libs/geo-info/GIModel';
-import { EEntType, EEntTypeStr } from '@libs/geo-info/common';
+import { GIModel, EEntType, EEntTypeStr } from '@design-automation/mobius-sim';
 import { DataThreejs } from './data.threejs';
 // import @angular stuff
 import { Injectable } from '@angular/core';

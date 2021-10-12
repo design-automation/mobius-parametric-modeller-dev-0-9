@@ -1,12 +1,9 @@
-import { GIModel } from '@libs/geo-info/GIModel';
-
 // import @angular stuff
-import { Component, Input, OnInit, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input} from '@angular/core';
 
 // import app services
-import { ColorPickerService } from 'ngx-color-picker';
 import cytoscape from 'cytoscape';
-import { EEntType } from '@assets/libs/geo-info/common';
+import { GIModel, _EEntType} from '@design-automation/mobius-sim';
 
 // import others
 

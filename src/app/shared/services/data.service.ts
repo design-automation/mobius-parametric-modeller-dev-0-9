@@ -6,11 +6,7 @@ import { IProcedure, ProcedureTypes } from '@models/procedure';
 import { IEdge } from '@models/edge';
 import { Subject } from 'rxjs';
 import { VERSION } from '@env/version';
-import { GIMetaData } from '@assets/libs/geo-info/GIMetaData';
-import { inline_func } from '@assets/core/inline/inline';
-import { GIModel } from '@assets/libs/geo-info/GIModel';
-import { _parameterTypes } from '@assets/core/modules';
-
+import { GIModel, GIMetaData, _parameterTypes } from '@design-automation/mobius-sim';
 const DIALOGSLIST = ['publish', 'publish_url', 'backup', 'globalfunc',
                      'inlinefunc', 'savels', 'settings'];
 

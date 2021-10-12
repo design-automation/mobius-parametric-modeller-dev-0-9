@@ -7,7 +7,7 @@ import doc from '@assets/typedoc-json/doc.json';
 import * as showdown from 'showdown';
 
 // @ts-ignore
-import * as Modules from 'assets/core/modules';
+import {Modules} from '@design-automation/mobius-sim';
 
 const mdConverter = new showdown.Converter({literalMidWordUnderscores: true});
 const module_list = [];

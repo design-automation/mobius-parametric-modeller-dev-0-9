@@ -10,7 +10,6 @@ import { DataService as ThreeJSViewerDataService } from '../model-viewers/all-vi
 import { DataGeoService as ThreeGeoViewerDataService } from '../model-viewers/all-viewers/gi-geo-viewer/data/data.geo.service';
 import { DataAframeService } from '../model-viewers/all-viewers/aframe-viewer/data/data.aframe.service';
 // import app modules
-// import { CoreModule } from '@assets/core/core.module';
 import { SharedModule } from '@shared/shared.module';
 // import { AppRoutingModule } from './app-routing.module';
 // import app components
