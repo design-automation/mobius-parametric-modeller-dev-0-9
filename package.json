@@ -23,7 +23,7 @@
     "lint-fix": "ng lint --fix",
     "e2e": "ng e2e",
     "postinstall": "npm run moduleDocs",
-    "moduleDocs": "npm run typedoc && node ./src/assets/typedoc-json/docConvert.js && node version.js && npm run resizeImg",
+    "moduleDocs": "npm run typedoc && node version.js && npm run resizeImg",
     "typedoc": "copy src\\assets\\typedoc-json\\__doc__.json src\\assets\\typedoc-json\\doc.json && typedoc --exclude **/*.spec.ts --json src/assets/typedoc-json/doc.json src/assets/core/modules",
     "resizeImg": "node ./src/assets/gallery/img_resize.js"
   },
@@ -40,7 +40,7 @@
     "@angular/platform-browser-dynamic": "^12.2.8",
     "@angular/router": "^12.2.8",
     "@aws-sdk/client-s3": "^3.22.0",
-    "@design-automation/mobius-sim": "^0.1.0",
+    "@design-automation/mobius-sim": "^0.1.4",
     "@doodle3d/clipper-js": "^1.0.11",
     "@types/chroma-js": "^1.4.1",
     "@types/circular-json": "^0.4.0",
