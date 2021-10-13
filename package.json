@@ -23,7 +23,7 @@
     "lint-fix": "ng lint --fix",
     "e2e": "ng e2e",
     "postinstall": "npm run moduleDocs",
-    "moduleDocs": "npm run typedoc && node version.js && npm run resizeImg",
+    "moduleDocs": "node version.js && npm run resizeImg",
     "typedoc": "copy src\\assets\\typedoc-json\\__doc__.json src\\assets\\typedoc-json\\doc.json && typedoc --exclude **/*.spec.ts --json src/assets/typedoc-json/doc.json src/assets/core/modules",
     "resizeImg": "node ./src/assets/gallery/img_resize.js"
   },
