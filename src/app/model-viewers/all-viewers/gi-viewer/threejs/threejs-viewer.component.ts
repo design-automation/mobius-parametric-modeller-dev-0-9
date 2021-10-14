@@ -9,9 +9,25 @@ import { DataService } from '../data/data.service';
 import { DropdownMenuComponent } from '../html/dropdown-menu.component';
 import { ModalService } from '../html/modal-window.service';
 import { ThreeJSViewerService } from './threejs-viewer.service';
-import { GIModel, EEntType, EEntTypeStr, sortByKey} from '@design-automation/mobius-sim';
+import { GIModel, EEntType, EEntTypeStr} from '@design-automation/mobius-sim';
 
 let renderCheck = true;
+function sortByKey(unsortedMap) {
+    const keys = [];
+    const sortedMap = new Map();
+
+    unsortedMap.forEach((value, key) => {
+        keys.push(key);
+    });
+
+    keys.sort((a, b) => {
+        const x = Number(a.substr(2)), y = Number(b.substr(2));
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    }).map(function(key) {
+        sortedMap.set(key, unsortedMap.get(key));
+    });
+    return sortedMap;
+}
 
 /**
  * A threejs viewer for viewing geo-info (GI) models.
@@ -1674,8 +1690,6 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
             const pgons_indices = pgonResult.indices;
 
             if (pgons_indices.length !== 0) {
-                // const attrib_val = this.model.modeldata.attribs.get.getAttribValue(EEntType.COLL, EAttribNames.NAME, id);
-                // const selecting = attrib_val ? attrib_val.toString() : `${EEntType.COLL}${id}`;
                 const pgon_id = `${EEntTypeStr[EEntType.COLL]}_pg_${id}`;
                 scene.selectObjFace(coll_id, pgons_indices, pgons_posi, this.container, labelText);
                 children.push(pgon_id);

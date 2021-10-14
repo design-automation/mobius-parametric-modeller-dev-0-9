@@ -1,10 +1,10 @@
-import { GIModel, LONGLAT, EEntType} from '@design-automation/mobius-sim';
+import { GIModel, _parameterTypes, EEntType} from '@design-automation/mobius-sim';
 import { GeoSettings } from '../gi-geo-viewer.settings';
 import * as itowns from 'itowns/dist/itowns';
 import * as THREE from 'three';
 import * as suncalc from 'suncalc';
 
-
+const LONGLAT = _parameterTypes.LONGLAT;
 export const API_MAPS = [
                             'Here map normal',
                             'Here map normal grey',

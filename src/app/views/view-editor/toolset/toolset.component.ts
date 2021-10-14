@@ -37,12 +37,6 @@ export class ToolsetComponent implements OnInit {
     ProcedureTypes = ProcedureTypes;
     ProcedureTypesArr = keys.slice(keys.length / 2);
     searchedMainFuncs = [];
-    // searchedInlineFuncs = [];
-    // searchedUserFuncs = [];
-
-    // inlineQueryExpr = inline_query_expr;
-    // inlineSortExpr = inline_sort_expr;
-    // inlineFunc = inline_func;
 
     AllModules = {};
     Modules = [];

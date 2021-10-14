@@ -7,7 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataService } from '../data/data.service';
 import { ATabsComponent } from './tabs.component';
-import { GIModel, _EEntType, EEntType, EEntTypeStr, GIAttribsThreejs} from '@design-automation/mobius-sim';
+import { GIModel, EEntType, EEntTypeStr} from '@design-automation/mobius-sim';
 
 enum SORT_STATE {
     DEFAULT,
@@ -194,10 +194,9 @@ export class AttributeComponent implements OnChanges {
             if (Number(tabIndex) === 5) {
                 this.displayData = ThreeJSData.getModelAttribsForTable(this.nodeIndex);
             } else {
-                const ready = this.model.modeldata.attribs.threejs instanceof GIAttribsThreejs;
                 this.selected_ents = this.dataService.selected_ents.get(EEntTypeStr[this.tab_map[tabIndex]]);
 
-                if (!ready) { return; }
+                if (!this.model.modeldata.attribs.threejs) { return; }
                 if (this.showSelected) {
                     const SelectedAttribData = ThreeJSData.getEntsVals(this.nodeIndex, this.selected_ents, this.tab_map[tabIndex]);
                     SelectedAttribData.map(row => {

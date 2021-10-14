@@ -6,7 +6,7 @@ import { ISettings } from './data.threejsSettings';
 import { DataThreejsLookAt } from './data.threejsLookAt';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper';
-import { GIModel, EEntType, EAttribNames, xfromSourceTargetMatrix} from '@design-automation/mobius-sim';
+import { GIModel, EEntType} from '@design-automation/mobius-sim';
 
 enum MaterialType {
     MeshBasicMaterial = 'MeshBasicMaterial',
@@ -679,7 +679,7 @@ export class DataThreejs extends DataThreejsLookAt {
         try {
             pgon = model.modeldata.geom.query.getEnts(EEntType.PGON);
             pgon_label = <any> model.modeldata.attribs.get.getEntAttribVal(EEntType.PGON, pgon, 'text')
-            coords_attrib = model.modeldata.attribs.attribs_maps.get(model.modeldata.active_ssid).ps.get(EAttribNames.COORDS);
+            coords_attrib = model.modeldata.attribs.attribs_maps.get(model.modeldata.active_ssid).ps.get('xyz');
         } catch (ex) {
             return;
         }
@@ -734,7 +734,7 @@ export class DataThreejs extends DataThreejsLookAt {
                 [xAxis.x, xAxis.y, xAxis.z],
                 [yAxis.x, yAxis.y, yAxis.z]
             ];
-            const matrix = xfromSourceTargetMatrix(fromPlane, toPlane);
+            const matrix = this.xfromSourceTargetMatrix(fromPlane, toPlane);
             geom.applyMatrix4(matrix);
 
             let color = new THREE.Color(0);
@@ -760,6 +760,47 @@ export class DataThreejs extends DataThreejsLookAt {
         this.scene.add(pgonText);
         // this.renderer.render(this.scene, this.camera);
         this.renderer.render(this.scene, this.camera);
+    }
+
+    xfromSourceTargetMatrix(source_plane, target_plane): THREE.Matrix4 {
+        // matrix to xform from source to gcs, then from gcs to target
+        const matrix_source_to_gcs: THREE.Matrix4 = this.xformMatrix(source_plane, true);
+        const matrix_gcs_to_target: THREE.Matrix4 = this.xformMatrix(target_plane, false);
+        // final matrix
+        const xform: THREE.Matrix4 = matrix_gcs_to_target.multiply(matrix_source_to_gcs);
+        // return the matrix
+        return xform;
+    }
+
+    // ================================================================================================
+    // Helper functions
+    // ================================================================================================
+    xformMatrix(plane, neg): THREE.Matrix4 {
+        const o: THREE.Vector3 = new THREE.Vector3(...plane[0]);
+        const x: THREE.Vector3 = new THREE.Vector3(...plane[1]);
+        const y: THREE.Vector3 = new THREE.Vector3(...plane[2]);
+        const z: THREE.Vector3 = new THREE.Vector3(...plane[1]).cross(y);
+        if (neg) {
+            o.negate();
+        }
+        // origin translate matrix
+        const m1: THREE.Matrix4 = new THREE.Matrix4();
+        m1.setPosition(o);
+        // xfrom matrix
+        const m2: THREE.Matrix4 = new THREE.Matrix4();
+        m2.makeBasis(x, y, z);
+        // combine two matrices
+        const m3: THREE.Matrix4 = new THREE.Matrix4();
+        if (neg) {
+            const m2x = (new THREE.Matrix4()).copy( m2 ).invert();
+            // first translate to origin, then xform, so m2 x m1
+            m3.multiplyMatrices(m2x, m1);
+        } else {
+            // first xform, then translate to origin, so m1 x m2
+            m3.multiplyMatrices(m1, m2);
+        }
+        // return the combined matrix
+        return m3;
     }
 
     // // ============================================================================

@@ -1081,7 +1081,7 @@ export class PanelHeaderComponent implements OnDestroy {
         this.dataService.dialog.close();
         this.dataService.dialog.style.right = '0px';
         this.dataService.dialogType = 'backup';
-        this.dataService.dialog = <HTMLDialogElement>document.getElementById('headerDialog');
+        this.dataService.dialog = <any>document.getElementById('headerDialog');
         this.dataService.dialog.showModal();
         this.dataService.setbackup_updateImported(true);
     }

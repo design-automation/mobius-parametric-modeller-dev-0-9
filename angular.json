@@ -19,7 +19,6 @@
               "mathjs",
               "seedrandom",
               "cytoscape",
-              "@doodle3d/clipper-js",
               "entities",
               "fast-xml-parser",
               "@aws-crypto/crc32",

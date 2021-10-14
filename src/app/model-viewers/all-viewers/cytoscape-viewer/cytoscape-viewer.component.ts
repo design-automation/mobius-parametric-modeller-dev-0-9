@@ -3,7 +3,7 @@ import { Component, Input} from '@angular/core';
 
 // import app services
 import cytoscape from 'cytoscape';
-import { GIModel, _EEntType} from '@design-automation/mobius-sim';
+import { GIModel} from '@design-automation/mobius-sim';
 
 // import others
 
