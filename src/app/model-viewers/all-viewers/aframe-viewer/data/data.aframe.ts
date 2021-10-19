@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { AframeSettings } from '../aframe-viewer.settings';
-import { Modules, GIModel, _EEntType, EEntType } from '@design-automation/mobius-sim';
+import { Modules, GIModel, EEntType } from '@design-automation/mobius-sim';
 import { processDownloadURL } from '@shared/utils/otherUtils';
 
 declare var AFRAME;
@@ -180,7 +180,7 @@ export class DataAframe {
         const threeJSGroup = new AFRAME.THREE.Group();
         this.navMeshEnabled = false;
         try {
-            const allPgons = <string[]> Modules.query.Get(this.model, _EEntType.PGON, null) ;
+            const allPgons = <string[]> Modules.query.Get(this.model, Modules.query._EEntType.PGON, null) ;
             const attrib = <any> Modules.attrib.Get(this.model, allPgons, 'vr_nav_mesh');
             if (attrib && attrib.length !== 0) {
                 this.navMeshEnabled = true;
