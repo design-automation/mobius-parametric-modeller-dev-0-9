@@ -9,23 +9,13 @@ import { IdGenerator } from '@utils';
 import { InputType } from '@models/port';
 import { IArgument } from '@models/code';
 import { checkNodeValidity } from '@shared/parser';
-import { c1, c2, s1, s2 } from '@shared/utils/otherUtils';
 import { DownloadUtils } from '../file/download.utils';
 import { InlineDocList, ModuleList } from '@shared/decorators';
-import CryptoES from 'crypto-es';
 import * as showdown from 'showdown';
-import * as AWS from '@aws-sdk/client-s3';
 import { Modules, inline_func } from '@design-automation/mobius-sim';
+import axios from 'axios';
 
-const ak = CryptoES.AES.decrypt(CryptoES.AES.decrypt(c1, s2.slice(2, 5)).toString(CryptoES.enc.Utf8), s1).toString(CryptoES.enc.Utf8);
-const sa = CryptoES.AES.decrypt(CryptoES.AES.decrypt(c2, s1.slice(3, 6)).toString(CryptoES.enc.Utf8), s2).toString(CryptoES.enc.Utf8);
-const s3Client = new AWS.S3({
-    region: 'us-east-1',
-    credentials: {
-        accessKeyId: ak,
-        secretAccessKey: sa
-    }
-});
+const API_ENDPOINT = 'https://rwytlj8v41.execute-api.us-east-1.amazonaws.com/test0/upload';
 
 const inputEvent = new Event('input', {
     'bubbles': true,
@@ -502,7 +492,7 @@ export class PanelHeaderComponent implements OnDestroy {
 
             // func.args = [];
             // for (const prod of fl.nodes[0].procedure) {
-            //     if (!prod.enabled || prod.type !== ProcedureTypes.Constant) { continue; }
+            //     if (!prod.enabled || prod.type !== ProcedureTypes.Constant || prod.argCount === 0) { continue; }
             //     let v: string = prod.args[prod.argCount - 2].value || 'undefined';
             //     if (v[0] === '"' || v[0] === '\'') { v = v.substring(1, v.length - 1); }
             //     if (prod.meta.inputMode !== InputType.Constant) {
@@ -1079,10 +1069,7 @@ export class PanelHeaderComponent implements OnDestroy {
     addGlobalFuncLS(event: MouseEvent) {
         event.stopPropagation();
         this.dataService.dialog.close();
-        this.dataService.dialog.style.right = '0px';
-        this.dataService.dialogType = 'backup';
-        this.dataService.dialog = <any>document.getElementById('headerDialog');
-        this.dataService.dialog.showModal();
+        this.dataService.openHeaderDialog('backup')
         this.dataService.setbackup_updateImported(true);
     }
 
@@ -1295,29 +1282,26 @@ export class PanelHeaderComponent implements OnDestroy {
     publishUpload(event) {
         document.getElementById('spinner-on').click();
         const fileStr = SaveFileComponent.fileDownloadString(this.dataService.file, true);
-        const hashStr = CryptoES.SHA256(fileStr.file).toString();
-        console.log('hashedString:', hashStr)
-        s3Client.putObject(
-            {
-                Bucket: 'mobius-modeller-publish-bucket',
-                Key: hashStr,
-                Body: fileStr.file,
-                ContentType: 'text/plain',
-            },
-            (err, result) => {
-                if (err) {
-                    console.log('Error placing file:', err);
-                    document.getElementById('spinner-off').click();
-                } else {
-                    this.publishUrlSettings.mainURL = hashStr;
-                    this.urlValid = true;
-                    this.urlNodes = this.dataService.flowchart.nodes;
-                    console.log('successfully placed file');
-                    document.getElementById('spinner-off').click();
-                    this.openHeaderDialog(event, 'publish_url');
-                }
+        axios({
+            method: 'PUT',
+            url: API_ENDPOINT,
+            data: {
+                file: fileStr.file,
+                filetype: 'mobius'
             }
-        );
+        }).then(r => {
+            if (!(<any>r.data).success) {
+                console.log((<any>r.data).message);
+                document.getElementById('spinner-off').click();
+            } else {
+                this.publishUrlSettings.mainURL = (<any>r.data).filename;
+                this.urlValid = true;
+                this.urlNodes = this.dataService.flowchart.nodes;
+                console.log('successfully placed file');
+                document.getElementById('spinner-off').click();
+                this.openHeaderDialog(event, 'publish_url');
+            }
+        });
     }
 
     publishUrl(event) {
