@@ -12,7 +12,8 @@ import { checkNodeValidity } from '@shared/parser';
 import { DownloadUtils } from '../file/download.utils';
 import { InlineDocList, ModuleList } from '@shared/decorators';
 import * as showdown from 'showdown';
-import { Modules, inline_func } from '@design-automation/mobius-sim';
+import { Funcs, _parameterTypes } from '@design-automation/mobius-sim-funcs';
+import { inline_func, inlineVarString } from '@design-automation/mobius-inline-funcs';
 import axios from 'axios';
 
 const API_ENDPOINT = 'https://rwytlj8v41.execute-api.us-east-1.amazonaws.com/test0/upload';
@@ -51,7 +52,7 @@ export class PanelHeaderComponent implements OnDestroy {
     urlNodes;
 
     settings;
-    func_categories = Object.keys(Modules).filter(cat => cat[0] !== '_');
+    func_categories = Object.keys(Funcs).filter(cat => cat[0] !== '_');
     private ctx = document.createElement('canvas').getContext('2d');
     backupDates;
 
@@ -88,7 +89,7 @@ export class PanelHeaderComponent implements OnDestroy {
         }
         localStorage.setItem('mobius_settings', JSON.stringify(this.settings));
 
-        const inlineFuncs = Modules._varString.replace(/\n/g, '').split(';');
+        const inlineFuncs = inlineVarString.replace(/\n/g, '').split(';');
         let i = 0;
         while (i < inlineFuncs.length) {
             if (inlineFuncs[i] === '') {
@@ -145,13 +146,13 @@ export class PanelHeaderComponent implements OnDestroy {
             modnames: ['Operations.variable', 'Operations.comment', 'Operations.expression',
                        'Operations.control_flow', 'Operations.local_func', 'Operations.global_func'],
         }, {
-            name: 'Modules',
+            name: 'Funcs',
             modnames: [],
         }];
 
         for (const mod of ModuleList) {
             if (mod.module[0] === '_') {continue; }
-            this.docModList[3].modnames.push('Modules.' + mod.module);
+            this.docModList[3].modnames.push('Funcs.' + mod.module);
         }
 
     }

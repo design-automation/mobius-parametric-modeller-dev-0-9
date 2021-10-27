@@ -1,4 +1,4 @@
-import { GIModel } from '@design-automation/mobius-sim';
+import { Model } from '@design-automation/mobius-sim';
 import { ViewChild, HostListener, OnDestroy } from '@angular/core';
 import { DefaultSettings, SettingsColorMap, Locale } from './gi-viewer.settings';
 // import @angular stuff
@@ -27,7 +27,7 @@ import { ISettings } from './data/data.threejsSettings';
 })
 export class GIViewerComponent implements OnInit, OnDestroy {
     // model data passed to the viewer
-    @Input() data: GIModel;
+    @Input() data: Model;
     @Input() nodeIndex: number;
 
     settings: ISettings = DefaultSettings;

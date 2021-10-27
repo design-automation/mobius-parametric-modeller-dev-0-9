@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { DataService } from '@services';
-import { _parameterTypes } from '@design-automation/mobius-sim';
+import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
 import { ProcedureTypes } from '@models/procedure';
 import { InputType } from '@models/port';
 import { SaveFileComponent } from '../file';

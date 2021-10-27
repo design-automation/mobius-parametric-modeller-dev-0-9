@@ -2,7 +2,8 @@ import { IProcedure, ProcedureTypes } from '@models/procedure';
 import { IArgument } from '@models/code';
 import { INode } from '@models/node';
 import { InputType } from '@models/port';
-import { inline_func, _parameterTypes } from '@design-automation/mobius-sim';
+import { inline_func } from '@design-automation/mobius-inline-funcs';
+import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
 
 enum strType {
     NUM,

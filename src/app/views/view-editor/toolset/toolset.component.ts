@@ -12,7 +12,7 @@ import { DataService } from '@services';
 import { InputType } from '@models/port';
 import { IdGenerator } from '@utils';
 import { SaveFileComponent } from '@shared/components/file';
-import { Modules } from '@design-automation/mobius-sim';
+import { Funcs } from '@design-automation/mobius-sim-funcs';
 
 const keys = Object.keys(ProcedureTypes);
 const inputEvent = new Event('input', {
@@ -39,17 +39,17 @@ export class ToolsetComponent implements OnInit {
     searchedMainFuncs = [];
 
     AllModules = {};
-    Modules = [];
+    Funcs = [];
     ModuleDoc = ModuleDocList;
 
     private timeOut;
 
     constructor(private dataService: DataService) {
         this.dataService.toolsetUpdate$.subscribe(() => {
-            this.Modules = [];
+            this.Funcs = [];
             for (const cat in this.AllModules) {
                 if (!this.AllModules[cat] || !this.dataService.mobiusSettings['_func_' + cat]) { continue; }
-                this.Modules.push(this.AllModules[cat]);
+                this.Funcs.push(this.AllModules[cat]);
             }
         });
     }
@@ -86,12 +86,12 @@ export class ToolsetComponent implements OnInit {
                 nMod.functions.push(fn);
             }
             this.AllModules[nMod.module] = nMod;
-            // this.Modules.push(nMod);
+            // this.Funcs.push(nMod);
         }
 
         for (const cat in this.AllModules) {
             if (!this.AllModules[cat] || !this.dataService.mobiusSettings['_func_' + cat]) { continue; }
-            this.Modules.push(this.AllModules[cat]);
+            this.Funcs.push(this.AllModules[cat]);
         }
 
     }
@@ -122,7 +122,7 @@ export class ToolsetComponent implements OnInit {
             if (argDoc && argDoc.description ) {
                 const docText = argDoc.description.toLowerCase();
                 if (docText.indexOf('enum') !== -1) {
-                    const enm = Modules[fnData.module][argDoc.type];
+                    const enm = Funcs[fnData.module][argDoc.type];
                     // tslint:disable-next-line:forin
                     for (const j in enm) {
                         newArgs.push({name: arg.name, value: `'${enm[j]}'`, jsValue: `'${enm[j]}'`});
@@ -480,7 +480,7 @@ export class ToolsetComponent implements OnInit {
         // }
 
         // Search Core Functions
-        for (const mod of this.Modules) {
+        for (const mod of this.Funcs) {
             if (this.searchedMainFuncs.length >= 10) { break; }
             if (mod.module[0] === '_' || mod.module === 'Input' || mod.module === 'Output') {continue; }
             for (const func of mod.functions) {

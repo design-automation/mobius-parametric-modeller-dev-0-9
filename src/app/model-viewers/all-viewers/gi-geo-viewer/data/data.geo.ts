@@ -1,4 +1,5 @@
-import { GIModel, _parameterTypes, EEntType} from '@design-automation/mobius-sim';
+import { Model, GIcommon} from '@design-automation/mobius-sim';
+import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
 import { GeoSettings } from '../gi-geo-viewer.settings';
 import * as itowns from 'itowns/dist/itowns';
 import * as THREE from 'three';
@@ -34,7 +35,7 @@ export const API_MAPS_KEY_MAPPING = {
 export class DataGeo {
     public viewer: any;
     // the GI model to display
-    public model: GIModel;
+    public model: Model;
 
     // Geo Settings
     public settings: GeoSettings;
@@ -439,7 +440,7 @@ export class DataGeo {
     updateHUD() {
         const hud = document.getElementById('geo_hud');
         if (hud) {
-            if (!this.model.modeldata.attribs.query.hasEntAttrib(EEntType.MOD, 'hud')) {
+            if (!this.model.modeldata.attribs.query.hasEntAttrib(GIcommon.EEntType.MOD, 'hud')) {
                 hud.innerHTML = '';
                 hud.style.visibility = 'hidden';
                 return;

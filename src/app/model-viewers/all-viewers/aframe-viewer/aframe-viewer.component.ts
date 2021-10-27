@@ -1,4 +1,4 @@
-import { GIModel } from '@design-automation/mobius-sim';
+import { Model } from '@design-automation/mobius-sim';
 // import @angular stuff
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 // import app services
@@ -38,7 +38,7 @@ function registerAframeComponents() {
 })
 export class AframeViewerComponent implements OnInit, OnDestroy {
     // model data passed to the viewer
-    @Input() data: GIModel;
+    @Input() data: Model;
     @Input() nodeIndex: number;
     public backup_settings: AframeSettings;
     public settings: AframeSettings = aframe_default_settings;

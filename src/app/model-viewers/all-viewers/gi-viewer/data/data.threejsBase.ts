@@ -2,7 +2,7 @@ import * as THREE from 'three';
 // import * as OrbitControls from 'three-orbit-controls';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-import { GIModel } from '@design-automation/mobius-sim';
+import { Model } from '@design-automation/mobius-sim';
 import { DataService } from '@services';
 import { ISettings } from './data.threejsSettings';
 // import { WEBVR } from 'three/examples/jsm/vr/WebVR.js';
@@ -80,7 +80,7 @@ export class DataThreejsBase {
     public groundObj: THREE.Mesh;
 
     // the model to display
-    public model: GIModel;
+    public model: Model;
     public nodeIndex: number;
     public scene_objs: THREE.Object3D[] = [];
     public scene_objs_selected: Map<string, THREE.Object3D> = new Map();
@@ -133,7 +133,7 @@ export class DataThreejsBase {
             antialias: true,
             alpha: true,
             // logarithmicDepthBuffer: true,
-            powerPreference: 'high-performance'
+            powerPreference: 'high-performance',
         });
         this.renderer.autoClear = false;
         // this._renderer.setClearColor(0xcccccc, 0);

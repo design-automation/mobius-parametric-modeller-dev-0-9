@@ -7,7 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataService } from '../data/data.service';
 import { ATabsComponent } from './tabs.component';
-import { GIModel, EEntType, EEntTypeStr} from '@design-automation/mobius-sim';
+import { Model, GIcommon} from '@design-automation/mobius-sim';
 
 enum SORT_STATE {
     DEFAULT,
@@ -24,7 +24,7 @@ enum SORT_STATE {
 export class AttributeComponent implements OnChanges {
     @ViewChild(ATabsComponent, { static: true }) child: ATabsComponent;
 
-    @Input() model: GIModel;
+    @Input() model: Model;
     @Input() nodeIndex: number;
     @Input() refresh: Event;
     @Input() reset: Event;
@@ -38,15 +38,15 @@ export class AttributeComponent implements OnChanges {
     timer;
 
     tabs: { type?: number, title: string }[] = [
-        { type: EEntType.POSI, title: 'Positions' },
-        // { type: EEntType.VERT, title: 'Vertices' },
-        // { type: EEntType.EDGE, title: 'Edges' },
-        // { type: EEntType.WIRE, title: 'Wires' },
-        { type: EEntType.POINT, title: 'Points' },
-        { type: EEntType.PLINE, title: 'Polylines' },
-        { type: EEntType.PGON, title: 'Polygons' },
-        { type: EEntType.COLL, title: 'Collections' },
-        { type: EEntType.MOD, title: 'Model' },
+        { type: GIcommon.EEntType.POSI, title: 'Positions' },
+        // { type: GIcommon.EEntType.VERT, title: 'Vertices' },
+        // { type: GIcommon.EEntType.EDGE, title: 'Edges' },
+        // { type: GIcommon.EEntType.WIRE, title: 'Wires' },
+        { type: GIcommon.EEntType.POINT, title: 'Points' },
+        { type: GIcommon.EEntType.PLINE, title: 'Polylines' },
+        { type: GIcommon.EEntType.PGON, title: 'Polygons' },
+        { type: GIcommon.EEntType.COLL, title: 'Collections' },
+        { type: GIcommon.EEntType.MOD, title: 'Model' },
         { title: 'Obj Topo' },
         { title: 'Col Topo' }
     ];
@@ -77,12 +77,12 @@ export class AttributeComponent implements OnChanges {
     protected dataService: DataService;
 
     tab_map = {
-        0: EEntType.POSI,
-        1: EEntType.POINT,
-        2: EEntType.PLINE,
-        3: EEntType.PGON,
-        4: EEntType.COLL,
-        5: EEntType.MOD
+        0: GIcommon.EEntType.POSI,
+        1: GIcommon.EEntType.POINT,
+        2: GIcommon.EEntType.PLINE,
+        3: GIcommon.EEntType.PGON,
+        4: GIcommon.EEntType.COLL,
+        5: GIcommon.EEntType.MOD
     };
 
     tab_rev_map = {
@@ -110,14 +110,14 @@ export class AttributeComponent implements OnChanges {
     };
 
     string_map = {
-        'ps': EEntType.POSI,
-        '_v': EEntType.VERT,
-        '_e': EEntType.EDGE,
-        '_w': EEntType.WIRE,
-        'pt': EEntType.POINT,
-        'pl': EEntType.PLINE,
-        'pg': EEntType.PGON,
-        'co': EEntType.COLL,
+        'ps': GIcommon.EEntType.POSI,
+        '_v': GIcommon.EEntType.VERT,
+        '_e': GIcommon.EEntType.EDGE,
+        '_w': GIcommon.EEntType.WIRE,
+        'pt': GIcommon.EEntType.POINT,
+        'pl': GIcommon.EEntType.PLINE,
+        'pg': GIcommon.EEntType.PGON,
+        'co': GIcommon.EEntType.COLL,
     };
     topoTypes = ['pg', 'pl', 'pt'];
 
@@ -194,7 +194,7 @@ export class AttributeComponent implements OnChanges {
             if (Number(tabIndex) === 5) {
                 this.displayData = ThreeJSData.getModelAttribsForTable(this.nodeIndex);
             } else {
-                this.selected_ents = this.dataService.selected_ents.get(EEntTypeStr[this.tab_map[tabIndex]]);
+                this.selected_ents = this.dataService.selected_ents.get(GIcommon.EEntTypeStr[this.tab_map[tabIndex]]);
 
                 if (!this.model.modeldata.attribs.threejs) { return; }
                 if (this.showSelected) {

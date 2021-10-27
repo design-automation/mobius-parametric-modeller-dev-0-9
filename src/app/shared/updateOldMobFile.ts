@@ -7,7 +7,7 @@ import { VERSION } from '@env/version';
 import { IMobius } from '@models/mobius';
 import { INode } from '@models/node';
 import { InputType } from '@models/port';
-import { Modules as funcs, _parameterTypes } from '@design-automation/mobius-sim';
+import { Funcs as funcs, _parameterTypes } from '@design-automation/mobius-sim-funcs';
 
 const deprecated = {default: []}
 

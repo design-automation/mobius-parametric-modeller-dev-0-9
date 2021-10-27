@@ -35,7 +35,7 @@ export class HelpViewerComponent implements DoCheck, OnDestroy {
             modnames: ['variable', 'comment', 'expression', 'control_flow', 'local_func', 'global_func'],
             opened: false
         }, {
-            name: 'Modules',
+            name: 'Funcs',
             srcDir: 'assets/typedoc-json/docMD',
             modnames: [],
             opened: false

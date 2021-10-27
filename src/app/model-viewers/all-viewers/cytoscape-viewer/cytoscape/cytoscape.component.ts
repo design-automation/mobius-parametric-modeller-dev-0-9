@@ -4,7 +4,7 @@ import { Component, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/
 // import app services
 import cytoscape from 'cytoscape';
 import { CytoscapeService } from '../service/cytoscape.service';
-import { GIModel} from '@design-automation/mobius-sim';
+import { Model} from '@design-automation/mobius-sim';
 
 // import others
 
@@ -119,8 +119,8 @@ const CYTOSCAPE_STYLE = [
 })
 export class CytoscapeComponent implements OnDestroy, OnChanges {
     // model data passed to the viewer
-    @Input() model: GIModel;
-    public modelData: GIModel;
+    @Input() model: Model;
+    public modelData: Model;
     protected cytoscape: cytoscape.Core;
 
     /**
@@ -147,21 +147,21 @@ export class CytoscapeComponent implements OnDestroy, OnChanges {
         return pos;
     }
 
-    static onclick(model: GIModel, cy: cytoscape.Core, cytoscapeService: CytoscapeService, box: boolean) {
+    static onclick(model: Model, cy: cytoscape.Core, cytoscapeService: CytoscapeService, box: boolean) {
 //         return function (event: cytoscape.EventObject) {
 //             const selectedID = event.target.id();
 //             const selectedClass = event.target.classes()[0];
 //             if (selectedClass === 'ps' || (box && selectedClass[0] === '_')) { return; }
 //             const selectedPos = event.target.position();
 //             const allObj = {
-//                 'ps': model.modeldata.geom.query.getEnts(EEntType.POSI),
-//                 '_v': model.modeldata.geom.query.getEnts(EEntType.VERT),
-//                 '_e': model.modeldata.geom.query.getEnts(EEntType.EDGE),
-//                 '_w': model.modeldata.geom.query.getEnts(EEntType.WIRE),
-//                 'pt': model.modeldata.geom.query.getEnts(EEntType.POINT),
-//                 'pl': model.modeldata.geom.query.getEnts(EEntType.PLINE),
-//                 'pg': model.modeldata.geom.query.getEnts(EEntType.PGON),
-//                 'co': model.modeldata.geom.query.getEnts(EEntType.COLL)
+//                 'ps': model.modeldata.geom.query.getEnts(GIcommon.EEntType.POSI),
+//                 '_v': model.modeldata.geom.query.getEnts(GIcommon.EEntType.VERT),
+//                 '_e': model.modeldata.geom.query.getEnts(GIcommon.EEntType.EDGE),
+//                 '_w': model.modeldata.geom.query.getEnts(GIcommon.EEntType.WIRE),
+//                 'pt': model.modeldata.geom.query.getEnts(GIcommon.EEntType.POINT),
+//                 'pl': model.modeldata.geom.query.getEnts(GIcommon.EEntType.PLINE),
+//                 'pg': model.modeldata.geom.query.getEnts(GIcommon.EEntType.PGON),
+//                 'co': model.modeldata.geom.query.getEnts(GIcommon.EEntType.COLL)
 //             };
 
 //             function removeObject(sourceID, sourceClass) {
@@ -385,11 +385,11 @@ export class CytoscapeComponent implements OnDestroy, OnChanges {
         //     style: CYTOSCAPE_STYLE,
         // });
 
-        // let obj_i: string[] = this.model.modeldata.geom.query.getEnts(EEntType.COLL).map(x => 'co' + x);
+        // let obj_i: string[] = this.model.modeldata.geom.query.getEnts(GIcommon.EEntType.COLL).map(x => 'co' + x);
         // if (obj_i.length === 0) {
-        //     obj_i = obj_i.concat(this.model.modeldata.geom.query.getEnts(EEntType.PGON).map(x => 'pg' + x));
-        //     obj_i = obj_i.concat(this.model.modeldata.geom.query.getEnts(EEntType.PLINE).map(x => 'pl' + x));
-        //     obj_i = obj_i.concat(this.model.modeldata.geom.query.getEnts(EEntType.POINT).map(x => 'pt' + x));
+        //     obj_i = obj_i.concat(this.model.modeldata.geom.query.getEnts(GIcommon.EEntType.PGON).map(x => 'pg' + x));
+        //     obj_i = obj_i.concat(this.model.modeldata.geom.query.getEnts(GIcommon.EEntType.PLINE).map(x => 'pl' + x));
+        //     obj_i = obj_i.concat(this.model.modeldata.geom.query.getEnts(GIcommon.EEntType.POINT).map(x => 'pt' + x));
         // }
 
         // const cy_eles = [];

@@ -3,8 +3,7 @@ import { IMobius } from '@models/mobius';
 import { Observable } from 'rxjs';
 import * as circularJSON from 'circular-json';
 import { DataService } from '@services';
-import { _parameterTypes } from '@design-automation/mobius-sim';
-import { ModuleList } from '@shared/decorators';
+import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
 import { checkNodeValidity } from '@shared/parser';
 import { IdGenerator, updateLocalViewerSettings, updateGeoViewerSettings, updateAframeViewerSettings } from '@utils';
 import { checkMobFile } from '@shared/updateOldMobFile';
@@ -65,6 +64,7 @@ export class LoadFileComponent {
                     f.flowchart.id = IdGenerator.getId();
                 }
                 const file: IMobius = {
+                    __filetype__: 'mobius',
                     name: selectedFile.name.split('.mob')[0],
                     author: f.author,
                     flowchart: f.flowchart,

@@ -43,7 +43,7 @@ function copyFolderRecursiveSync( source, target ) {
     }
 }
 
-copyFolderRecursiveSync('./node_modules/@design-automation/mobius-sim/typedoc-json', './src/assets')
+copyFolderRecursiveSync('./node_modules/@design-automation/mobius-sim-funcs/typedoc-json', './src/assets')
 
 
 const gitInfo = gitDescribeSync({

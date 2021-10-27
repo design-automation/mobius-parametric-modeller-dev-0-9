@@ -9,7 +9,7 @@ import { DownloadUtils } from './download.utils';
 import { mergeInputsFunc, printFuncString, pythonListFunc, ExecuteComponent } from '../execute/execute.component';
 import { InputType } from '@models/port';
 import { CodeUtils } from '@shared/components/execute/code.util';
-import { _varString } from '@design-automation/mobius-sim';
+import { inlineVarString } from '@design-automation/mobius-inline-funcs';
 
 @Component({
   selector: 'javascript-save',
@@ -144,7 +144,7 @@ export class SaveJavascriptComponent {
             `var __debug__ = ${this.dataService.mobiusSettings.debug};\n` +
             `var __model__ = null;\n` +
             '/** * **/' +
-            '\nvar ' + _varString.split(';\n').join(';\nvar ') + `\n\n` +
+            '\nvar ' + inlineVarString.split(';\n').join(';\nvar ') + `\n\n` +
             fnString +
             pythonListFunc +
             mergeInputsFunc +

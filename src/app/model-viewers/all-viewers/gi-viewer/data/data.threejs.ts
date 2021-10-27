@@ -6,7 +6,7 @@ import { ISettings } from './data.threejsSettings';
 import { DataThreejsLookAt } from './data.threejsLookAt';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper';
-import { GIModel, EEntType} from '@design-automation/mobius-sim';
+import { Model, GIcommon} from '@design-automation/mobius-sim';
 
 enum MaterialType {
     MeshBasicMaterial = 'MeshBasicMaterial',
@@ -63,7 +63,7 @@ export class DataThreejs extends DataThreejsLookAt {
         }
     }
 
-    public async populateScene(model: GIModel, container) {
+    public async populateScene(model: Model, container) {
         const cameraSettings = localStorage.getItem('gi_camera');
         if (cameraSettings && JSON.parse(cameraSettings)) {
             const cam = JSON.parse(cameraSettings);
@@ -107,7 +107,7 @@ export class DataThreejs extends DataThreejsLookAt {
                 container.removeChild(old);
             }
             setTimeout(() => { this._getNodeSelect(); }, 10);
-            if (!this.model.modeldata.attribs.query.hasEntAttrib(EEntType.MOD, 'hud')) { return; }
+            if (!this.model.modeldata.attribs.query.hasEntAttrib(GIcommon.EEntType.MOD, 'hud')) { return; }
             const hud = this.model.modeldata.attribs.get.getModelAttribVal('hud') as string;
             const element = this._createHud(hud).element;
             container.appendChild(element);
@@ -125,7 +125,7 @@ export class DataThreejs extends DataThreejsLookAt {
             }
         }
     }
-    private async _addGeom(model: GIModel) {
+    private async _addGeom(model: Model) {
         // Add geometry
         const threejs_data = model.get3jsData(this.nodeIndex);
         this.select_maps = {
@@ -674,11 +674,11 @@ export class DataThreejs extends DataThreejsLookAt {
     /**
      * Add threejs points to the scene
      */
-     private async _addPlaneLabels(model: GIModel) {
+     private async _addPlaneLabels(model: Model) {
         let pgon, pgon_label, coords_attrib;
         try {
-            pgon = model.modeldata.geom.query.getEnts(EEntType.PGON);
-            pgon_label = <any> model.modeldata.attribs.get.getEntAttribVal(EEntType.PGON, pgon, 'text')
+            pgon = model.modeldata.geom.query.getEnts(GIcommon.EEntType.PGON);
+            pgon_label = <any> model.modeldata.attribs.get.getEntAttribVal(GIcommon.EEntType.PGON, pgon, 'text');
             coords_attrib = model.modeldata.attribs.attribs_maps.get(model.modeldata.active_ssid).ps.get('xyz');
         } catch (ex) {
             return;
@@ -686,7 +686,7 @@ export class DataThreejs extends DataThreejsLookAt {
         const pgonTextShapes = [];
         for (let i = 0; i < pgon_label.length; i ++) {
             if (!pgon_label[i]) { continue; }
-            const posi = model.modeldata.geom.nav.navAnyToPosi(EEntType.PGON, pgon[i]);
+            const posi = model.modeldata.geom.nav.navAnyToPosi(GIcommon.EEntType.PGON, pgon[i]);
             if (posi.length > 3 || !pgon_label[i].text) { continue; }
 
             const labelText = pgon_label[i].text;
@@ -726,16 +726,9 @@ export class DataThreejs extends DataThreejsLookAt {
                 [lengthCheck[1], lengthCheck[2]] = [lengthCheck[2], lengthCheck[1]];
                 [coords[0], coords[1]] = [coords[1], coords[0]];
             }
-            const xAxis = new THREE.Vector3().copy(coords[2]).sub(coords[1]);
-            const yAxis = new THREE.Vector3().copy(coords[0]).sub(coords[1]);
-            const fromPlane = <any> [[0, 0, 0], [lengthCheck[1], 0, 0], [0, lengthCheck[0], 0]];
-            const toPlane = <any> [
-                [coords[1].x, coords[1].y, coords[1].z],
-                [xAxis.x, xAxis.y, xAxis.z],
-                [yAxis.x, yAxis.y, yAxis.z]
-            ];
-            const matrix = this.xfromSourceTargetMatrix(fromPlane, toPlane);
-            geom.applyMatrix4(matrix);
+            const rotQuat = this.rotateQuartenion(coords);
+            geom.applyQuaternion(rotQuat);
+            geom.translate(coords[1].x, coords[1].y, coords[1].z);
 
             let color = new THREE.Color(0);
             if (pgon_label[i].color  && pgon_label[i].color.length === 3) {
@@ -762,129 +755,17 @@ export class DataThreejs extends DataThreejsLookAt {
         this.renderer.render(this.scene, this.camera);
     }
 
-    xfromSourceTargetMatrix(source_plane, target_plane): THREE.Matrix4 {
-        // matrix to xform from source to gcs, then from gcs to target
-        const matrix_source_to_gcs: THREE.Matrix4 = this.xformMatrix(source_plane, true);
-        const matrix_gcs_to_target: THREE.Matrix4 = this.xformMatrix(target_plane, false);
-        // final matrix
-        const xform: THREE.Matrix4 = matrix_gcs_to_target.multiply(matrix_source_to_gcs);
-        // return the matrix
-        return xform;
+    rotateQuartenion(targetCoords: [THREE.Vector3, THREE.Vector3, THREE.Vector3]): THREE.Quaternion {
+        const v1y = new THREE.Vector3(0, 1, 0);
+        const v2x = new THREE.Vector3().copy(targetCoords[2]).sub(targetCoords[1]).normalize();
+        const v2y = new THREE.Vector3().copy(targetCoords[0]).sub(targetCoords[1]).normalize();
+        const n1 = new THREE.Vector3(0, 0, 1);
+        const n2 = v2x.cross(v2y);
+        const quat1 = new THREE.Quaternion().setFromUnitVectors(n1, n2);
+        const quat2 = new THREE.Quaternion().setFromUnitVectors(v1y.applyQuaternion(quat1), v2y);
+        const QuatFinal = quat2.multiply(quat1);
+        return QuatFinal;
     }
-
-    // ================================================================================================
-    // Helper functions
-    // ================================================================================================
-    xformMatrix(plane, neg): THREE.Matrix4 {
-        const o: THREE.Vector3 = new THREE.Vector3(...plane[0]);
-        const x: THREE.Vector3 = new THREE.Vector3(...plane[1]);
-        const y: THREE.Vector3 = new THREE.Vector3(...plane[2]);
-        const z: THREE.Vector3 = new THREE.Vector3(...plane[1]).cross(y);
-        if (neg) {
-            o.negate();
-        }
-        // origin translate matrix
-        const m1: THREE.Matrix4 = new THREE.Matrix4();
-        m1.setPosition(o);
-        // xfrom matrix
-        const m2: THREE.Matrix4 = new THREE.Matrix4();
-        m2.makeBasis(x, y, z);
-        // combine two matrices
-        const m3: THREE.Matrix4 = new THREE.Matrix4();
-        if (neg) {
-            const m2x = (new THREE.Matrix4()).copy( m2 ).invert();
-            // first translate to origin, then xform, so m2 x m1
-            m3.multiplyMatrices(m2x, m1);
-        } else {
-            // first xform, then translate to origin, so m1 x m2
-            m3.multiplyMatrices(m1, m2);
-        }
-        // return the combined matrix
-        return m3;
-    }
-
-    // // ============================================================================
-    // /**
-    //  * Add threejs points to the scene
-    //  */
-    //  private _addPointLabels(model: GIModel): void {
-    //     const labels = model.modeldata.attribs.get.getModelAttribVal('labels');
-    //     if (!labels || !Array.isArray(labels) || labels.length === 0) {
-    //         return;
-    //     }
-
-    //     const matLite = new THREE.MeshBasicMaterial( {
-    //         transparent: false,
-    //         side: THREE.DoubleSide,
-    //         vertexColors: true
-    //     } );
-    //     const shapes = [];
-
-    //     const fromVec = new THREE.Vector3(0, 0, 1);
-    //     const checkVecFrom = new THREE.Vector3(1, 0, 0);
-
-    //     for (const label of labels) {
-    //         const labelText = label.text;
-    //         const labelOrient = label.position || label.location;
-    //         if (!labelText || !labelOrient || !Array.isArray(labelOrient)) { continue; }
-    //         const labelSize = label.size || 20;
-
-    //         const fontType = label.type ? label.type : 'roboto';
-    //         const fontWeight = label.weight ? label.weight : 'medium';
-    //         const fontStyle = label.style ? label.style : 'regular';
-
-    //         const fontCode = `${fontType}_${fontWeight}_${fontStyle}`;
-    //         if (!this._text_font[fontCode]) {
-    //             this._loadFont(fontCode);
-    //         }
-    //         const shape = this._text_font[fontCode].generateShapes( labelText, labelSize);
-    //         const geom = new THREE.ShapeBufferGeometry(shape);
-
-    //         let labelPos = labelOrient[0];
-    //         if (!Array.isArray(labelPos)) {
-    //             labelPos = labelOrient;
-    //         } else {
-    //             let toVec = new THREE.Vector3(...(<any>labelOrient[1]));
-    //             const pVec2 = new THREE.Vector3(...(<any>labelOrient[2]));
-    //             toVec = toVec.cross(pVec2).normalize();
-
-    //             if (labelOrient[1][0] !== 0 || labelOrient[1][1] !== 0) {
-    //                 const checkVecTo = new THREE.Vector3(labelOrient[1][0], labelOrient[1][1], 0).normalize();
-    //                 const rotateQuat = new THREE.Quaternion();
-    //                 rotateQuat.setFromUnitVectors(checkVecFrom, checkVecTo);
-    //                 const rotateMat = new THREE.Matrix4(); // create one and reuse it
-    //                 rotateMat.makeRotationFromQuaternion(rotateQuat);
-    //                 geom.applyMatrix4(rotateMat);
-    //             }
-
-    //             const quaternion = new THREE.Quaternion();
-    //             quaternion.setFromUnitVectors(fromVec, toVec);
-    //             const matrix = new THREE.Matrix4(); // create one and reuse it
-    //             matrix.makeRotationFromQuaternion(quaternion);
-    //             geom.applyMatrix4(matrix);
-    //         }
-    //         geom.translate( labelPos[0], labelPos[1], labelPos[2]);
-
-    //         let color = new THREE.Color(0);
-    //         if (label.color  && label.color.length === 3) {
-    //             color = new THREE.Color(`rgb(${label.color[0]}, ${label.color[1]}, ${label.color[2]})`);
-    //         }
-    //         const colors_buffer = new THREE.Float32BufferAttribute(new Uint8Array(geom.attributes.position.count * 3), 3);
-    //         if (label.color && label.color.length === 3) {
-    //             for (let i = 0; i < colors_buffer.count; i++) {
-    //                 colors_buffer.setXYZ(i, label.color[0], label.color[1], label.color[2]);
-    //             }
-    //         }
-    //         geom.setAttribute('color', colors_buffer);
-    //         shapes.push(geom);
-    //     }
-    //     if (shapes.length === 0) { return; }
-    //     const mergedGeom = BufferGeometryUtils.mergeBufferGeometries(shapes);
-    //     const text = new THREE.Mesh(mergedGeom , matLite);
-    //     this.scene.add(text);
-    //     // this.renderer.render(this.scene, this.camera);
-    //     this.renderer.render(this.scene, this.camera);
-    // }
 
 
     // ============================================================================

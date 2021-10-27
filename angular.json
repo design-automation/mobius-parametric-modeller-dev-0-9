@@ -22,7 +22,8 @@
               "entities",
               "fast-xml-parser",
               "@aws-crypto/crc32",
-              "@aws-crypto/sha256-browser"
+              "@aws-crypto/sha256-browser",
+              "@doodle3d/clipper-js"
             ],
             "outputPath": "dist",
             "index": "src/index.html",

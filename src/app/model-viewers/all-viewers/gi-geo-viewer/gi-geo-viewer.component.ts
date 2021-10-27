@@ -1,4 +1,4 @@
-import { GIModel } from '@design-automation/mobius-sim';
+import { Model } from '@design-automation/mobius-sim';
 import { OnDestroy } from '@angular/core';
 // import @angular stuff
 import { Component, Input } from '@angular/core';
@@ -21,7 +21,7 @@ import { DataService as ThreeJSDataService } from '../gi-viewer/data/data.servic
 })
 export class GIGeoViewerComponent implements OnDestroy {
     // model data passed to the viewer
-    @Input() data: GIModel;
+    @Input() data: Model;
     @Input() nodeIndex: number;
     temp_camera_pos = new Vector3(0, 0, 0);
     temp_camera_rot = new Vector3(0, 0, 0);

@@ -3,7 +3,7 @@ import { Component, Input} from '@angular/core';
 
 // import app services
 import cytoscape from 'cytoscape';
-import { GIModel} from '@design-automation/mobius-sim';
+import { Model} from '@design-automation/mobius-sim';
 
 // import others
 
@@ -18,9 +18,9 @@ import { GIModel} from '@design-automation/mobius-sim';
 })
 export class CytoscapeViewerComponent  {
     // model data passed to the viewer
-    @Input() data: GIModel;
+    @Input() data: Model;
     @Input() nodeIndex: number;
-    public modelData: GIModel;
+    public modelData: Model;
     protected cytoscape: cytoscape.Core;
 
     /**

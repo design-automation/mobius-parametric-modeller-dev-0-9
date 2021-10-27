@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { INode } from '@models/node';
-import { GIModel, _parameterTypes } from '@design-automation/mobius-sim';
+import { Model } from '@design-automation/mobius-sim';
+import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
 
 @Injectable()
 export class DataOutputService {
     private emptyModel = _parameterTypes.newFn();
     private iModel = {'nodeID': '', 'getOutput': null, 'model': null};
 
-    getViewerData(node: INode, model: GIModel, getViewOutput: boolean) {
+    getViewerData(node: INode, model: Model, getViewOutput: boolean) {
         if (!model || !node || !node.enabled || !node.model) {
             return null; }
         // model.outputSnapshot = node.model;

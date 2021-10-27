@@ -8,7 +8,7 @@ import { ProcedureItemComponent } from './procedure-item/procedure-item.componen
 import { ToolsetComponent } from './toolset/toolset.component';
 import { ParameterEditorComponent } from './parameter-editor/parameter-editor.component';
 import { ProcedureInputEditorComponent } from './parameter-editor/procedure-input-editor/procedure-input-editor.component';
-import { _parameterTypes } from '@design-automation/mobius-sim';
+import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
 import { ViewEditorRoutingModule } from './view-editor-routing.module';
 
 @NgModule({

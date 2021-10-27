@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { AframeSettings } from '../aframe-viewer.settings';
-import { Modules, GIModel, EEntType } from '@design-automation/mobius-sim';
+import { Model, GIcommon } from '@design-automation/mobius-sim';
+import { Funcs, _parameterTypes } from '@design-automation/mobius-sim-funcs';
 import { processDownloadURL } from '@shared/utils/otherUtils';
 
 declare var AFRAME;
@@ -24,7 +25,7 @@ function postloadSkyFGImg() {
  * Aframe data
  */
 export class DataAframe {
-    public model: GIModel;
+    public model: Model;
     public container: HTMLDivElement;
     public scene;
     public camera;
@@ -180,8 +181,8 @@ export class DataAframe {
         const threeJSGroup = new AFRAME.THREE.Group();
         this.navMeshEnabled = false;
         try {
-            const allPgons = <string[]> Modules.query.Get(this.model, Modules.query._EEntType.PGON, null) ;
-            const attrib = <any> Modules.attrib.Get(this.model, allPgons, 'vr_nav_mesh');
+            const allPgons = <string[]> Funcs.query.Get(this.model, Funcs.query._EEntType.PGON, null) ;
+            const attrib = <any> Funcs.attrib.Get(this.model, allPgons, 'vr_nav_mesh');
             if (attrib && attrib.length !== 0) {
                 this.navMeshEnabled = true;
             }
@@ -436,9 +437,9 @@ export class DataAframe {
 
     updateCamPos() {
         try {
-            const pts = <string[]> Modules.query.Get(this.model, Modules.query._EEntType.POINT, null);
-            const pos = Modules.attrib.Get(this.model, Modules.query.Get(this.model, Modules.query._EEntType.POSI, pts), 'xyz');
-            const ptAttribs = Modules.attrib.Get(this.model, pts, 'vr_hotspot');
+            const pts = <string[]> Funcs.query.Get(this.model, Funcs.query._EEntType.POINT, null);
+            const pos = Funcs.attrib.Get(this.model, Funcs.query.Get(this.model, Funcs.query._EEntType.POSI, pts), 'xyz');
+            const ptAttribs = Funcs.attrib.Get(this.model, pts, 'vr_hotspot');
             this.camPosList = [
                 {
                 name: 'Default',
@@ -682,7 +683,7 @@ export class DataAframe {
     updateHUD() {
         if (!this.model || !this.model.modeldata) { return; }
         const hud = document.getElementById('aframe_hud');
-        if (!this.model.modeldata.attribs.query.hasEntAttrib(EEntType.MOD, 'hud')) {
+        if (!this.model.modeldata.attribs.query.hasEntAttrib(GIcommon.EEntType.MOD, 'hud')) {
             hud.innerHTML = '';
             hud.style.visibility = 'hidden';
             return;

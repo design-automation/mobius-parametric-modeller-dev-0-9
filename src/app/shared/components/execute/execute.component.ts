@@ -11,8 +11,11 @@ import { DataOutputService } from '@shared/services/dataOutput.service';
 import { SaveFileComponent } from '@shared/components/file';
 import JSZip from 'jszip';
 import { WindowMessageComponent } from '@shared/components/window-message/window-message.component';
-import { Modules, _parameterTypes, _varString, EEntType } from '@design-automation/mobius-sim';
+import { GIcommon } from '@design-automation/mobius-sim';
+import { Funcs, _parameterTypes } from '@design-automation/mobius-sim-funcs';
+import * as Inlines from '@design-automation/mobius-inline-funcs';
 
+console.log(Inlines)
 // function pythonList(x, l) {
 //     if (x < 0) {
 //         return x + l;
@@ -101,17 +104,6 @@ function pythonList(x, l){
     return x;
 }
 `;
-// export const mergeInputsFunc = `
-// function mergeInputs(models){
-//     let result = __modules__.${_parameterTypes.new}();
-//     try {
-//         result.debug = __debug__;
-//     } catch (ex) {}
-//     for (let model of models){
-//         __modules__.${_parameterTypes.merge}(result, model);
-//     }
-//     return result;
-// }
 export const mergeInputsFunc = `
 function mergeInputs(models){
     let result = null;
@@ -201,7 +193,7 @@ function printFunc(_console, name, value){
     return val;
 }
 `;
-const inlineVarNames = _varString.split(';').map(v => v.split('=')[0].trim());
+const inlineVarNames = Inlines.inlineVarString.split(';').map(v => v.split('=')[0].trim());
 
 const DEBUG = false;
 
@@ -300,7 +292,7 @@ export class ExecuteComponent {
                     this.dataService.flowchart.model = this.dataService.executeModel;
                     this.dataService.finalizeLog();
                     this.dataService.log('<br>');
-                    const hudData = this.dataService.flowchart.model.modeldata.attribs.getAttrib(EEntType.MOD, 'hud') || null;
+                    const hudData = this.dataService.flowchart.model.modeldata.attribs.getAttrib(GIcommon.EEntType.MOD, 'hud') || null;
                     WindowMessageComponent.SendData({
                         messageType: 'execute_end',
                         data: {
@@ -637,7 +629,7 @@ export class ExecuteComponent {
             // start with asembling the node's code
             fnString =  '\n\n//  ------------ MAIN CODE ------------\n' +
                         nodeCode[0] +
-                        '\nasync function __main_node_code__(__modules__, __params__){\n' +
+                        '\nasync function __main_node_code__(__modules__, __inline__, __params__){\n' +
                         nodeCode[1] +
                         '\n}\nreturn __main_node_code__;';
 
@@ -653,7 +645,7 @@ export class ExecuteComponent {
             });
 
             // add the constants from the start node and the predefined constants/functions (e.g. PI, sqrt, ...)
-            fnString = _varString + globalVars + '\n\n// <<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>\n\n' + fnString;
+            fnString = Inlines.inlineVarString + globalVars + '\n\n// <<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>\n\n' + fnString;
 
             // add the merge input function and the print function
             fnString = `\nconst __debug__ = ${this.dataService.mobiusSettings.debug};` +
@@ -710,9 +702,9 @@ export class ExecuteComponent {
             // *********************************************************
             // console.log(fnString.split('<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>')[1]);
 
-            const fn = new Function('__modules__', '__params__', fnString);
+            const fn = new Function('__modules__', '__inline__', '__params__', fnString);
             // execute the function
-            const result = await fn(Modules, params)(Modules, params);
+            const result = await fn(Funcs, Inlines, params)(Funcs, Inlines, params);
             node.model = snapshotID;
             if (params['terminated']) {
                 this.terminated = node.name;
@@ -896,9 +888,9 @@ export class ExecuteComponent {
 
     runningFunction(functionDetails) {
         // create the function with the string: new Function ([arg1[, arg2[, ...argN]],] functionBody)
-        const fn = new Function('__modules__', '__params__', functionDetails.fnString);
+        const fn = new Function('__modules__', '__inline__', '__params__', functionDetails.fnString);
         // execute the function
-        const result = fn(functionDetails.Modules, functionDetails.params);
+        const result = fn(functionDetails.Funcs, functionDetails.Inlines, functionDetails.params);
         return [result, functionDetails.params];
     }
 }

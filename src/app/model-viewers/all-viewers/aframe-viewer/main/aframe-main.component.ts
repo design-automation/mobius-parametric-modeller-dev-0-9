@@ -4,7 +4,7 @@ import {  } from '@angular/core';
 // import app services
 import { DataAframeService } from '../data/data.aframe.service';
 import { DataService as ThreeJSDataService } from '../../gi-viewer/data/data.service';
-import { GIModel } from '@design-automation/mobius-sim';
+import { Model } from '@design-automation/mobius-sim';
 
 declare var AFRAME;
 // const SKY_REFRESH_RATE = 200;
@@ -21,7 +21,7 @@ let prevCamPos = new AFRAME.THREE.Vector3();
 })
 export class AframeMainComponent implements AfterViewInit, OnChanges, OnDestroy, DoCheck {
     // model data passed to the viewer
-    @Input() model: GIModel;
+    @Input() model: Model;
     @Input() nodeIndex: number;
     @Output() eventAction = new EventEmitter();
 

@@ -1,4 +1,4 @@
-import { GIModel } from '@design-automation/mobius-sim';
+import { Model } from '@design-automation/mobius-sim';
 import { OnChanges, OnDestroy, DoCheck } from '@angular/core';
 // import @angular stuff
 import { Component, Input, OnInit } from '@angular/core';
@@ -21,7 +21,7 @@ import { DefaultSettings } from '../../gi-viewer/gi-viewer.settings';
 })
 export class ThreeGeoComponent implements OnInit, OnChanges, OnDestroy, DoCheck {
     // model data passed to the viewer
-    @Input() model: GIModel;
+    @Input() model: Model;
     @Input() nodeIndex: number;
 
     private container;

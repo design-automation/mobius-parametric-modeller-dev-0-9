@@ -6,8 +6,7 @@ import doc from '@assets/typedoc-json/doc.json';
 // const doc = require('@assets/typedoc-json/doc.json');
 import * as showdown from 'showdown';
 
-// @ts-ignore
-import {Modules} from '@design-automation/mobius-sim';
+import { Funcs } from '@design-automation/mobius-sim-funcs';
 
 const mdConverter = new showdown.Converter({literalMidWordUnderscores: true});
 const module_list = [];
@@ -64,24 +63,24 @@ function extract_params(func: Function): [IArgument[], boolean] {
     return [final_result, hasReturn];
 }
 
-for ( const m_name in Modules ) {
-    if (!Modules[m_name] || (typeof Modules[m_name] !== 'object')) { continue; }
+for ( const m_name in Funcs ) {
+    if (!Funcs[m_name] || (typeof Funcs[m_name] !== 'object')) { continue; }
     // if (m_name[0] === '_') { continue; }
 
     const modObj = <IModule>{};
     modObj.module = m_name;
     modObj.functions = [];
 
-    for ( const fn_name of Object.keys(Modules[m_name])) {
+    for ( const fn_name of Object.keys(Funcs[m_name])) {
         // if (fn_name[0] === '_') { continue; }
 
-        const func = Modules[m_name][fn_name];
+        const func = Funcs[m_name][fn_name];
 
         const fnObj = <IFunction>{};
         fnObj.module = m_name;
         fnObj.name = fn_name;
         if (asyncFuncList.indexOf(`${m_name}.${fn_name}`) !== -1) {
-            const paramFunc = Modules[m_name]['_Async_Param_' + fn_name]
+            const paramFunc = Funcs[m_name]['_Async_Param_' + fn_name]
             fnObj.argCount = paramFunc.length;
             const args = extract_params(paramFunc);
             fnObj.args = args[0];
@@ -159,8 +158,8 @@ function addDoc(mod, modName, docs) {
         if (func['signatures'][0].parameters) {
             for (const param of func['signatures'][0].parameters) {
                 let namecheck = true;
-                for (const systemVarName in Modules._parameterTypes) {
-                    if (param.name === Modules._parameterTypes[systemVarName]) {
+                for (const systemVarName in Funcs._parameterTypes) {
+                    if (param.name === Funcs._parameterTypes[systemVarName]) {
                         namecheck = false;
                         break;
                     }

@@ -7,7 +7,7 @@
 import { INode } from '@models/node';
 import { IEdge } from '@models/edge';
 import { IFunction } from '@models/procedure';
-import { GIModel } from '@design-automation/mobius-sim';
+import { Model } from '@design-automation/mobius-sim';
 
 export interface IFlowchart {
     id: string;
@@ -24,7 +24,7 @@ export interface IFlowchart {
     subFunctions?: IFunction[];
     ordered: boolean;
 
-    model: GIModel;
+    model: Model;
 
     meta: {
         selected_nodes: number[];

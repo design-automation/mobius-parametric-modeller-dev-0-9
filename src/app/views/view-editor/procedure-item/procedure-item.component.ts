@@ -7,7 +7,7 @@ import { DataService } from '@services';
 import { IArgument } from '@models/code';
 
 import { modifyArgument, checkNodeValidity, modifyLocalFuncVar} from '@shared/parser';
-import { Modules, _parameterTypes } from '@design-automation/mobius-sim';
+import { Funcs, _parameterTypes } from '@design-automation/mobius-sim-funcs';
 
 
 const REGEXP = /^(container--item|container--line|line--item|input--var|input--arg|module-name|function-text|global-function-text|basic-function-text)/i;
@@ -491,7 +491,7 @@ export class ProcedureItemComponent implements OnDestroy {
             }
             // @ts-ignore
             const arg = this.ModuleDoc[this.data.meta.module][this.data.meta.name].parameters[index];
-            if (arg.description.toLowerCase().indexOf('enum') === -1 || !Modules[this.data.meta.module][arg.type]) {
+            if (arg.description.toLowerCase().indexOf('enum') === -1 || !Funcs[this.data.meta.module][arg.type]) {
                 return false;
             }
             return true;
@@ -502,7 +502,7 @@ export class ProcedureItemComponent implements OnDestroy {
 
     getEnum(index: number) {
         // @ts-ignore
-        const enm = Modules[this.data.meta.module][this.ModuleDoc[this.data.meta.module][this.data.meta.name].parameters[index].type];
+        const enm = Funcs[this.data.meta.module][this.ModuleDoc[this.data.meta.module][this.data.meta.name].parameters[index].type];
         const enumList = [];
         for (const i in enm) {
             if (! enm.hasOwnProperty(i)) {

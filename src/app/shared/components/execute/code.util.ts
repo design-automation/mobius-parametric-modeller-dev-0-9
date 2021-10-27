@@ -1,7 +1,7 @@
 import { INode } from '@models/node';
 import { IProcedure, ProcedureTypes, IFunction } from '@models/procedure';
 import { IPortInput, InputType } from '@models/port';
-import { _parameterTypes } from '@design-automation/mobius-sim';
+import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
 
 let _terminateCheck: string;
 
