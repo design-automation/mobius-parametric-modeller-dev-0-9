@@ -15,7 +15,6 @@ import { GIcommon } from '@design-automation/mobius-sim';
 import { Funcs, _parameterTypes } from '@design-automation/mobius-sim-funcs';
 import * as Inlines from '@design-automation/mobius-inline-funcs';
 
-console.log(Inlines)
 // function pythonList(x, l) {
 //     if (x < 0) {
 //         return x + l;
@@ -393,7 +392,7 @@ export class ExecuteComponent {
             let splittedLine = line.split(':');
             if (splittedLine.length < 2) {
                 splittedLine = line.split('=');
-                if (splittedLine.length < 2){
+                if (splittedLine.length < 2) {
                     continue;
                 }
             }
