@@ -140,7 +140,9 @@ export class SaveJavascriptComponent {
             ` *   _ result.result -> returned output of the flowchart, if the flowchart does not return any value,` +
             ` result.result is the model of the flowchart\n */\n\n` +
             argString.replace(/\\/g, '\\\\') +  '\n\n' +
-            `async function ${funcName}(__modules__` + func.args.map(arg => ', ' + arg.name).join('') + `) {\n\n` +
+            `const __modules__ = require('@design-automation/mobius-sim-funcs').Funcs;\n` +
+            `const __inline__ = require('@design-automation/mobius-inline-funcs');\n\n` +
+            `async function ${funcName}(` + func.args.map(arg => arg.name).join(',') + `) {\n\n` +
             `var __debug__ = ${this.dataService.mobiusSettings.debug};\n` +
             `var __model__ = null;\n` +
             '/** * **/' +

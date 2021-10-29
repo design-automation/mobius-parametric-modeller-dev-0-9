@@ -5,7 +5,6 @@ import { INode } from '@models/node';
 import { IProcedure, ProcedureTypes } from '@models/procedure';
 
 import { DataService } from '@services';
-// import { WebWorkerService } from 'ngx-web-worker';
 import { Router } from '@angular/router';
 import { DataOutputService } from '@shared/services/dataOutput.service';
 import { SaveFileComponent } from '@shared/components/file';
@@ -14,86 +13,6 @@ import { WindowMessageComponent } from '@shared/components/window-message/window
 import { GIcommon } from '@design-automation/mobius-sim';
 import { Funcs, _parameterTypes } from '@design-automation/mobius-sim-funcs';
 import * as Inlines from '@design-automation/mobius-inline-funcs';
-
-// function pythonList(x, l) {
-//     if (x < 0) {
-//         return x + l;
-//     }
-//     return x;
-// }
-// function mergeInputs(models) {
-//     const result = _parameterTypes.newFn();
-//     // try {
-//     //     result.debug = __debug__;
-//     // } catch (ex) {}
-//     for (const model of models){
-//         _parameterTypes.mergeFn(result, model);
-//     }
-//     return result;
-// }
-// function printFunc(_console, name, value){
-//     let val;
-//     let padding_style = 'padding: 2px 0px 2px 10px;';
-//     if (!value) {
-//         val = value;
-//     } else if (value === '__null__') {
-//         _console.push('<p style="' + padding_style + '"><b><i>_ ' + name + '</i></b></p>');
-//         return value;
-//     } else if (typeof value === 'number' || value === undefined) {
-//         val = value;
-//     } else if (typeof value === 'string') {
-//         val = '"' + value.replace(/\\n/g, '<br>') + '"';
-//     } else if (value.constructor === [].constructor) {
-//         let __list_check__ = false;
-//         const __value_strings__ = [];
-//         for (const __item__ of value) {
-//             if (!__item__) {
-//                 __value_strings__.push('' + __item__);
-//                 continue;
-//             }
-//             if (__item__.constructor === [].constructor || __item__.constructor === {}.constructor) {
-//                 __list_check__ = true;
-//             }
-//             __value_strings__.push(JSON.stringify(__item__).replace(/,/g, ', '));
-//         }
-//         if (__list_check__) {
-//             padding_style = 'padding: 2px 0px 0px 10px;';
-//             val = '[<p style="padding: 0px 0px 2px 40px;">' +
-//                   __value_strings__.join(',</p><p style="padding: 0px 0px 2px 40px;">') +
-//                   '</p><p style="padding: 0px 0px 2px 30px;">]</p>';
-//         } else {
-//             val = '[' + __value_strings__.join(', ') + ']';
-//         }
-//     } else if (value.constructor === {}.constructor) {
-//         let __list_check__ = false;
-//         const __value_strings__ = [];
-//         for (const __item__ in value) {
-//             if (value[__item__]) {
-//                 const __value__ = value[__item__];
-//                 if (!__value__) {
-//                     __value_strings__.push('\\<b>"' + __item__ + '\\"</b>' + ': ' + __value__);
-//                     continue;
-//                 }
-//                 if (__value__.constructor === [].constructor || __value__.constructor === {}.constructor) {
-//                     __list_check__ = true;
-//                 }
-//                 __value_strings__.push('\\<b>"' + __item__ + '\\"</b>' + ': ' + JSON.stringify(__value__).replace(/,/g, ', '));
-//             }
-//         }
-//         if (__list_check__) {
-//             padding_style = 'padding: 2px 0px 0px 10px;';
-//             val = '{<p style="padding: 0px 0px 2px 40px;">' +
-//                   __value_strings__.join(',</p><p style="padding: 0px 0px 2px 40px;">') +
-//                   '</p><p style="padding: 0px 0px 2px 30px;">}</p>';
-//         } else {
-//             val = '{' + __value_strings__.join(', ') + '}';
-//         }
-//     } else {
-//         val = value;
-//     }
-//     _console.push('<p style="' + padding_style + '"><b><i>_ ' + name+'</i></b>  = ' + val + '</p>');
-//     return val;
-// }
 
 export const pythonListFunc = `
 function pythonList(x, l){

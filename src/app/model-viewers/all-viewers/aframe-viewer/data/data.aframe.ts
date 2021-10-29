@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { AframeSettings } from '../aframe-viewer.settings';
 import { Model, GIcommon } from '@design-automation/mobius-sim';
-import { Funcs, _parameterTypes } from '@design-automation/mobius-sim-funcs';
+import { Funcs } from '@design-automation/mobius-sim-funcs';
 import { processDownloadURL } from '@shared/utils/otherUtils';
 
 declare var AFRAME;
