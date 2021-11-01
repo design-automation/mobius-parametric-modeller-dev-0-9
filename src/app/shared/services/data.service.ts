@@ -6,8 +6,7 @@ import { IProcedure, ProcedureTypes } from '@models/procedure';
 import { IEdge } from '@models/edge';
 import { Subject } from 'rxjs';
 import { VERSION } from '@env/version';
-import { Model } from '@design-automation/mobius-sim';
-import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
+import { Model, _parameterTypes } from '@design-automation/mobius-sim-funcs';
 const DIALOGSLIST = ['publish', 'publish_url', 'backup', 'globalfunc',
                      'inlinefunc', 'savels', 'settings'];
 

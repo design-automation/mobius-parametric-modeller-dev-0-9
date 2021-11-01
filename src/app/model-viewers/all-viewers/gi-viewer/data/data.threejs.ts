@@ -6,7 +6,7 @@ import { ISettings } from './data.threejsSettings';
 import { DataThreejsLookAt } from './data.threejsLookAt';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper';
-import { Model, GIcommon} from '@design-automation/mobius-sim';
+import { Model, GICommon} from '@design-automation/mobius-sim-funcs';
 
 enum MaterialType {
     MeshBasicMaterial = 'MeshBasicMaterial',
@@ -106,7 +106,7 @@ export class DataThreejs extends DataThreejsLookAt {
             if (old) {
                 container.removeChild(old);
             }
-            if (!this.model.modeldata.attribs.query.hasEntAttrib(GIcommon.EEntType.MOD, 'hud')) { return; }
+            if (!this.model.modeldata.attribs.query.hasEntAttrib(GICommon.EEntType.MOD, 'hud')) { return; }
             const hud = this.model.modeldata.attribs.get.getModelAttribVal('hud') as string;
             const element = this._createHud(hud).element;
             container.appendChild(element);
@@ -655,8 +655,8 @@ export class DataThreejs extends DataThreejsLookAt {
      private async _addPlaneLabels(model: Model) {
         let pgon, pgon_label, coords_attrib;
         try {
-            pgon = model.modeldata.geom.query.getEnts(GIcommon.EEntType.PGON);
-            pgon_label = <any> model.modeldata.attribs.get.getEntAttribVal(GIcommon.EEntType.PGON, pgon, 'text');
+            pgon = model.modeldata.geom.query.getEnts(GICommon.EEntType.PGON);
+            pgon_label = <any> model.modeldata.attribs.get.getEntAttribVal(GICommon.EEntType.PGON, pgon, 'text');
             coords_attrib = model.modeldata.attribs.attribs_maps.get(model.modeldata.active_ssid).ps.get('xyz');
         } catch (ex) {
             return;
@@ -664,7 +664,7 @@ export class DataThreejs extends DataThreejsLookAt {
         const pgonTextShapes = [];
         for (let i = 0; i < pgon_label.length; i ++) {
             if (!pgon_label[i]) { continue; }
-            const posi = model.modeldata.geom.nav.navAnyToPosi(GIcommon.EEntType.PGON, pgon[i]);
+            const posi = model.modeldata.geom.nav.navAnyToPosi(GICommon.EEntType.PGON, pgon[i]);
             if (posi.length > 3 || !pgon_label[i].text) { continue; }
 
             const labelText = pgon_label[i].text;

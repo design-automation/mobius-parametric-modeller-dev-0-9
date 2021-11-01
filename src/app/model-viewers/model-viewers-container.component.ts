@@ -5,8 +5,7 @@ import { Viewers } from './model-viewers.config';
 import { DataService } from '@services';
 import { DataService as GIDataService } from './all-viewers/gi-viewer/data/data.service';
 import { Router } from '@angular/router';
-import { Model } from '@design-automation/mobius-sim';
-import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
+import { Model, _parameterTypes } from '@design-automation/mobius-sim-funcs';
 
 const VIEWER_MATCHING = {
     '1': 'GIViewerComponent',

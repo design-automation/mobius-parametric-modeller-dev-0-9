@@ -1,4 +1,4 @@
-import { Model, GIcommon } from '@design-automation/mobius-sim';
+import { Model, GICommon } from '@design-automation/mobius-sim-funcs';
 import { DataThreejs } from './data.threejs';
 // import @angular stuff
 import { Injectable } from '@angular/core';
@@ -26,7 +26,7 @@ export class DataService {
     selected_face_wires: Map<string, string[]>;
     selected_coll: Map<string, string[]>;
 
-    selectingEntityType: { id: GIcommon.EEntType, name: string } ;
+    selectingEntityType: { id: GICommon.EEntType, name: string } ;
 
     aframe_cam: any;
 
@@ -35,20 +35,20 @@ export class DataService {
      * Create a data service.
      */
     constructor(private ds: DS) {
-        this.selected_ents.set(GIcommon.EEntTypeStr[GIcommon.EEntType.POSI], new Map());
-        this.selected_ents.set(GIcommon.EEntTypeStr[GIcommon.EEntType.VERT], new Map());
-        this.selected_ents.set(GIcommon.EEntTypeStr[GIcommon.EEntType.EDGE], new Map());
-        this.selected_ents.set(GIcommon.EEntTypeStr[GIcommon.EEntType.WIRE], new Map());
-        this.selected_ents.set(GIcommon.EEntTypeStr[GIcommon.EEntType.PGON], new Map());
-        this.selected_ents.set(GIcommon.EEntTypeStr[GIcommon.EEntType.PLINE], new Map());
-        this.selected_ents.set(GIcommon.EEntTypeStr[GIcommon.EEntType.POINT], new Map());
-        this.selected_ents.set(GIcommon.EEntTypeStr[GIcommon.EEntType.COLL], new Map());
+        this.selected_ents.set(GICommon.EEntTypeStr[GICommon.EEntType.POSI], new Map());
+        this.selected_ents.set(GICommon.EEntTypeStr[GICommon.EEntType.VERT], new Map());
+        this.selected_ents.set(GICommon.EEntTypeStr[GICommon.EEntType.EDGE], new Map());
+        this.selected_ents.set(GICommon.EEntTypeStr[GICommon.EEntType.WIRE], new Map());
+        this.selected_ents.set(GICommon.EEntTypeStr[GICommon.EEntType.PGON], new Map());
+        this.selected_ents.set(GICommon.EEntTypeStr[GICommon.EEntType.PLINE], new Map());
+        this.selected_ents.set(GICommon.EEntTypeStr[GICommon.EEntType.POINT], new Map());
+        this.selected_ents.set(GICommon.EEntTypeStr[GICommon.EEntType.COLL], new Map());
         this.selected_positions = new Map();
         this.selected_vertex = new Map();
         this.selected_face_edges = new Map();
         this.selected_face_wires = new Map();
         this.selected_coll = new Map();
-        this.selectingEntityType = { id: GIcommon.EEntType.PGON, name: 'Polygons' };
+        this.selectingEntityType = { id: GICommon.EEntType.PGON, name: 'Polygons' };
     }
 
     /**

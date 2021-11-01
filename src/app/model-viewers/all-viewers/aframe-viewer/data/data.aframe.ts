@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { AframeSettings } from '../aframe-viewer.settings';
-import { Model, GIcommon } from '@design-automation/mobius-sim';
-import { Funcs } from '@design-automation/mobius-sim-funcs';
+import { Funcs, Model, GICommon } from '@design-automation/mobius-sim-funcs';
 import { processDownloadURL } from '@shared/utils/otherUtils';
 
 declare var AFRAME;
@@ -683,7 +682,7 @@ export class DataAframe {
     updateHUD() {
         if (!this.model || !this.model.modeldata) { return; }
         const hud = document.getElementById('aframe_hud');
-        if (!this.model.modeldata.attribs.query.hasEntAttrib(GIcommon.EEntType.MOD, 'hud')) {
+        if (!this.model.modeldata.attribs.query.hasEntAttrib(GICommon.EEntType.MOD, 'hud')) {
             hud.innerHTML = '';
             hud.style.visibility = 'hidden';
             return;

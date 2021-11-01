@@ -4,7 +4,7 @@ import { Component, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/
 // import app services
 import cytoscape from 'cytoscape';
 import { CytoscapeService } from '../service/cytoscape.service';
-import { Model} from '@design-automation/mobius-sim';
+import { Model} from '@design-automation/mobius-sim-funcs';
 
 // import others
 
@@ -154,14 +154,14 @@ export class CytoscapeComponent implements OnDestroy, OnChanges {
 //             if (selectedClass === 'ps' || (box && selectedClass[0] === '_')) { return; }
 //             const selectedPos = event.target.position();
 //             const allObj = {
-//                 'ps': model.modeldata.geom.query.getEnts(GIcommon.EEntType.POSI),
-//                 '_v': model.modeldata.geom.query.getEnts(GIcommon.EEntType.VERT),
-//                 '_e': model.modeldata.geom.query.getEnts(GIcommon.EEntType.EDGE),
-//                 '_w': model.modeldata.geom.query.getEnts(GIcommon.EEntType.WIRE),
-//                 'pt': model.modeldata.geom.query.getEnts(GIcommon.EEntType.POINT),
-//                 'pl': model.modeldata.geom.query.getEnts(GIcommon.EEntType.PLINE),
-//                 'pg': model.modeldata.geom.query.getEnts(GIcommon.EEntType.PGON),
-//                 'co': model.modeldata.geom.query.getEnts(GIcommon.EEntType.COLL)
+//                 'ps': model.modeldata.geom.query.getEnts(GICommon.EEntType.POSI),
+//                 '_v': model.modeldata.geom.query.getEnts(GICommon.EEntType.VERT),
+//                 '_e': model.modeldata.geom.query.getEnts(GICommon.EEntType.EDGE),
+//                 '_w': model.modeldata.geom.query.getEnts(GICommon.EEntType.WIRE),
+//                 'pt': model.modeldata.geom.query.getEnts(GICommon.EEntType.POINT),
+//                 'pl': model.modeldata.geom.query.getEnts(GICommon.EEntType.PLINE),
+//                 'pg': model.modeldata.geom.query.getEnts(GICommon.EEntType.PGON),
+//                 'co': model.modeldata.geom.query.getEnts(GICommon.EEntType.COLL)
 //             };
 
 //             function removeObject(sourceID, sourceClass) {
@@ -385,11 +385,11 @@ export class CytoscapeComponent implements OnDestroy, OnChanges {
         //     style: CYTOSCAPE_STYLE,
         // });
 
-        // let obj_i: string[] = this.model.modeldata.geom.query.getEnts(GIcommon.EEntType.COLL).map(x => 'co' + x);
+        // let obj_i: string[] = this.model.modeldata.geom.query.getEnts(GICommon.EEntType.COLL).map(x => 'co' + x);
         // if (obj_i.length === 0) {
-        //     obj_i = obj_i.concat(this.model.modeldata.geom.query.getEnts(GIcommon.EEntType.PGON).map(x => 'pg' + x));
-        //     obj_i = obj_i.concat(this.model.modeldata.geom.query.getEnts(GIcommon.EEntType.PLINE).map(x => 'pl' + x));
-        //     obj_i = obj_i.concat(this.model.modeldata.geom.query.getEnts(GIcommon.EEntType.POINT).map(x => 'pt' + x));
+        //     obj_i = obj_i.concat(this.model.modeldata.geom.query.getEnts(GICommon.EEntType.PGON).map(x => 'pg' + x));
+        //     obj_i = obj_i.concat(this.model.modeldata.geom.query.getEnts(GICommon.EEntType.PLINE).map(x => 'pl' + x));
+        //     obj_i = obj_i.concat(this.model.modeldata.geom.query.getEnts(GICommon.EEntType.POINT).map(x => 'pt' + x));
         // }
 
         // const cy_eles = [];

@@ -10,7 +10,7 @@ import { DataOutputService } from '@shared/services/dataOutput.service';
 import { SaveFileComponent } from '@shared/components/file';
 import JSZip from 'jszip';
 import { WindowMessageComponent } from '@shared/components/window-message/window-message.component';
-import { GIcommon } from '@design-automation/mobius-sim';
+import { GICommon } from '@design-automation/mobius-sim-funcs';
 import { Funcs, _parameterTypes } from '@design-automation/mobius-sim-funcs';
 import * as Inlines from '@design-automation/mobius-inline-funcs';
 
@@ -210,7 +210,7 @@ export class ExecuteComponent {
                     this.dataService.flowchart.model = this.dataService.executeModel;
                     this.dataService.finalizeLog();
                     this.dataService.log('<br>');
-                    const hudData = this.dataService.flowchart.model.modeldata.attribs.getAttrib(GIcommon.EEntType.MOD, 'hud') || null;
+                    const hudData = this.dataService.flowchart.model.modeldata.attribs.getAttrib(GICommon.EEntType.MOD, 'hud') || null;
                     WindowMessageComponent.SendData({
                         messageType: 'execute_end',
                         data: {

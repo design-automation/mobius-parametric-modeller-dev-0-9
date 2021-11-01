@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { INode } from '@models/node';
-import { Model } from '@design-automation/mobius-sim';
-import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
+import { Model, _parameterTypes } from '@design-automation/mobius-sim-funcs';
 
 @Injectable()
 export class DataOutputService {

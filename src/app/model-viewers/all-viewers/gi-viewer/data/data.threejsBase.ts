@@ -2,7 +2,7 @@ import * as THREE from 'three';
 // import * as OrbitControls from 'three-orbit-controls';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-import { Model } from '@design-automation/mobius-sim';
+import { Model } from '@design-automation/mobius-sim-funcs';
 import { DataService } from '@services';
 import { ISettings } from './data.threejsSettings';
 // import { WEBVR } from 'three/examples/jsm/vr/WebVR.js';

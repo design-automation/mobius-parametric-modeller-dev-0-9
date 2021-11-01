@@ -1,4 +1,4 @@
-import { Model } from '@design-automation/mobius-sim';
+import { Model } from '@design-automation/mobius-sim-funcs';
 import { ViewChild, HostListener, OnDestroy } from '@angular/core';
 import { DefaultSettings, SettingsColorMap, Locale } from './gi-viewer.settings';
 // import @angular stuff

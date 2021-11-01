@@ -7,7 +7,7 @@
 import { INode } from '@models/node';
 import { IEdge } from '@models/edge';
 import { IFunction } from '@models/procedure';
-import { Model } from '@design-automation/mobius-sim';
+import { Model } from '@design-automation/mobius-sim-funcs';
 
 export interface IFlowchart {
     id: string;

@@ -4,7 +4,7 @@ import {  } from '@angular/core';
 // import app services
 import { DataAframeService } from '../data/data.aframe.service';
 import { DataService as ThreeJSDataService } from '../../gi-viewer/data/data.service';
-import { Model } from '@design-automation/mobius-sim';
+import { Model } from '@design-automation/mobius-sim-funcs';
 
 declare var AFRAME;
 // const SKY_REFRESH_RATE = 200;

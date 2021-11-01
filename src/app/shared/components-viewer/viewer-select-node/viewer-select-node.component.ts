@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnChanges, } from '@angular/core';
-import { Model } from '@design-automation/mobius-sim';
+import { Model } from '@design-automation/mobius-sim-funcs';
 import { DataService } from '@shared/services';
 
 @Component({

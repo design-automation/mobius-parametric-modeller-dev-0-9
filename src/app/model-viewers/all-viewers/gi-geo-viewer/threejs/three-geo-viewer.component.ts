@@ -1,4 +1,4 @@
-import { Model } from '@design-automation/mobius-sim';
+import { Model } from '@design-automation/mobius-sim-funcs';
 import { OnChanges, OnDestroy, DoCheck } from '@angular/core';
 // import @angular stuff
 import { Component, Input, OnInit } from '@angular/core';
