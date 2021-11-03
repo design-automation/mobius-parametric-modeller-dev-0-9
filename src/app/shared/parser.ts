@@ -98,10 +98,10 @@ export function modifyVar(procedure: IProcedure, nodeProdList: IProcedure[]) {
     procedure.args[0].value = modifyVarArg(procedure.args[0]).trim();
     const modifiedVar = parseVariable(procedure.args[0].value);
     procedure.args[0].jsValue = modifiedVar.jsStr;
-    if (modifiedVar.jsStr && modifiedVar.jsStr.startsWith('__modules__')) {
-        procedure.args[0].invalidVar = `Error: Invalid query call: "${procedure.args[0].value}"`;
-        return;
-    }
+    // if (modifiedVar.jsStr && modifiedVar.jsStr.startsWith('__modules__')) {
+    //     procedure.args[0].invalidVar = `Error: Invalid query call: "${procedure.args[0].value}"`;
+    //     return;
+    // }
     if (modifiedVar.valueStr) {
         procedure.args[0].value = modifiedVar.valueStr.trim();
     }
@@ -435,7 +435,47 @@ export function parseVariable(value: string): {'error'?: string, 'declaredVar'?:
         };
         return result;
     }
-    return parseSingleVariable(str);
+
+    let attrCallIndex = null;
+    for (let i = str.length - 1; i >= 0; i--) {
+        let brackets = 0;
+        switch (str[i]) {
+            case '(':
+            case '[':
+            case '{':
+                brackets++;
+                break;
+            case ')':
+            case ']':
+            case ']':
+                brackets--;
+                break;
+            case '@':
+                if (brackets === 0) {
+                    attrCallIndex = i;
+                    break;
+                }
+        }
+        if (attrCallIndex !== null) { break; }
+    }
+    if (attrCallIndex) {
+        const argPart = str.slice(0, attrCallIndex);
+        const queryPart = str.slice(attrCallIndex);
+        const argParse =  parseArgument(argPart);
+        const queryParse =  parseSingleVariable(queryPart);
+        if (argParse.error) {
+            return argParse;
+        }
+        if (queryParse.error) {
+            return queryParse;
+        }
+        return {
+            jsStr: argParse.jsStr + queryParse.jsStr,
+            usedVars: queryParse.usedVars.concat(argParse.vars)
+        };
+    } else {
+        return parseSingleVariable(str);
+    }
 
 }
 // VAR INPUT
