@@ -1,5 +1,5 @@
 import { Component, DoCheck, OnDestroy } from '@angular/core';
-import { ModuleList} from '@shared/decorators';
+import { primary_func } from '@shared/functions';
 import { DataService } from '@shared/services';
 /**
  * HelpViewerComponent
@@ -40,10 +40,8 @@ export class HelpViewerComponent implements DoCheck, OnDestroy {
             modnames: [],
             opened: false
         }];
-
-        for (const mod of ModuleList) {
-            if (mod.module[0] === '_') {continue; }
-            this.modList[3].modnames.push(mod.module);
+        for (const mod of primary_func) {
+            this.modList[3].modnames.push(mod[0]);
         }
 
         this.output = this.mainDataService.helpViewData[0];

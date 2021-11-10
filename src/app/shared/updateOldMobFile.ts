@@ -1,5 +1,5 @@
 import { ProcedureTypes } from '@models/procedure';
-import { ModuleList } from './decorators';
+import { ModuleList, primary_func } from './functions';
 // import * as deprecated from '@assets/core/deprecated.json';
 
 import * as circularJSON from 'circular-json';
@@ -193,11 +193,12 @@ function checkMissingProd(prodList: any[], fileVersion: string, node: INode) {
             if (dpFn.old_func.name.toLowerCase() === prod.meta.name.toLowerCase() &&
                 dpFn.old_func.module.toLowerCase() === prod.meta.module.toLowerCase()) {
                 let data: any;
-                for (const mod of ModuleList) {
-                    if (mod.module.toLowerCase() === dpFn.new_func.module.toLowerCase()) {
-                        for (const modfn of mod.functions) {
-                            if (modfn.name.toLowerCase() === dpFn.new_func.name.toLowerCase()) {
-                                data = circularJSON.parse(circularJSON.stringify(modfn));
+                for (const mod of primary_func) {
+                    if (mod[0].toLowerCase() === dpFn.new_func.module.toLowerCase()) {
+                        for (const modfn of mod[1]) {
+                            if (modfn.toLowerCase() === dpFn.new_func.name.toLowerCase()) {
+                                const fn = ModuleList[mod[0]][modfn];
+                                data = circularJSON.parse(circularJSON.stringify(fn));
                                 break;
                             }
                         }
@@ -267,58 +268,8 @@ function checkMissingProd(prodList: any[], fileVersion: string, node: INode) {
     return check;
 }
 
-function checkEndReturn(file) {
-
-    // edit the return procedure (last procedure in the end node)
-    if (file.version === 1) {
-        const endNode = file.flowchart.nodes[file.flowchart.nodes.length - 1];
-
-        // add a blank procedure if there is no procedure in the node
-        // (all node must start with a blank procedure)
-        if (endNode.procedure.length === 0) {
-            endNode.procedure = [{type: 13, ID: '',
-            parent: undefined,
-            meta: {name: '', module: ''},
-            children: undefined,
-            variable: undefined,
-            argCount: 0,
-            args: [],
-            print: false,
-            enabled: true,
-            selected: false,
-            selectGeom: false,
-            hasError: false}];
-        }
-
-        // add a return procedure if there is none before
-        if (endNode.procedure[endNode.procedure.length - 1].type !== 11) {
-            const returnMeta = _parameterTypes.return.split('.');
-            for (const i of ModuleList) {
-                if (i.module !== returnMeta[0]) { continue; }
-                for ( const j of i.functions) {
-                    if (j.name !== returnMeta[1]) { continue; }
-                    endNode.procedure.push({type: 11, ID: '',
-                    parent: undefined,
-                    meta: {name: '', module: ''},
-                    children: undefined,
-                    variable: undefined,
-                    argCount: j.argCount,
-                    args: j.args,
-                    print: false,
-                    enabled: true,
-                    selected: false,
-                    selectGeom: false,
-                    hasError: false});
-                    break;
-                }
-                break;
-            }
-        }
-    }
-}
-
 function checkFileVersion(fileVersion) {
-    console.log(fileVersion)
+    console.log('File version:', fileVersion);
     const fileVer = fileVersion.split('.');
     if (fileVer[0] === '0' && Number(fileVer[1]) < 7) {
         alert(`Outdated file: File Version of ${fileVersion}. May be incompatible with current version of Mobius.`);

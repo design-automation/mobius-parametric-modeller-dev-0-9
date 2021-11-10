@@ -1,7 +1,7 @@
 import { Component, Input, Output,  EventEmitter, OnDestroy} from '@angular/core';
 
 import { IProcedure, ProcedureTypes } from '@models/procedure';
-import { ModuleDocList } from '@shared/decorators';
+import { ModuleDocList } from '@shared/functions';
 
 import { DataService } from '@services';
 import { IArgument } from '@models/code';

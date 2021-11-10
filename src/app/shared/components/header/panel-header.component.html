@@ -146,7 +146,7 @@
 
 <dialog id='headerDialog'>
     <button class='closebutton' (click)='closeDialog(false)'><mat-icon class='icon'>close</mat-icon></button>
-    <div id='headerDialog_publish'>
+    <div id='headerDialog_publish' (mousedown)='textareaMousedown = true'>
         <p>In order publish your script, your Möbius (.mob) file needs to be uploaded to cloud. Clicking the 'Upload' button 
         will upload the currently open script to the Mobius cloud. The file will be saved on the cloud for 1 year, after which it will be
         automatically deleted. It will not be possible to manually delete your file. Clicking the 'Use URL' button will allow 
@@ -155,7 +155,7 @@
         <button (click)='publishUpload($event)'>Upload to Cloud</button>
         <button (click)="publishUrl($event)">Use URL</button>
     </div>
-    <div id='headerDialog_publish_url'>
+    <div id='headerDialog_publish_url' (mousedown)='textareaMousedown = true'>
         <ng-container *ngIf="urlValid === true;else validateUrlTemplate">
             <p>The user interface of the published Mobius script can be configured below. In addition, you can generate
                 two types of links: either a URL that can be shared or code that can be embedded in a web page or blog. </p>
@@ -238,7 +238,10 @@
             <div>
                 <hr>
                 Möbius Link:<br>
-                <textarea [class.disabled]='true' id='generatedLink' disabled></textarea>
+                <div class='inline_box'>
+                    <textarea [class.disabled]='true' id='generatedLink' disabled></textarea>
+                    <button id='copyLinkBtn' (click)='copyGeneratedText()'><mat-icon class='icon' svgIcon='icon_link'></mat-icon></button>
+                </div>
             </div>
         </ng-container>
         <ng-template #validateUrlTemplate>
@@ -253,7 +256,7 @@
             <button (click)='validateUrl()'>Validate URL</button>
         </ng-template>
     </div>
-    <div id='headerDialog_backup'>
+    <div id='headerDialog_backup' (mousedown)='textareaMousedown = true'>
         <p>Select File from Local Storage: </p>
         <br>
         <div class="tab">
@@ -286,7 +289,7 @@
         <button class='downloadBackupButton' (click)="downloadBackup($event)"><mat-icon class='icon'>cloud_download_outline</mat-icon></button>
         <button class='deleteBackupButton' (click)="deleteBackup($event)"><mat-icon class='icon'>delete_outline</mat-icon></button>
     </div>
-    <div id='headerDialog_globalfunc'>
+    <div id='headerDialog_globalfunc' (mousedown)='textareaMousedown = true'>
         <p>Manage Global Functions: </p>
         <br>
         <div *ngFor='let fn of flowchart.functions'>
@@ -311,7 +314,7 @@
         <button class='addGlobalButton' (click)="addGlobalFunc($event)">Import File</button>
         <button class='addGlobalButton' (click)="addGlobalFuncLS($event)">Import LS</button>
     </div>
-    <div id='headerDialog_inlinefunc'>
+    <div id='headerDialog_inlinefunc' (mousedown)='textareaMousedown = true'>
         <p>Expression Builder</p>
         <br>
         <div class='inlineFuncContainer'>
@@ -336,14 +339,14 @@
             <p>Inline Function Help</p>
         </div>
         <div class='inlineFuncExpressionContainer'>
-            <textarea id='inlineExpression' class='inlineFuncExpression' placeholder='Expression' (mousedown)='textareaMousedown = true'></textarea>
+            <textarea id='inlineExpression' class='inlineFuncExpression' placeholder='Expression'></textarea>
         </div>
         <div class='inlineFuncSaveButtonContainer'>
             <button id='insertInlineExpression' class='disabled' (click)='insertInlineFunc()'>Insert</button>
             <button (click)='copyInlineFunc()'>Copy</button>
         </div>
     </div>
-    <div id='headerDialog_savels'>
+    <div id='headerDialog_savels' (mousedown)='textareaMousedown = true'>
         <p>Save File to Local Storage as: </p>
         <br>
         <input id='savels-name' class='fileNameInput' name='savels-name' value={{flowchart.name}}>.mob
@@ -352,7 +355,7 @@
         <button class='saveButtons' (click)="saveBackup()">Apply</button>
         <button class='saveButtons' (click)="closeDialog(true)">Cancel</button>
     </div>
-    <div id='headerDialog_settings'>
+    <div id='headerDialog_settings' (mousedown)='textareaMousedown = true'>
         <p>Mobius Settings:</p>
         <br>
         <div class='settingLine'>

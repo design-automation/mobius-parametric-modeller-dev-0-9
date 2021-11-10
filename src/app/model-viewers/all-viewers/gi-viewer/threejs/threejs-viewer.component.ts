@@ -110,29 +110,51 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
 
     tab_map = {
         0: GICommon.EEntType.POSI,
-        1: GICommon.EEntType.VERT,
-        2: GICommon.EEntType.EDGE,
-        3: GICommon.EEntType.WIRE,
-        // 4: GICommon.EEntType.FACE,
-        4: GICommon.EEntType.POINT,
-        5: GICommon.EEntType.PLINE,
-        6: GICommon.EEntType.PGON,
-        7: GICommon.EEntType.COLL,
-        8: GICommon.EEntType.MOD
+        1: GICommon.EEntType.POINT,
+        2: GICommon.EEntType.PLINE,
+        3: GICommon.EEntType.PGON,
+        4: GICommon.EEntType.COLL,
+        5: GICommon.EEntType.MOD
     };
 
     tab_rev_map = {
         0: 0,
-        2: 1,
-        3: 2,
-        4: 3,
-        5: 4, // point
-        6: 5, // plines
-        7: 6, // pgons
-        8: 7,
-        9: 8,
-        // 10: 9
+        // 1: 0,
+        // 2: 0,
+        // 3: 0,
+        // 4: 0,
+        5: 1, // point
+        6: 2, // plines
+        7: 3, // pgons
+        8: 4,
+        9: 5
     };
+
+    // tab_map = {
+    //     0: GICommon.EEntType.POSI,
+    //     1: GICommon.EEntType.VERT,
+    //     2: GICommon.EEntType.EDGE,
+    //     3: GICommon.EEntType.WIRE,
+    //     // 4: GICommon.EEntType.FACE,
+    //     4: GICommon.EEntType.POINT,
+    //     5: GICommon.EEntType.PLINE,
+    //     6: GICommon.EEntType.PGON,
+    //     7: GICommon.EEntType.COLL,
+    //     8: GICommon.EEntType.MOD
+    // };
+
+    // tab_rev_map = {
+    //     0: 0,
+    //     2: 1,
+    //     3: 2,
+    //     4: 3,
+    //     5: 4, // point
+    //     6: 5, // plines
+    //     7: 6, // pgons
+    //     8: 7,
+    //     9: 8,
+    //     // 10: 9
+    // };
 
     /**
      * Creates a new viewer,
@@ -348,7 +370,6 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
         const arr = Array.from(sorted.values());
         const showSelected = JSON.parse(sessionStorage.getItem('mpm_showSelected'));
         const attr_names = this._data_threejs.model.modeldata.attribs.getAttribNames(ent_type);
-
         let attr_name = this.currentAttribLabel, isArr = false, key;
         if (attr_name.match(/\[.*?\]/g)) {
             isArr = true;

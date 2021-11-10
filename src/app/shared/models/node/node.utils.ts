@@ -3,7 +3,7 @@ import { ProcedureTypes, IProcedure } from '@models/procedure';
 import { InputType, PortUtils } from '@models/port';
 import * as circularJSON from 'circular-json';
 import { IdGenerator } from '@utils';
-import { ModuleList, ModuleDocList } from '@shared/decorators';
+import { ModuleList } from '@shared/functions';
 import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
 import { modifyLocalFuncVar } from '@shared/parser';
 
@@ -91,41 +91,31 @@ export abstract class NodeUtils {
     static getEndNode(): INode {
         const node = NodeUtils.getNewNode();
         const returnMeta = _parameterTypes.return.split('.');
-        let check = false;
-        for (const i of ModuleList) {
-            if (i.module !== returnMeta[0]) { continue; }
-            for ( const j of i.functions) {
-                if (j.name !== returnMeta[1]) { continue; }
-                const newReturn = {
-                    type: ProcedureTypes.EndReturn,
-                    ID: 'Return',
-                    parent: undefined,
-                    meta: {name: '', module: ''},
-                    children: undefined,
-                    variable: undefined,
-                    argCount: j.argCount,
-                    args: j.args,
-                    print: false,
-                    enabled: true,
-                    selected: false,
-                    terminate: false,
-                    hasError: false
-                };
-
-                for (const arg of newReturn.args) {
-                    arg.value = '';
-                    arg.jsValue = '';
-                }
-                node.procedure.push(newReturn);
-                check = true;
-                break;
-            }
-            break;
-        }
-        if (!check) {
+        if (!ModuleList[returnMeta[0]] || !ModuleList[returnMeta[0]][returnMeta[1]]) {
             console.log('CORE FUNCTION ERROR: Unable to retrieve return procedure, please check "Return" in _ParameterTypes.ts');
         }
-        // node.procedure = [];
+        const returnFn = ModuleList[returnMeta[0]][returnMeta[1]];
+        const newReturn = {
+            type: ProcedureTypes.EndReturn,
+            ID: 'Return',
+            parent: undefined,
+            meta: {name: '', module: ''},
+            children: undefined,
+            variable: undefined,
+            argCount: returnFn.argCount,
+            args: returnFn.args,
+            print: false,
+            enabled: true,
+            selected: false,
+            terminate: false,
+            hasError: false
+        };
+
+        for (const arg of newReturn.args) {
+            arg.value = '';
+            arg.jsValue = '';
+        }
+        node.procedure.push(newReturn);
         node.name = 'End';
         node.type = 'end';
         return node;

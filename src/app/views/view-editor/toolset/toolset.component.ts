@@ -4,7 +4,7 @@ import { ProcedureTypes, IFunction, IProcedure } from '@models/procedure';
 import { IFlowchart } from '@models/flowchart';
 import * as CircularJSON from 'circular-json';
 import { IArgument } from '@models/code';
-import { ModuleList, ModuleDocList } from '@shared/decorators';
+import { ModuleList, ModuleDocList, primary_func } from '@shared/functions';
 import { INode, NodeUtils } from '@models/node';
 
 import { DownloadUtils } from '@shared/components/file/download.utils';
@@ -57,13 +57,14 @@ export class ToolsetComponent implements OnInit {
 
 
     ngOnInit() {
-        for (const mod of ModuleList) {
-            if (mod.module[0] === '_') { continue; }
-            const nMod = {'module': mod.module, 'functions': []};
-            for (const fn of mod.functions) {
-                if (fn.name[0] === '_') { continue; }
-                if (ModuleDocList[mod.module] && ModuleDocList[mod.module][fn.name]) {
-                    fn['doc'] = ModuleDocList[mod.module][fn.name];
+        for (const mod of primary_func) {
+            if (!ModuleList[mod[0]]) { continue; }
+            const nMod = {'module': mod[0], 'functions': []};
+            for (const fnName of mod[1]) {
+                const fn = ModuleList[mod[0]][fnName];
+                if (!fn) { continue; }
+                if (ModuleDocList[mod[0]] && ModuleDocList[mod[0]][fnName]) {
+                    fn['doc'] = ModuleDocList[mod[0]][fnName];
                     let fnDocHtml;
                     if (fn.doc.summary) {
                         fnDocHtml = `<p class="funcDesc">${fn.doc.summary}</p>`;

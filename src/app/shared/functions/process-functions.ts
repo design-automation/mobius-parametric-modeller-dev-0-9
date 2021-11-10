@@ -9,31 +9,11 @@ import * as showdown from 'showdown';
 import { Funcs } from '@design-automation/mobius-sim-funcs';
 
 const mdConverter = new showdown.Converter({literalMidWordUnderscores: true});
-const module_list = [];
+const module_list = {};
 const extraMods = [ 'variable', 'comment', 'expression',
                     'control_flow', 'global_func', 'local_func',
                     'dashboard', 'editor', 'flowchart', 'gallery', 'menu',
                     'console', 'geoviewer', 'cadviewer', 'vrviewer'];
-const extraModPaths = {
-    variable: 'docCF/variable',
-    comment: 'docCF/comment',
-    expression: 'docCF/expression',
-    control_flow: 'docCF/control_flow',
-    local_func: 'docCF/local_func',
-    global_func: 'docCF/global_func',
-
-    dashboard: 'docUI/dashboard',
-    editor: 'docUI/editor',
-    flowchart: 'docUI/flowchart',
-    gallery: 'docUI/gallery',
-    menu: 'docUI/menu',
-
-    console: 'docVW/console',
-    geoviewer: 'docVW/geo-viewer',
-    cadviewer: 'docVW/cad-viewer',
-    vrviewer: 'docVW/vr-viewer',
-    vrviewerhotspot: 'docVW/vr-viewer-hotspots',
-};
 const asyncFuncList = ['io.Read', 'io.Write', 'io.Import', 'io.Export', 'io._getFile',
                        'util.ModelCompare', 'util.ModelMerge'];
 
@@ -65,11 +45,9 @@ function extract_params(func: Function): [IArgument[], boolean] {
 
 for ( const m_name in Funcs ) {
     if (!Funcs[m_name] || (typeof Funcs[m_name] !== 'object')) { continue; }
-    // if (m_name[0] === '_') { continue; }
+    if (m_name[0] === '_parameterTypes') { continue; }
 
-    const modObj = <IModule>{};
-    modObj.module = m_name;
-    modObj.functions = [];
+    const modObj = {};
 
     for ( const fn_name of Object.keys(Funcs[m_name])) {
         // if (fn_name[0] === '_') { continue; }
@@ -85,16 +63,16 @@ for ( const m_name in Funcs ) {
             const args = extract_params(paramFunc);
             fnObj.args = args[0];
             fnObj.hasReturn = args[1];
-            modObj.functions.push(fnObj);
+            modObj[fn_name] = fnObj;
         } else {
             fnObj.argCount = func.length;
             const args = extract_params(func);
             fnObj.args = args[0];
             fnObj.hasReturn = args[1];
-            modObj.functions.push(fnObj);
+            modObj[fn_name] = fnObj;
         }
     }
-    module_list.push(modObj);
+    module_list[m_name] = modObj;
 }
 
 
@@ -234,11 +212,10 @@ for (const mod of doc.children) {
         addDoc(mod, mod.name, inlineDocs);
     } else if (modName[0] === 'modules') {
         modName = modName[modName.length - 1];
-        if (modName.substr(0, 1) === '_' || modName === 'index' || modName === 'categorization') {
+        if (modName === 'index' || modName === 'categorization') {
             continue;
         }
         addDoc(mod, mod.name, moduleDocs);
-        // addModFuncDoc(functionDocs, `assets/typedoc-json/docMD/${modName}.md`, modName);
     }
 }
 for (const i of extraMods) {

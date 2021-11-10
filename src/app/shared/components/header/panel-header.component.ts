@@ -10,10 +10,9 @@ import { InputType } from '@models/port';
 import { IArgument } from '@models/code';
 import { checkNodeValidity } from '@shared/parser';
 import { DownloadUtils } from '../file/download.utils';
-import { InlineDocList, ModuleList } from '@shared/decorators';
+import { InlineDocList, inlineVarString, inline_func, primary_func } from '@shared/functions';
 import * as showdown from 'showdown';
 import { Funcs, _parameterTypes } from '@design-automation/mobius-sim-funcs';
-import { inline_func, inlineVarString } from '@design-automation/mobius-inline-funcs';
 import axios from 'axios';
 
 const API_ENDPOINT = 'https://rwytlj8v41.execute-api.us-east-1.amazonaws.com/test0/upload';
@@ -150,9 +149,8 @@ export class PanelHeaderComponent implements OnDestroy {
             modnames: [],
         }];
 
-        for (const mod of ModuleList) {
-            if (mod.module[0] === '_') {continue; }
-            this.docModList[3].modnames.push('Funcs.' + mod.module);
+        for (const mod of primary_func) {
+            this.docModList[3].modnames.push('Funcs.' + mod[0]);
         }
 
     }
@@ -724,6 +722,7 @@ export class PanelHeaderComponent implements OnDestroy {
         if (this.router.url.startsWith('/editor')) {
             const targetName = (<HTMLElement> document.activeElement).nodeName;
             if ( targetName === 'TEXTAREA' || targetName === 'INPUT') { return; }
+            if (this.dataService.dialog && this.dataService.dialog.open) { return; }
             document.getElementById('copyProdButton').click();
         }
     }
@@ -872,6 +871,15 @@ export class PanelHeaderComponent implements OnDestroy {
     generateEmbed() {
         const txtArea = document.getElementById('generatedLink');
         txtArea.innerHTML = `<iframe width='100%' height='600px' style='border: 1px solid black;' src="${this.generatePublishUrl()}"></iframe>`;
+    }
+
+    copyGeneratedText() {
+        const txtArea = document.getElementById('generatedLink');
+        if (!txtArea.innerHTML || txtArea.innerHTML === '') { return; }
+        const text = txtArea.innerHTML;
+        navigator.clipboard.writeText(text).then(
+            () => this.dataService.notifyMessage('Copied text to clipboard.'));
+        this.dataService.dialog.close();
     }
 
     async refresh_global_func(event: MouseEvent, func) {

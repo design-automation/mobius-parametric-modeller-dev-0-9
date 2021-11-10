@@ -9,7 +9,7 @@ import { DownloadUtils } from './download.utils';
 import { mergeInputsFunc, printFuncString, pythonListFunc, ExecuteComponent } from '../execute/execute.component';
 import { InputType } from '@models/port';
 import { CodeUtils } from '@shared/components/execute/code.util';
-import { inlineVarString } from '@design-automation/mobius-inline-funcs';
+import { inlineVarString } from '@shared/functions';
 
 @Component({
   selector: 'javascript-save',

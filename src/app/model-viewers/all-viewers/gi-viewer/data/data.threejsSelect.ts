@@ -368,8 +368,9 @@ export class DataThreejsSelect extends DataThreejsBase {
         this.scene_objs_selected.delete(ent_id);
 
         this.ObjLabelMap.delete(ent_id);
-        if (document.getElementById(`textLabel_${ent_id}`)) {
-            container.removeChild(document.getElementById(`textLabel_${ent_id}`));
+        const textLabelObj = document.getElementById(`textLabel_${ent_id}`);
+        if (textLabelObj) {
+            container.removeChild(textLabelObj);
         }
     }
     /**
