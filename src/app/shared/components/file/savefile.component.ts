@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { DownloadUtils } from './download.utils';
-import * as circularJSON from 'circular-json';
+import * as Flatted from 'flatted';
 import { FlowchartUtils, IFlowchart } from '@models/flowchart';
 import { DataService } from '@services';
 import { InputType } from '@models/port';
@@ -351,7 +351,7 @@ export class SaveFileComponent implements OnDestroy{
         SaveFileComponent.clearModelData(f.flowchart, false, false);
 
         // make a copy of the flowchart
-        const savedfile = circularJSON.parse(circularJSON.stringify(f));
+        const savedfile = Flatted.parse(Flatted.stringify(f));
         f.flowchart.model = flowchartModel;
 
         SaveFileComponent.clearModelData(savedfile.flowchart);
@@ -383,7 +383,7 @@ export class SaveFileComponent implements OnDestroy{
         }
 
         // stringify the new copy (with formatting)
-        const fileString = circularJSON.stringify(savedfile);
+        const fileString = Flatted.stringify(savedfile);
         let fname = savedfile.name.replace(/\ /g, '_');
         if (savedfile.name.length < 4 || savedfile.name.substring(savedfile.name.length - 4) !== '.mob') {
             fname = `${fname}.mob`;
@@ -550,7 +550,7 @@ export class SaveFileComponent implements OnDestroy{
 
         const downloadResult = {
             'name': newFile.name.replace(/\ /g, '_') + '_data.mobdata',
-            'file': circularJSON.stringify(newFile)
+            'file': Flatted.stringify(newFile)
         };
 
         const blob = new Blob([downloadResult.file], { type: 'application/json' });

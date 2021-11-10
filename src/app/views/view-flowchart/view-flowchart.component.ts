@@ -4,12 +4,11 @@ import { NodeUtils, INode } from '@models/node';
 import { IEdge } from '@models/edge';
 
 import { ACTIONS } from './node/node.actions';
-import * as circularJSON from 'circular-json';
-import { fromEvent } from 'rxjs';
+import * as Flatted from 'flatted';
 import { DataService } from '@services';
 
 // import size of the canvas
-import { canvasSize, FlowchartUtils } from '@models/flowchart';
+import { canvasSize } from '@models/flowchart';
 import { Router } from '@angular/router';
 import { SplitComponent } from 'angular-split';
 import { LoadUrlComponent } from '@shared/components/file/loadurl.component';
@@ -225,7 +224,7 @@ export class ViewFlowchartComponent implements OnInit, AfterViewInit, OnDestroy 
             node.model = undefined;
             copied.push(node);
         }
-        localStorage.setItem('mobius_copied_nodes', circularJSON.stringify(copied));
+        localStorage.setItem('mobius_copied_nodes', Flatted.stringify(copied));
 
         for (const nodeIndex of this.dataService.flowchart.meta.selected_nodes) {
             const node = this.dataService.flowchart.nodes[nodeIndex];
@@ -243,7 +242,7 @@ export class ViewFlowchartComponent implements OnInit, AfterViewInit, OnDestroy 
         //
         if (!this.listenerActive || document.activeElement.tagName === 'TEXTAREA' ||
         !this.router.url.startsWith('/flowchart')) { return; }
-        const copiedNodes = circularJSON.parse(localStorage.getItem('mobius_copied_nodes'));
+        const copiedNodes = Flatted.parse(localStorage.getItem('mobius_copied_nodes'));
         if (copiedNodes.length === 0) {
             this.dataService.notifyMessage(`Error: No saved nodes to be pasted!`);
             return;

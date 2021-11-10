@@ -2,7 +2,7 @@ import { ProcedureTypes } from '@models/procedure';
 import { ModuleList, primary_func } from './functions';
 // import * as deprecated from '@assets/core/deprecated.json';
 
-import * as circularJSON from 'circular-json';
+import * as Flatted from 'flatted';
 import { VERSION } from '@env/version';
 import { IMobius } from '@models/mobius';
 import { INode } from '@models/node';
@@ -198,7 +198,7 @@ function checkMissingProd(prodList: any[], fileVersion: string, node: INode) {
                         for (const modfn of mod[1]) {
                             if (modfn.toLowerCase() === dpFn.new_func.name.toLowerCase()) {
                                 const fn = ModuleList[mod[0]][modfn];
-                                data = circularJSON.parse(circularJSON.stringify(fn));
+                                data = Flatted.parse(Flatted.stringify(fn));
                                 break;
                             }
                         }

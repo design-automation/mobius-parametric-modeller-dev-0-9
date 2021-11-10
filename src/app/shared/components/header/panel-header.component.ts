@@ -1,11 +1,11 @@
 import { Component, Input, HostListener, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService, KeyboardService } from '@shared/services';
-import * as circularJSON from 'circular-json';
+import * as Flatted from 'flatted';
 import { IFlowchart } from '@models/flowchart';
 import { ProcedureTypes, IFunction, IProcedure } from '@models/procedure';
 import { SaveFileComponent } from '../file';
-import { IdGenerator } from '@utils';
+import { IdGenerator, parseMobFile } from '@utils';
 import { InputType } from '@models/port';
 import { IArgument } from '@models/code';
 import { checkNodeValidity } from '@shared/parser';
@@ -324,7 +324,7 @@ export class PanelHeaderComponent implements OnDestroy {
             }
             SaveFileComponent.clearModelData(this.dataService.flowchart);
             try {
-                this.dataService.file = circularJSON.parse(result);
+                this.dataService.file = Flatted.parse(result);
             } catch (ex) {
                 this.dataService.notifyMessage('ERROR: Corrupted local file');
                 return;
@@ -356,7 +356,7 @@ export class PanelHeaderComponent implements OnDestroy {
             if (!fileString) {
                 return;
             }
-            const fl = circularJSON.parse(fileString).flowchart;
+            const fl = Flatted.parse(fileString).flowchart;
 
             // create function and documentation of the function
             const funcs = {'main': null, 'sub': []};
@@ -440,93 +440,6 @@ export class PanelHeaderComponent implements OnDestroy {
             this.dataService.notifyMessage(`Successfully import global function ${funcName} from local storage`);
             this.closeDialog();
 
-            // const func = this.dataService.getbackup();
-            // // const fileString: any = localStorage.getItem(filecode);
-            // const result = await SaveFileComponent.loadFromFileSystem(filecode);
-            // if (!result) {
-            //     return;
-            // }
-            // const file = circularJSON.parse(result);
-            // file.flowchart.meta.selected_nodes = [file.flowchart.nodes.length - 1];
-            // // parse the flowchart
-            // const fl = file.flowchart;
-
-            // if (this.dataService.flowchart.subFunctions) {
-            //     const subFunctions = this.dataService.flowchart.subFunctions;
-            //     let i = 0;
-            //     while (i < subFunctions.length) {
-            //         const subFunc = subFunctions[i];
-            //         if (subFunc.name.substring(0, func.name.length) === func.name) {
-            //             subFunctions.splice(i, 1);
-            //         } else {
-            //             i++;
-            //         }
-            //     }
-            // } else {
-            //     this.dataService.flowchart.subFunctions = [];
-            // }
-
-            // let funcName = fl.name.replace(/[^A-Za-z0-9_]/g, '_');
-            // if (funcName.match(/^[\d_]/)) {
-            //     funcName = 'func' + funcName;
-            // }
-
-            // const documentation = {
-            //     name: funcName,
-            //     module: 'globalFunc',
-            //     description: fl.description,
-            //     summary: fl.description,
-            //     parameters: [],
-            //     returns: fl.returnDescription
-            // };
-            // func.flowchart = <IFlowchart>{
-            //     id: fl.id ? fl.id : IdGenerator.getId(),
-            //     name: fl.name,
-            //     nodes: fl.nodes,
-            //     edges: fl.edges
-            // };
-            // func.name = funcName;
-            // func.doc = documentation;
-            // func.importedFile = result;
-
-            // func.args = [];
-            // for (const prod of fl.nodes[0].procedure) {
-            //     if (!prod.enabled || prod.type !== ProcedureTypes.Constant || prod.argCount === 0) { continue; }
-            //     let v: string = prod.args[prod.argCount - 2].value || 'undefined';
-            //     if (v[0] === '"' || v[0] === '\'') { v = v.substring(1, v.length - 1); }
-            //     if (prod.meta.inputMode !== InputType.Constant) {
-            //         documentation.parameters.push({
-            //             name: v,
-            //             description: prod.meta.description
-            //         });
-            //     }
-            //     func.args.push(<IArgument>{
-            //         name: v,
-            //         value: prod.args[prod.argCount - 1].value,
-            //         type: prod.meta.inputMode,
-            //     });
-            // }
-            // func.argCount = func.args.length;
-
-            // for (const i of fl.functions) {
-            //     i.name = func.name + '_' + i.name;
-            //     this.dataService.flowchart.subFunctions.push(i);
-            // }
-            // if (fl.subFunctions) {
-            //     for (const i of fl.subFunctions) {
-            //         i.name = func.name + '_' + i.name;
-            //         this.dataService.flowchart.subFunctions.push(i);
-            //     }
-            // }
-
-            // const end = fl.nodes[fl.nodes.length - 1];
-            // const returnProd = end.procedure[end.procedure.length - 1];
-            // if (returnProd.args[1].value) {
-            //     func.hasReturn = true;
-            // } else {
-            //     func.hasReturn = false;
-            // }
-            // document.getElementById('tooltiptext').click();
         }
     }
 
@@ -794,12 +707,12 @@ export class PanelHeaderComponent implements OnDestroy {
 
         request.onload = () => {
             if (request.status === 200) {
-                try {
-                    const f = circularJSON.parse(request.responseText);
+                const f = parseMobFile(request.responseText);
+                if (!f) {
+                    this.urlValid = false;
+                } else {
                     this.urlNodes = f.flowchart.nodes;
                     this.urlValid = true;
-                } catch (ex) {
-                    this.urlValid = false;
                 }
             } else {
                 this.urlValid = false;
@@ -901,7 +814,7 @@ export class PanelHeaderComponent implements OnDestroy {
         if (!result) {
             return;
         }
-        const file = circularJSON.parse(result);
+        const file = Flatted.parse(result);
         file.flowchart.meta.selected_nodes = [file.flowchart.nodes.length - 1];
         // parse the flowchart
         const fl = file.flowchart;

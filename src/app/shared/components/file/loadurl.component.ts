@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { IMobius } from '@models/mobius';
 import { ProcedureTypes } from '@shared/models/procedure';
-import * as circularJSON from 'circular-json';
+import * as Flatted from 'flatted';
 import { DataService } from '@services';
 import { Router } from '@angular/router';
 import { checkNodeValidity } from '@shared/parser';
-import { IdGenerator, updateLocalViewerSettings, updateGeoViewerSettings, updateAframeViewerSettings } from '@utils';
+import { IdGenerator, updateLocalViewerSettings, updateGeoViewerSettings, updateAframeViewerSettings, parseMobFile } from '@utils';
 import { checkMobFile } from '@shared/updateOldMobFile';
 import { SaveFileComponent } from './savefile.component';
 import { InputType } from '@models/port';
@@ -106,12 +106,10 @@ export class LoadUrlComponent {
                 request.open('GET', S3_BUCKET + url);
                 request.onload = () => {
                     if (request.status === 200) {
-                        let f: any;
-                        try {
-                            f = circularJSON.parse(request.responseText);
-                        } catch (ex) {
+                        const f = parseMobFile(request.responseText);
+                        if (!f) {
                             this.dataService.notifyMessage(`ERROR: Unable to read file...`);
-                            throw(ex);
+                            throw new Error('ERROR: Unable to read file...');
                         }
                         if (!f.flowchart.id) {
                             f.flowchart.id = IdGenerator.getId();
@@ -141,12 +139,10 @@ export class LoadUrlComponent {
                 request.open('GET', url);
                 request.onload = () => {
                     if (request.status === 200) {
-                        let f: any;
-                        try {
-                            f = circularJSON.parse(request.responseText);
-                        } catch (ex) {
+                        const f = parseMobFile(request.responseText);
+                        if (!f) {
                             this.dataService.notifyMessage(`ERROR: Unable to read file...`);
-                            throw(ex);
+                            throw new Error('ERROR: Unable to read file...');
                         }
                         if (!f.flowchart.id) {
                             f.flowchart.id = IdGenerator.getId();
@@ -252,8 +248,7 @@ export class LoadUrlComponent {
         let f = await SaveFileComponent.loadFromFileSystem('___TEMP___.mob');
         // let f: any = localStorage.getItem('temp_file');
         if (!f || f === 'error') { return; }
-        f = circularJSON.parse(f);
-
+        f = Flatted.parse(f);
         if (!f.flowchart.id) {
             f.flowchart.id = IdGenerator.getId();
         }

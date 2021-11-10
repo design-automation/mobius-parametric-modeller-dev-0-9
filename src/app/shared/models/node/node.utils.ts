@@ -1,7 +1,7 @@
 import { INode } from './node.interface';
 import { ProcedureTypes, IProcedure } from '@models/procedure';
 import { InputType, PortUtils } from '@models/port';
-import * as circularJSON from 'circular-json';
+import * as Flatted from 'flatted';
 import { IdGenerator } from '@utils';
 import { ModuleList } from '@shared/functions';
 import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
@@ -652,7 +652,7 @@ export abstract class NodeUtils {
         if (NodeUtils.checkInvalid(ProcedureTypes[prod.type], node)) {
             return false;
         }
-        const newProd = NodeUtils.updateID(circularJSON.parse(circularJSON.stringify(prod)));
+        const newProd = NodeUtils.updateID(Flatted.parse(Flatted.stringify(prod)));
         if (prod.type === ProcedureTypes.LocalFuncDef) {
             for (const existingFunc of node.localFunc) {
                 if (existingFunc.type !== ProcedureTypes.LocalFuncDef) { continue; }

@@ -12,8 +12,6 @@ import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
-// app directives
-import { MbFileReaderDirective } from './directives/filesys';
 // app components
 import { ExecuteComponent } from './components/execute/execute.component';
 import { PageNotFoundComponent } from './components/not-found/not-found.component';
@@ -42,7 +40,6 @@ import { WindowMessageComponent } from './components/window-message/window-messa
 @NgModule({
     providers: [ ],
     declarations: [
-            MbFileReaderDirective,
             AutogrowDirective,
             ExecuteComponent,
             PageNotFoundComponent,
@@ -75,7 +72,6 @@ import { WindowMessageComponent } from './components/window-message/window-messa
             MatSliderModule,
             DataViewersContainer,
             AngularSplitModule,
-            MbFileReaderDirective,
             AutogrowDirective,
             ExecuteComponent,
             PageNotFoundComponent,

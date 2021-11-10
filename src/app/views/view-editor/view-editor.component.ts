@@ -4,7 +4,7 @@ import { NodeUtils, INode } from '@models/node';
 import { ProcedureTypes, IFunction, IProcedure } from '@models/procedure';
 import { DataService, KeyboardService } from '@services';
 import { Router } from '@angular/router';
-import * as circularJSON from 'circular-json';
+import * as Flatted from 'flatted';
 import { LoadUrlComponent } from '@shared/components/file/loadurl.component';
 import { checkNodeValidity } from '@shared/parser';
 import { DataOutputService } from '@shared/services/dataOutput.service';
@@ -287,7 +287,7 @@ export class ViewEditorComponent implements AfterViewInit, OnDestroy {
         const copiedProds = [];
         NodeUtils.rearrangeProcedures(copiedProds, temp, node.localFunc.concat(node.procedure));
         SaveFileComponent.clearResolvedValue(copiedProds, true);
-        localStorage.setItem('mobius_copied_procedures', circularJSON.stringify(copiedProds));
+        localStorage.setItem('mobius_copied_procedures', Flatted.stringify(copiedProds));
         this.dataService.notifyMessage(`Copied ${copiedProds.length} Procedures`);
     }
 
@@ -366,7 +366,7 @@ export class ViewEditorComponent implements AfterViewInit, OnDestroy {
                 }
             }
         }
-        localStorage.setItem('mobius_copied_procedures', circularJSON.stringify(copiedProds));
+        localStorage.setItem('mobius_copied_procedures', Flatted.stringify(copiedProds));
         this.dataService.registerEdtAction(redoActions);
         checkNodeValidity(this.dataService.node);
 
@@ -397,7 +397,7 @@ export class ViewEditorComponent implements AfterViewInit, OnDestroy {
                 return;
             }
             const pastingPlace = node.state.procedure[node.state.procedure.length - 1];
-            const toBePasted = circularJSON.parse(copiedProds);
+            const toBePasted = Flatted.parse(copiedProds);
             const redoActions = [];
             let notified = false;
             if (pastingPlace === undefined) {

@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { IMobius } from '@models/mobius';
 import { Observable } from 'rxjs';
-import * as circularJSON from 'circular-json';
 import { DataService } from '@services';
 import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
 import { checkNodeValidity } from '@shared/parser';
-import { IdGenerator, updateLocalViewerSettings, updateGeoViewerSettings, updateAframeViewerSettings } from '@utils';
+import { IdGenerator, updateLocalViewerSettings, updateGeoViewerSettings, updateAframeViewerSettings, parseMobFile } from '@utils';
 import { checkMobFile } from '@shared/updateOldMobFile';
 import { SaveFileComponent } from './savefile.component';
 
@@ -53,12 +52,10 @@ export class LoadFileComponent {
             const reader = new FileReader();
             reader.onloadend = () => {
                 // if (typeof reader.result === 'string') {}
-                let f: any;
-                try {
-                    f = circularJSON.parse(<string>reader.result);
-                } catch (ex) {
+                const f = parseMobFile(<string>reader.result);
+                if (!f) {
                     this.dataService.notifyMessage(`ERROR: Unable to read file...`);
-                    throw(ex);
+                    throw new Error('ERROR: Unable to read file...');
                 }
                 if (!f.flowchart.id) {
                     f.flowchart.id = IdGenerator.getId();

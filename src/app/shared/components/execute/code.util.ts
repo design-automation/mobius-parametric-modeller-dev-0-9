@@ -635,21 +635,6 @@ export class CodeUtils {
             //     resolve(body.replace(/(\\[bfnrtv\'\"\\])/g, '\\$1'));
             });
 
-            // const request = new XMLHttpRequest();
-            // request.open('GET', url);
-            // request.onreadystatechange =  () => {
-            //     setTimeout(() => {
-            //         resolve('HTTP Request Error: request file timeout from url ' + url);
-            //     }, 5000);
-            // };
-            // // request.overrideMimeType('text/plain; charset=x-user-defined');
-            // request.onload = () => {
-            //     resolve(request.responseText.replace(/(\\[bfnrtv\'\"\\])/g, '\\$1'));
-            // };
-            // request.onerror = () => {
-            //     resolve('HTTP Request Error: unable to retrieve file from url ' + url);
-            // };
-            // request.send();
         });
         return await p;
     }
@@ -696,39 +681,6 @@ export class CodeUtils {
         return result;
     }
 
-    // static loadFile(f) {
-    //     const stream = Observable.create(observer => {
-    //       const request = new XMLHttpRequest();
-
-    //       request.open('GET', f.download_url);
-    //       request.onload = () => {
-    //           if (request.status === 200) {
-    //               const fl = circularJSON.parse(request.responseText);
-    //               observer.next(fl);
-    //               observer.complete();
-    //           } else {
-    //               observer.error('File Retrieval Error');
-    //           }
-    //       };
-
-    //       request.onerror = () => {
-    //       observer.error('File Retrieval Error');
-    //       };
-    //       request.send();
-    //     });
-
-    //     stream.subscribe(loadeddata => {
-    //       return loadeddata;
-    //     });
-    // }
-
-    // static mergeInputs(models): any {
-    //     const result = _parameterTypes.newFn();
-    //     for (const model of models) {
-    //         _parameterTypes.mergeFn(result, model);
-    //     }
-    //     return result;
-    // }
     static mergeInputs(models): any {
         let result = null;
         if (models.length === 0) {
@@ -745,30 +697,6 @@ export class CodeUtils {
     }
 
 
-
-    // static getInputValue(inp: IPortInput, node: INode, nodeIndices: {}): string {
-    //     let input: any;
-    //     // const x = performance.now();
-    //     if (node.type === 'start' || inp.edges.length === 0) {
-    //         input = _parameterTypes['newFn']();
-    //     // } else if (inp.edges.length === 1 && inp.edges[0].source.parentNode.enabled) {
-    //     //     input = inp.edges[0].source.value.clone();
-    //     //     console.log('clone time:', performance.now() - x);
-    //     } else {
-    //         let inputs = [];
-    //         for (const edge of inp.edges) {
-    //             if (!edge.source.parentNode.enabled) {
-    //                 continue;
-    //             }
-    //             inputs.push([nodeIndices[edge.source.parentNode.id], edge.source.value]);
-    //         }
-    //         inputs = inputs.sort((a, b) => a[0] - b[0]);
-    //         const mergeModels = inputs.map(i => i[1])
-    //         input = CodeUtils.mergeInputs(mergeModels);
-    //         // console.log('merge time:', performance.now() - x);
-    //     }
-    //     return input;
-    // }
 
     static getInputValue(inp: IPortInput, node: INode, nodeIndices: {}): number[] {
         const input = [];
@@ -870,19 +798,6 @@ export class CodeUtils {
                             `if (__debug__) { printFunc(__params__.console, 'Executing: ${node.name.replace(/\\/g, '').replace(/\n/g, ' ')}', '__null__') }\n` +
                             nodecode[1] + `\n}\n\n`;
 
-                // const activeNodes = [];
-                // for (const nodeEdge of node.input.edges) {
-                //     if (!nodeEdge.source.parentNode.enabled) {
-                //         continue;
-                //     }
-                //     activeNodes.push(`ssid_${func.name}_${nodeEdge.source.parentNode.id}`);
-                // }
-                // fnCode += `\nlet ssid_${nodeFuncName} = __params__.model.nextSnapshot([${activeNodes.join(',')}]);\n`;
-                // // if (activeNodes.length !== 1) {
-                // //     fnCode += `\nlet ssid_${nodeFuncName} = __params__.model.nextSnapshot([${activeNodes.join(',')}]);\n`;
-                // // } else {
-                // //     fnCode += `\nlet ssid_${nodeFuncName} = ${activeNodes[0]};\n`;
-                // // }
 
                 if (node.type !== 'end' && node.input.edges.length === 1 && node.input.edges[0].source.parentNode.output.edges.length === 1) {
                     fnCode += `\nlet ssid_${nodeFuncName} = ssid_${func.name}_${node.input.edges[0].source.parentNode.id};\n`;

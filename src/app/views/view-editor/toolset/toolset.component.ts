@@ -2,7 +2,6 @@ import { Component, Output, EventEmitter, Input, OnInit, ViewEncapsulation, OnDe
 
 import { ProcedureTypes, IFunction, IProcedure } from '@models/procedure';
 import { IFlowchart } from '@models/flowchart';
-import * as CircularJSON from 'circular-json';
 import { IArgument } from '@models/code';
 import { ModuleList, ModuleDocList, primary_func } from '@shared/functions';
 import { INode, NodeUtils } from '@models/node';
@@ -10,7 +9,7 @@ import { INode, NodeUtils } from '@models/node';
 import { DownloadUtils } from '@shared/components/file/download.utils';
 import { DataService } from '@services';
 import { InputType } from '@models/port';
-import { IdGenerator } from '@utils';
+import { IdGenerator, parseMobFile } from '@utils';
 import { SaveFileComponent } from '@shared/components/file';
 import { Funcs } from '@design-automation/mobius-sim-funcs';
 import JSZip from 'jszip';
@@ -245,8 +244,12 @@ export class ToolsetComponent implements OnInit {
     async import_global_func(event) {
         function prep_global_file(fileString) {
             // parse the flowchart
-            const fl = CircularJSON.parse(fileString).flowchart;
-
+            const f = parseMobFile(fileString);
+            if (!f) {
+                this.dataService.notifyMessage(`ERROR: Unable to import file as global function...`);
+                throw new Error('ERROR: Unable to import file as global function...');
+            }
+            const fl = f.flowchart;
             // create function and documentation of the function
             const funcs = {'main': null, 'sub': []};
             let funcName = fl.name.replace(/[^A-Za-z0-9_]/g, '_');

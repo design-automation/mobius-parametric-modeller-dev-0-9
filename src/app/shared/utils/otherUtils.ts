@@ -1,3 +1,6 @@
+import * as Flatted from 'flatted';
+import * as CircularJSON from 'circular-json';
+
 export function updateLocalViewerSettings(settings: any): boolean {
     if (!settings) { return false; }
     let settings_string;
@@ -95,3 +98,15 @@ export function processDownloadURL(inpURL) {
     }
     return url;
 }
+
+export function parseMobFile(fileString: string) {
+    try {
+        return Flatted.parse(fileString);
+    } catch (ex) {
+        try {
+            return CircularJSON.parse(fileString);
+        } catch (ex) {
+            return null;
+        }
+    }
+};
