@@ -247,8 +247,8 @@ export class LoadUrlComponent {
     async loadTempFile() {
         let f = await SaveFileComponent.loadFromFileSystem('___TEMP___.mob');
         // let f: any = localStorage.getItem('temp_file');
-        if (!f || f === 'error') { return; }
-        f = Flatted.parse(f);
+        if (!f || f === 'error') { return; }    
+        f = parseMobFile(f);
         if (!f.flowchart.id) {
             f.flowchart.id = IdGenerator.getId();
         }
