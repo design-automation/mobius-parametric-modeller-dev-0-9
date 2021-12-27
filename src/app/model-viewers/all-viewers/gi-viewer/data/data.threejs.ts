@@ -1,10 +1,11 @@
 import * as THREE from 'three';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 import { DataService } from '@services';
 import { ISettings } from './data.threejsSettings';
 
 import { DataThreejsLookAt } from './data.threejsLookAt';
-import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper';
 import { Model, GICommon} from '@design-automation/mobius-sim-funcs';
 
@@ -15,7 +16,7 @@ enum MaterialType {
     MeshPhongMaterial = 'MeshPhongMaterial',
     MeshPhysicalMaterial = 'MeshPhysicalMaterial'
 }
-const textFontLoader = new THREE.FontLoader();
+const textFontLoader = new FontLoader();
 
 /**
  * ThreejsScene Add
@@ -697,7 +698,7 @@ export class DataThreejs extends DataThreejsLookAt {
             pgonTextShapes.push(geom);
         }
         if (pgonTextShapes.length === 0) { return; }
-        const pgonMergedGeom = BufferGeometryUtils.mergeBufferGeometries(pgonTextShapes);
+        const pgonMergedGeom = mergeBufferGeometries(pgonTextShapes);
         const pgonText = new THREE.Mesh(pgonMergedGeom , new THREE.MeshBasicMaterial( {
             transparent: false,
             side: THREE.DoubleSide,

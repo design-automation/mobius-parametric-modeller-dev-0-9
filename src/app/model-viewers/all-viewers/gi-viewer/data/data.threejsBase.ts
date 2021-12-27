@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-// import * as OrbitControls from 'three-orbit-controls';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import { Model } from '@design-automation/mobius-sim-funcs';
@@ -116,15 +115,6 @@ export class DataThreejsBase {
             this.settings.directional_light.type = 'directional';
             localStorage.setItem('mpm_settings', JSON.stringify(this.settings));
         }
-        // const textFontLoader = new THREE.FontLoader();
-        // for (const fontType of FONT_TYPES) {
-        //     for (const fontSize of FONT_SIZES) {
-        //         for (const fontStyle of FONT_STYLES) {
-        //             const fontCode = `${fontType}_${fontSize}_${fontStyle}`;
-        //             textFontLoader.load( `assets/fonts/${fontCode}.json`, font => { this._text_font[fontCode] = font; });
-        //         }
-        //     }
-        // }
 
         // scene
         this.scene = new THREE.Scene();
