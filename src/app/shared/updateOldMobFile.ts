@@ -1,13 +1,14 @@
-import { ProcedureTypes } from '@models/procedure';
-import { ModuleList, primary_func } from './functions';
-// import * as deprecated from '@assets/core/deprecated.json';
-
-import * as Flatted from 'flatted';
+import { Funcs } from '@design-automation/mobius-sim-funcs';
 import { VERSION } from '@env/version';
 import { IMobius } from '@models/mobius';
 import { INode } from '@models/node';
 import { InputType } from '@models/port';
-import { Funcs as funcs, _parameterTypes } from '@design-automation/mobius-sim-funcs';
+import { ProcedureTypes } from '@models/procedure';
+import * as Flatted from 'flatted';
+
+import { ModuleList, primary_func } from './functions';
+
+// import * as deprecated from '@assets/core/deprecated.json';
 
 const deprecated = {default: []}
 
@@ -148,13 +149,23 @@ function updateNode(flowchart) {
 
 function checkMissingProd(prodList: any[], fileVersion: string, node: INode) {
     let check = true;
+    const funcs = new Funcs();
     for (const prod of prodList) {
-
         // check the children procedures if the procedure has any
         if (prod.children) {
             if (!checkMissingProd(prod.children, fileVersion, node)) {
                 check = false;
             }
+        }
+
+        let i = 0;
+        while (i < prod.args.length) {
+            if (prod.args[i].name === '__model__') {
+                prod.args.splice(i, 1);
+                prod.argCount -= 1;
+                continue;
+            }
+            i++;
         }
 
         prod.hasError = false;

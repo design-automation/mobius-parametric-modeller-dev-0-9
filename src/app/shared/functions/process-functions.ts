@@ -1,13 +1,10 @@
-import { Injectable } from '@angular/core';
-
-import { IModule, IFunction } from '@models/procedure';
-import { IArgument } from '@models/code';
 import doc from '@assets/typedoc-json/doc.json';
-// const doc = require('@assets/typedoc-json/doc.json');
+import { _parameterTypes, Funcs } from '@design-automation/mobius-sim-funcs';
+import { IArgument } from '@models/code';
+import { IFunction } from '@models/procedure';
 import * as showdown from 'showdown';
 
-import { Funcs } from '@design-automation/mobius-sim-funcs';
-
+// const doc = require('@assets/typedoc-json/doc.json');
 const mdConverter = new showdown.Converter({literalMidWordUnderscores: true});
 const module_list = {};
 const extraMods = [ 'variable', 'comment', 'expression',
@@ -20,7 +17,6 @@ const asyncFuncList = ['io.Read', 'io.Write', 'io.Import', 'io.Export', 'io._get
 // todo: bug fix for defaults
 function extract_params(func: Function): [IArgument[], boolean] {
     const fnStr = func.toString().replace( /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg, '');
-
     let result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).split(','); // .match( /([^\s,]+)/g);
     if (result === null || result[0] === '') {
          result = [];
@@ -42,23 +38,23 @@ function extract_params(func: Function): [IArgument[], boolean] {
     }
     return [final_result, hasReturn];
 }
+const mobiusFuncs = new Funcs()
+const moduleNames = Object.getOwnPropertyNames(mobiusFuncs)
+for ( const m_name of moduleNames ) {
+    // if (!Funcs[m_name] || (typeof Funcs[m_name] !== 'object')) { continue; }
+    if (m_name === '__model__' || m_name.endsWith('Model')) { continue; }
+    const modObj = {'__enum__': mobiusFuncs[m_name].__enum__};
+    const funcNames = Object.getOwnPropertyNames(Object.getPrototypeOf(mobiusFuncs[m_name]))
+    for ( const fn_name of funcNames) {
+        if (fn_name === 'constructor') { continue; }
 
-for ( const m_name in Funcs ) {
-    if (!Funcs[m_name] || (typeof Funcs[m_name] !== 'object')) { continue; }
-    if (m_name[0] === '_parameterTypes') { continue; }
-
-    const modObj = {};
-
-    for ( const fn_name of Object.keys(Funcs[m_name])) {
-        // if (fn_name[0] === '_') { continue; }
-
-        const func = Funcs[m_name][fn_name];
+        const func = mobiusFuncs[m_name][fn_name];
 
         const fnObj = <IFunction>{};
         fnObj.module = m_name;
         fnObj.name = fn_name;
         if (asyncFuncList.indexOf(`${m_name}.${fn_name}`) !== -1) {
-            const paramFunc = Funcs[m_name]['_Async_Param_' + fn_name]
+            const paramFunc = mobiusFuncs[m_name]['_Async_Param_' + fn_name]
             fnObj.argCount = paramFunc.length;
             const args = extract_params(paramFunc);
             fnObj.args = args[0];
@@ -74,8 +70,6 @@ for ( const m_name in Funcs ) {
     }
     module_list[m_name] = modObj;
 }
-
-
 function analyzeParamType(fn, paramType) {
     if (paramType.type === 'array') {
         return `${analyzeParamType(fn, paramType.elementType)}[]`;
@@ -136,14 +130,13 @@ function addDoc(mod, modName, docs) {
         if (func['signatures'][0].parameters) {
             for (const param of func['signatures'][0].parameters) {
                 let namecheck = true;
-                for (const systemVarName in Funcs._parameterTypes) {
-                    if (param.name === Funcs._parameterTypes[systemVarName]) {
+                for (const systemVarName in _parameterTypes) {
+                    if (param.name === _parameterTypes[systemVarName]) {
                         namecheck = false;
                         break;
                     }
                 }
                 if (!namecheck) {
-                    fn['parameters'].push(undefined);
                     continue;
                 }
                 const pr = {};
@@ -207,16 +200,21 @@ const inlineDocs = {};
 // const functionDocs = {};
 for (const mod of doc.children) {
     let modName: any = mod.sources[0].fileName.replace(/"/g, '').replace(/'/g, '').split('/');
-    if (modName[0] === 'inline') {
-        modName = modName[modName.length - 1];
-        addDoc(mod, mod.name, inlineDocs);
-    } else if (modName[0] === 'modules') {
-        modName = modName[modName.length - 1];
-        if (modName === 'index' || modName === 'categorization') {
-            continue;
-        }
-        addDoc(mod, mod.name, moduleDocs);
+    // if (modName[0] === 'inline') {
+    //     modName = modName[modName.length - 1];
+    //     addDoc(mod, mod.name, inlineDocs);
+    // } else if (modName[0] === 'modules') {
+    //     modName = modName[modName.length - 1];
+    //     if (modName === 'index' || modName === 'categorization') {
+    //         continue;
+    //     }
+    //     addDoc(mod, mod.name, moduleDocs);
+    // }
+    modName = modName[modName.length - 1];
+    if (modName === 'index' || modName === 'categorization') {
+        continue;
     }
+    addDoc(mod, mod.name, moduleDocs);
 }
 for (const i of extraMods) {
     // addModFuncDoc(functionDocs, `assets/typedoc-json/${extraModPaths[i]}.md`, i);

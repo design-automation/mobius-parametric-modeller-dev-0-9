@@ -6,7 +6,7 @@ import { IdGenerator } from '@utils';
 import { IArgument } from '@models/code';
 import { DownloadUtils } from './download.utils';
 // import {js as beautify} from 'js-beautify';
-import { mergeInputsFunc, printFuncString, pythonListFunc, ExecuteComponent } from '../execute/execute.component';
+import { printFuncString, pythonListFunc, ExecuteComponent } from '../execute/execute.component';
 import { InputType } from '@models/port';
 import { CodeUtils } from '@shared/components/execute/code.util';
 import { inlineVarString } from '@shared/functions';
@@ -149,7 +149,6 @@ export class SaveJavascriptComponent {
             '\nvar ' + inlineVarString.split(';\n').join(';\nvar ') + `\n\n` +
             fnString +
             pythonListFunc +
-            mergeInputsFunc +
             printFuncString +
             `\n\nconst __params__ = {};\n` +
             `__params__["model"] = __modules__._model.__new__();\n` +

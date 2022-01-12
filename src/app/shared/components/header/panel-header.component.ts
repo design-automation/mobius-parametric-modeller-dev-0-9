@@ -82,6 +82,10 @@ export class PanelHeaderComponent implements OnDestroy {
         if (this.settings['execute'] === undefined) { this.settings['execute'] = true; }
         if (this.settings['autosave'] === undefined) { this.settings['autosave'] = true; }
         if (this.settings['debug'] === undefined) { this.settings['debug'] = true; }
+
+        const funcs = new Funcs();
+        this.func_categories = Object.getOwnPropertyNames(funcs).filter(cat => cat[0] !== '_');
+
         for (const cat in this.func_categories) {
             if (!this.func_categories[cat] || this.settings.hasOwnProperty('_func_' + this.func_categories[cat])) { continue; }
             this.settings['_func_' + this.func_categories[cat]] = true;

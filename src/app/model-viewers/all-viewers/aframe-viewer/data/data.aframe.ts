@@ -46,6 +46,7 @@ export class DataAframe {
     };
 
     private _currentPos = null;
+    private _Funcs;
 
 
     // test file: https://raw.githubusercontent.com/design-automation/mobius-vr/master/assets/Street%20View%20360_1.jpg
@@ -58,6 +59,7 @@ export class DataAframe {
             this.vr.foreground_url = this.settings.vr.foreground_url;
             this.vr.foreground_rotation = this.settings.vr.foreground_rotation;
         }
+        this._Funcs = new Funcs();
     }
 
     onChanges(changes, threejsScene) {
@@ -180,8 +182,9 @@ export class DataAframe {
         const threeJSGroup = new AFRAME.THREE.Group();
         this.navMeshEnabled = false;
         try {
-            const allPgons = <string[]> Funcs.query.Get(this.model, Funcs.query._EEntType.PGON, null) ;
-            const attrib = <any> Funcs.attrib.Get(this.model, allPgons, 'vr_nav_mesh');
+            this._Funcs._setModel(this.model);
+            const allPgons = this._Funcs.query.Get('pg', null) ;
+            const attrib = <any> this._Funcs.attrib.Get(allPgons, 'vr_nav_mesh');
             if (attrib && attrib.length !== 0) {
                 this.navMeshEnabled = true;
             }
@@ -437,9 +440,10 @@ export class DataAframe {
 
     updateCamPos() {
         try {
-            const pts = <string[]> Funcs.query.Get(this.model, Funcs.query._EEntType.POINT, null);
-            const pos = Funcs.attrib.Get(this.model, Funcs.query.Get(this.model, Funcs.query._EEntType.POSI, pts), 'xyz');
-            const ptAttribs = Funcs.attrib.Get(this.model, pts, 'vr_hotspot');
+            this._Funcs._setModel(this.model);
+            const pts = <string[]> this._Funcs.query.Get('pt', null);
+            const pos = this._Funcs.attrib.Get(this._Funcs.query.Get('ps', pts), 'xyz');
+            const ptAttribs = this._Funcs.attrib.Get(pts, 'vr_hotspot');
             this.camPosList = [
                 {
                 name: 'Default',

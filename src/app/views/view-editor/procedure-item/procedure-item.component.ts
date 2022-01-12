@@ -1,13 +1,10 @@
-import { Component, Input, Output,  EventEmitter, OnDestroy} from '@angular/core';
-
-import { IProcedure, ProcedureTypes } from '@models/procedure';
-import { ModuleDocList } from '@shared/functions';
-
-import { DataService } from '@services';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Funcs } from '@design-automation/mobius-sim-funcs';
 import { IArgument } from '@models/code';
-
-import { modifyArgument, checkNodeValidity, modifyLocalFuncVar} from '@shared/parser';
-import { Funcs, _parameterTypes } from '@design-automation/mobius-sim-funcs';
+import { IProcedure, ProcedureTypes } from '@models/procedure';
+import { DataService } from '@services';
+import { ModuleDocList } from '@shared/functions';
+import { checkNodeValidity, modifyArgument, modifyLocalFuncVar } from '@shared/parser';
 
 
 const REGEXP = /^(container--item|container--line|line--item|input--var|input--arg|module-name|function-text|global-function-text|basic-function-text)/i;
@@ -27,6 +24,7 @@ export class ProcedureItemComponent implements OnDestroy {
     private keys = Object.keys(ProcedureTypes);
     private ctx = document.createElement('canvas').getContext('2d');
     private ctxB = document.createElement('canvas').getContext('2d');
+    private funcList: Funcs;
 
     ProcedureTypesArr = this.keys.slice(this.keys.length / 2);
     ModuleDoc = ModuleDocList;
@@ -34,6 +32,7 @@ export class ProcedureItemComponent implements OnDestroy {
     constructor(private dataService: DataService) {
         this.ctx.font = '400 12px Inconsolata';
         this.ctxB.font = '700 12px Inconsolata';
+        this.funcList = new Funcs();
     }
 
     ngOnDestroy() {
@@ -486,12 +485,12 @@ export class ProcedureItemComponent implements OnDestroy {
 
     checkEnum(param, index: number): boolean {
         try {
-            if (param.name[0] === '_') {
+            if (param.name[0] === '_' ||  !this.funcList[this.data.meta.module].__enum__) {
                 return false;
             }
             // @ts-ignore
             const arg = this.ModuleDoc[this.data.meta.module][this.data.meta.name].parameters[index];
-            if (arg.description.toLowerCase().indexOf('enum') === -1 || !Funcs[this.data.meta.module][arg.type]) {
+            if (arg.description.toLowerCase().indexOf('enum') === -1 || !this.funcList[this.data.meta.module].__enum__[arg.type]) {
                 return false;
             }
             return true;
@@ -501,8 +500,8 @@ export class ProcedureItemComponent implements OnDestroy {
     }
 
     getEnum(index: number) {
-        // @ts-ignore
-        const enm = Funcs[this.data.meta.module][this.ModuleDoc[this.data.meta.module][this.data.meta.name].parameters[index].type];
+        const argType = this.ModuleDoc[this.data.meta.module][this.data.meta.name].parameters[index].type;
+        const enm = this.funcList[this.data.meta.module].__enum__[argType];
         const enumList = [];
         for (const i in enm) {
             if (! enm.hasOwnProperty(i)) {

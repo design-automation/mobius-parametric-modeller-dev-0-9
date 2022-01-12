@@ -1,18 +1,17 @@
 import { Component, isDevMode } from '@angular/core';
+import { Router } from '@angular/router';
+import * as Inlines from '@design-automation/mobius-inline-funcs';
+import { _parameterTypes, GICommon } from '@design-automation/mobius-sim-funcs';
 import { FlowchartUtils } from '@models/flowchart';
-import { CodeUtils } from './code.util';
 import { INode } from '@models/node';
 import { IProcedure, ProcedureTypes } from '@models/procedure';
-
 import { DataService } from '@services';
-import { Router } from '@angular/router';
-import { DataOutputService } from '@shared/services/dataOutput.service';
 import { SaveFileComponent } from '@shared/components/file';
-import JSZip from 'jszip';
 import { WindowMessageComponent } from '@shared/components/window-message/window-message.component';
-import { GICommon } from '@design-automation/mobius-sim-funcs';
-import { Funcs, _parameterTypes } from '@design-automation/mobius-sim-funcs';
-import * as Inlines from '@design-automation/mobius-inline-funcs';
+import { DataOutputService } from '@shared/services/dataOutput.service';
+import JSZip from 'jszip';
+
+import { CodeUtils } from './code.util';
 
 export const pythonListFunc = `
 function pythonList(x, l){
@@ -20,32 +19,6 @@ function pythonList(x, l){
         return x + l;
     }
     return x;
-}
-`;
-export const mergeInputsFunc = `
-function mergeInputs(models){
-    let result = null;
-    if (models.length === 0) {
-        result = __modules__.${_parameterTypes.new}();
-    } else if (models.length === 1) {
-        result = models[0].clone();
-    } else {
-        result = models[0].clone();
-        for (let i = 1; i < models.length; i++) {
-            __modules__.${_parameterTypes.merge}(result, models[i]);
-        }
-    }
-    try {
-        result.debug = __debug__;
-    } catch (ex) {}
-    return result;
-}
-function duplicateModel(model){
-    const result = model.clone();
-    try {
-        result.debug = __debug__;
-    } catch (ex) {}
-    return result;
 }
 `;
 export const printFuncString = `
@@ -155,6 +128,7 @@ export class ExecuteComponent {
         this.terminated = null;
         this.dataService.timelineDefault = true;
         this.dataService.initiateExecuteModel();
+
         // this.dataService.flowchart.model = _parameterTypes.newFn();
         // this.dataService.flowchart.model.debug = this.dataService.mobiusSettings.debug;
 
@@ -207,7 +181,7 @@ export class ExecuteComponent {
                 // setTimeout for 20ms so that the loading screen has enough time to be loaded in
                 setTimeout(async () => {
                     await this.executeFlowchart();
-                    this.dataService.flowchart.model = this.dataService.executeModel;
+                    this.dataService.flowchart.model = this.dataService.executeModel._getModel();
                     this.dataService.finalizeLog();
                     this.dataService.log('<br>');
                     const hudData = this.dataService.flowchart.model.modeldata.attribs.getAttrib(GICommon.EEntType.MOD, 'hud') || null;
@@ -220,7 +194,7 @@ export class ExecuteComponent {
                 }, 20);
             }
         } catch (ex) {
-            this.dataService.flowchart.model = this.dataService.executeModel;
+            this.dataService.flowchart.model = this.dataService.executeModel._getModel();
             document.getElementById('spinner-off').click();
         }
     }
@@ -465,7 +439,7 @@ export class ExecuteComponent {
         // delete each node.output.value to save memory
         for (const node of this.dataService.flowchart.nodes) {
             if (node.type === 'end') {
-                if (node.procedure[node.procedure.length - 1].args[1].jsValue) {
+                if (node.procedure[node.procedure.length - 1].args[0].jsValue) {
                     continue;
                 } else {
                     delete node.output.value;
@@ -509,7 +483,7 @@ export class ExecuteComponent {
                 'Static Error: Invalid code detected. Check the highlighted lines of code!' +
                 '</h4>');
             document.getElementById('spinner-off').click();
-            this.dataService.flowchart.model = this.dataService.executeModel;
+            this.dataService.flowchart.model = this.dataService.executeModel._getModel();
             this.dataService.flagModifiedNode(this.dataService.flowchart.nodes[0].id);
             const _category = this.isDev ? 'dev' : 'execute';
             throw new Error('Reserved Word Argument');
@@ -567,7 +541,6 @@ export class ExecuteComponent {
 
             // add the merge input function and the print function
             fnString = `\nconst __debug__ = ${this.dataService.mobiusSettings.debug};` +
-                        '\n\n// ------ MERGE INPUTS FUNCTION ------' + mergeInputsFunc +
                         '\n\n// ------ PRINT FUNCTION ------' + printFuncString +
                         `\n\n// ------ FUNCTION FOR PYTHON STYLE LIST ------` + pythonListFunc +
                         '\n\n// ------ CONSTANTS ------\n' + fnString;
@@ -592,9 +565,8 @@ export class ExecuteComponent {
                 }
             }
 
-            params['model'] = this.dataService.executeModel;
 
-            snapshotID = params['model'].nextSnapshot(node.input.value);
+            snapshotID = this.dataService.executeModel._getModel().nextSnapshot(node.input.value);
             node.model = null;
 
             if (node.type !== 'start') {
@@ -612,6 +584,8 @@ export class ExecuteComponent {
                     this.dataService.log('<h4 style="padding: 2px 0px 2px 0px; color:black;">Bypass Node</h4>');
                     return globalVars;
                 }
+            } else {
+                params['constants'] = {};
             }
 
             // create the function with the string: new Function ([arg1[, arg2[, ...argN]],] functionBody)
@@ -620,9 +594,9 @@ export class ExecuteComponent {
             // *********************************************************
             // console.log(fnString.split('<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>')[1]);
 
-            const fn = new Function('__modules__', '__inline__', '__params__', fnString);
+            const fn = new Function('__modules__', '__inline__', fnString);
             // execute the function
-            const result = await fn(Funcs, Inlines, params)(Funcs, Inlines, params);
+            const result = await fn(this.dataService.executeModel, Inlines)(this.dataService.executeModel, Inlines, params);
             node.model = snapshotID;
             if (params['terminated']) {
                 this.terminated = node.name;
@@ -713,7 +687,7 @@ export class ExecuteComponent {
                 this.dataService.log('<h4 style="padding: 2px 0px 2px 0px; color:black;">Bypass Node</h4>');
                 return;
             }
-            this.dataService.flowchart.model = this.dataService.executeModel;
+            this.dataService.flowchart.model = this.dataService.executeModel._getModel();
             document.getElementById('spinner-off').click();
             const endTime = performance.now();
             const duration: number = Math.round(endTime - startTime);

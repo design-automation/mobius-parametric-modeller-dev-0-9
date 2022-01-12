@@ -1,17 +1,15 @@
-import { Component, Output, EventEmitter, Input, OnInit, ViewEncapsulation, OnDestroy} from '@angular/core';
-
-import { ProcedureTypes, IFunction, IProcedure } from '@models/procedure';
-import { IFlowchart } from '@models/flowchart';
-import { IArgument } from '@models/code';
-import { ModuleList, ModuleDocList, primary_func } from '@shared/functions';
-import { INode, NodeUtils } from '@models/node';
-
-import { DownloadUtils } from '@shared/components/file/download.utils';
-import { DataService } from '@services';
-import { InputType } from '@models/port';
-import { IdGenerator, parseMobFile } from '@utils';
-import { SaveFileComponent } from '@shared/components/file';
+import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { Funcs } from '@design-automation/mobius-sim-funcs';
+import { IArgument } from '@models/code';
+import { IFlowchart } from '@models/flowchart';
+import { NodeUtils } from '@models/node';
+import { InputType } from '@models/port';
+import { IFunction, ProcedureTypes } from '@models/procedure';
+import { DataService } from '@services';
+import { SaveFileComponent } from '@shared/components/file';
+import { DownloadUtils } from '@shared/components/file/download.utils';
+import { ModuleDocList, ModuleList, primary_func } from '@shared/functions';
+import { IdGenerator, parseMobFile } from '@utils';
 import JSZip from 'jszip';
 
 const keys = Object.keys(ProcedureTypes);
@@ -40,11 +38,13 @@ export class ToolsetComponent implements OnInit {
 
     AllModules = {};
     Funcs = [];
+    MobiusFuncs;
     ModuleDoc = ModuleDocList;
 
     private timeOut;
 
     constructor(private dataService: DataService) {
+        this.MobiusFuncs = new Funcs();
         this.dataService.toolsetUpdate$.subscribe(() => {
             this.Funcs = [];
             for (const cat in this.AllModules) {
@@ -89,7 +89,6 @@ export class ToolsetComponent implements OnInit {
             this.AllModules[nMod.module] = nMod;
             // this.Funcs.push(nMod);
         }
-
         for (const cat in this.AllModules) {
             if (!this.AllModules[cat] || !this.dataService.mobiusSettings['_func_' + cat]) { continue; }
             this.Funcs.push(this.AllModules[cat]);
@@ -122,8 +121,9 @@ export class ToolsetComponent implements OnInit {
             const argDoc = ModuleDocList[fnData.module][fnData.name].parameters[i];
             if (argDoc && argDoc.description ) {
                 const docText = argDoc.description.toLowerCase();
-                if (docText.indexOf('enum') !== -1) {
-                    const enm = Funcs[fnData.module][argDoc.type];
+
+                if (docText.indexOf('enum') !== -1 && this.MobiusFuncs[fnData.module].__enum__) {
+                    const enm = this.MobiusFuncs[fnData.module].__enum__[argDoc.type];
                     // tslint:disable-next-line:forin
                     for (const j in enm) {
                         newArgs.push({name: arg.name, value: `'${enm[j]}'`, jsValue: `'${enm[j]}'`});

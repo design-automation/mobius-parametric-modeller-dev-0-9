@@ -6,7 +6,7 @@ import { IProcedure, ProcedureTypes } from '@models/procedure';
 import { IEdge } from '@models/edge';
 import { Subject } from 'rxjs';
 import { VERSION } from '@env/version';
-import { Model, _parameterTypes } from '@design-automation/mobius-sim-funcs';
+import { Funcs, Model, _parameterTypes } from '@design-automation/mobius-sim-funcs';
 const DIALOGSLIST = ['publish', 'publish_url', 'backup', 'globalfunc',
                      'inlinefunc', 'savels', 'settings'];
 
@@ -26,7 +26,7 @@ export class DataService {
     private static _flowchartPosition: string = undefined;
     private static _newFlowchart = true;
 
-    private static _model: Model;
+    private static _model: Funcs;
 
     private static _modelOutputView = {};
     private static _testModel = false;
@@ -137,8 +137,8 @@ export class DataService {
 
     get executeModel() {return DataService._model; }
     initiateExecuteModel() {
-        DataService._model = _parameterTypes.newFn();
-        DataService._model.debug = DataService._mobiusSettings.debug;
+        DataService._model = new Funcs();
+        DataService._model._getModel().debug = DataService._mobiusSettings.debug;
     }
 
     get giViewerSettingsUpdated() {return DataService._giViewerSettingsUpdated; }

@@ -1,9 +1,9 @@
-import { IProcedure, ProcedureTypes } from '@models/procedure';
+import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
 import { IArgument } from '@models/code';
 import { INode } from '@models/node';
 import { InputType } from '@models/port';
+import { IProcedure, ProcedureTypes } from '@models/procedure';
 import { inline_func } from '@shared/functions';
-import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
 
 enum strType {
     NUM,
@@ -1105,19 +1105,19 @@ function analyzeQuery(comps: {'type': strType, 'value': string}[],
             if (bracketIndex !== -1) {
                 const arrayName = result.jsStr.substring(0, bracketIndex);
                 const index = result.jsStr.lastIndexOf(arrayName);
-                jsString = ` __modules__.${_parameterTypes.getattrib}(__params__.model, ${entity},` +
+                jsString = ` __modules__.${_parameterTypes.getattrib}(${entity},` +
                            ` ['${arrayName}', ${result.jsStr.substring(bracketIndex + 12, index - 2)}])`;
-                // jsString = ` __modules__.${_parameterTypes.getattrib}(__params__.model, ${entity},` +
+                // jsString = ` __modules__.${_parameterTypes.getattrib}(${entity},` +
                 //            ` '${arrayName}', ${result.jsStr.substring(bracketIndex + 12, index - 2)})`;
             } else if (result.jsStr.indexOf('[') !== -1) {
                 bracketIndex = result.jsStr.indexOf('[');
                 const arrayName = result.jsStr.substring(0, bracketIndex);
                 const index = result.jsStr.slice(bracketIndex + 1, -1);
-                jsString = ` __modules__.${_parameterTypes.getattrib}(__params__.model, ${entity}, ['${arrayName}', ${index}])`;
-                // jsString = ` __modules__.${_parameterTypes.getattrib}(__params__.model, ${entity}, '${arrayName}', ${index})`; //////////
+                jsString = ` __modules__.${_parameterTypes.getattrib}(${entity}, ['${arrayName}', ${index}])`;
+                // jsString = ` __modules__.${_parameterTypes.getattrib}(${entity}, '${arrayName}', ${index})`; //////////
             } else {
-                jsString = ` __modules__.${_parameterTypes.getattrib}(__params__.model, ${entity}, '${result.str}')`;
-                // jsString = ` __modules__.${_parameterTypes.getattrib}(__params__.model, ${entity}, '${result.str}', null)`; //////////
+                jsString = ` __modules__.${_parameterTypes.getattrib}(${entity}, '${result.str}')`;
+                // jsString = ` __modules__.${_parameterTypes.getattrib}(${entity}, '${result.str}', null)`; //////////
             }
             // return {'i': i, 'str': newString, 'jsStr': jsString};
 
@@ -1145,19 +1145,19 @@ function analyzeQuery(comps: {'type': strType, 'value': string}[],
             if (bracketIndex !== -1) {
                 const arrayName = result.jsStr.substring(0, bracketIndex);
                 const index = result.jsStr.lastIndexOf(arrayName);
-                jsString = ` __modules__.${_parameterTypes.queryGet}(__params__.model, '${arrayName}', ${entity})` +
+                jsString = ` __modules__.${_parameterTypes.queryGet}('${arrayName}', ${entity})` +
                            `[pythonList(${result.jsStr.substring(bracketIndex + 12, index - 2)}, ` +
-                           `__modules__.${_parameterTypes.queryGet}(__params__.model, '${arrayName}', ${entity}).length)]`;
+                           `__modules__.${_parameterTypes.queryGet}('${arrayName}', ${entity}).length)]`;
                 // const att_name = result.jsStr.slice(0, bracketIndex);
                 // const att_index = result.jsStr.slice(bracketIndex + 7, -4);
-                // jsString = ` __modules__.${_parameterTypes.queryGet}(__params__.model, '${att_name}', ${entity}).slice(${att_index})[0]`;
+                // jsString = ` __modules__.${_parameterTypes.queryGet}('${att_name}', ${entity}).slice(${att_index})[0]`;
             } else if (result.jsStr.indexOf('.slice(') !== -1) {
                 bracketIndex = result.jsStr.indexOf('.slice(');
                 const arrayName = result.jsStr.substring(0, bracketIndex);
-                jsString = ` __modules__.${_parameterTypes.queryGet}(__params__.model, '${arrayName}', ${entity})` +
+                jsString = ` __modules__.${_parameterTypes.queryGet}('${arrayName}', ${entity})` +
                            result.jsStr.substring(bracketIndex);
             } else {
-                jsString = ` __modules__.${_parameterTypes.queryGet}(__params__.model, '${result.str}', ${entity})`;
+                jsString = ` __modules__.${_parameterTypes.queryGet}('${result.str}', ${entity})`;
             }
 
 
@@ -1214,11 +1214,11 @@ function analyzeQuery(comps: {'type': strType, 'value': string}[],
             bracketIndex = nComp.jsStr.indexOf('[pythonList(');
             if (bracketIndex !== -1) {
                 newString += `?@${result.str}${operator}${nComp.str} `;
-                jsString = ` __modules__.${_parameterTypes.queryFilter}(__params__.model, ${entity}, ['${att_name}'` +
+                jsString = ` __modules__.${_parameterTypes.queryFilter}(${entity}, ['${att_name}'` +
                            `, ${att_index}], '${operator}', ${nComp.jsStr.slice(0, bracketIndex)})${nComp.jsStr.slice(bracketIndex)}`;
             } else {
                 newString += `?@${result.str}${operator}${nComp.str} `;
-                jsString = ` __modules__.${_parameterTypes.queryFilter}(__params__.model, ${entity}, ['${att_name}'` +
+                jsString = ` __modules__.${_parameterTypes.queryFilter}(${entity}, ['${att_name}'` +
                            `, ${att_index}], '${operator}', ${nComp.jsStr})`;
             }
 
@@ -1639,7 +1639,7 @@ function checkProdListValidity(prodList: IProcedure[], nodeProdList: IProcedure[
                 }
                 break;
             case ProcedureTypes.EndReturn:
-                modifyArgument(prod, 1, nodeProdList);
+                modifyArgument(prod, 0, nodeProdList);
                 break;
             case ProcedureTypes.LocalFuncDef:
                 modifyLocalFuncVar(prod, nodeProdList);
