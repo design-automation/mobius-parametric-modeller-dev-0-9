@@ -539,8 +539,7 @@ export class ExecuteComponent {
             fnString = globalVars + '\n\n// <<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>\n\n' + fnString;
 
             // add the merge input function and the print function
-            fnString = `\nconst __debug__ = ${this.dataService.mobiusSettings.debug};` +
-                        '\n\n// ------ PRINT FUNCTION ------' + printFuncString +
+            fnString =  '\n\n// ------ PRINT FUNCTION ------' + printFuncString +
                         `\n\n// ------ FUNCTION FOR PYTHON STYLE LIST ------` + pythonListFunc +
                         '\n\n// ------ CONSTANTS ------\n' + fnString;
 
@@ -592,7 +591,7 @@ export class ExecuteComponent {
             // #########################################################
             // *********************************************************
             // console.log(fnString.split('<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>')[1]);
-            // console.log(fnString);
+            console.log(fnString);
 
             const fn = new Function('mfn', 'ifn', '$p', fnString);
             // execute the function

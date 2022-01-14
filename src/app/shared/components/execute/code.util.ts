@@ -801,7 +801,7 @@ export class CodeUtils {
                 const nodecode = codeRes[0].join('\n').split('_-_-_+_-_-_');
                 fullCode += `${nodecode[0]}\nasync function ${nodeFuncName}` +
                             `($p${func.args.map(arg => ', ' + arg.name + '_').join('')}){\n` +
-                            `if (__debug__) { printFunc($p.console, 'Executing: ${node.name.replace(/\\/g, '').replace(/\n/g, ' ')}', '__null__') }\n` +
+                            `if (mfn._getModel().debug) { printFunc($p.console, 'Executing: ${node.name.replace(/\\/g, '').replace(/\n/g, ' ')}', '__null__') }\n` +
                             nodecode[1] + `\n}\n\n`;
 
 

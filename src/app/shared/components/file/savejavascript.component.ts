@@ -1,16 +1,16 @@
-import { Component} from '@angular/core';
-import { IFlowchart } from '@models/flowchart';
-import { DataService } from '@services';
-import { ProcedureTypes, IFunction } from '@models/procedure';
-import { IdGenerator } from '@utils';
+import { Component } from '@angular/core';
 import { IArgument } from '@models/code';
-import { DownloadUtils } from './download.utils';
-// import {js as beautify} from 'js-beautify';
-import { printFuncString, pythonListFunc, ExecuteComponent } from '../execute/execute.component';
+import { IFlowchart } from '@models/flowchart';
 import { InputType } from '@models/port';
+import { IFunction, ProcedureTypes } from '@models/procedure';
+import { DataService } from '@services';
 import { CodeUtils } from '@shared/components/execute/code.util';
-import { inlineVarString } from '@shared/functions';
+import { IdGenerator } from '@utils';
 
+import { printFuncString, pythonListFunc } from '../execute/execute.component';
+import { DownloadUtils } from './download.utils';
+
+// import {js as beautify} from 'js-beautify';
 @Component({
   selector: 'javascript-save',
   template:  `<button id='savejavascript' class='btn' (click)='download()'>Save</button>`,
@@ -72,6 +72,16 @@ export class SaveJavascriptComponent {
                 value: prod.args[prod.argCount - 1].value,
                 type: prod.meta.inputMode,
             };
+            if (typeof arg.value === 'string') {
+                let val = arg.value;
+                if (val.startsWith('"') || val.startsWith('\'') || val.startsWith('`')) {
+                    val = val.slice(1);
+                }
+                if (val.endsWith('"') || val.endsWith('\'') || val.endsWith('`')) {
+                    val = val.slice(0, -1);
+                }
+                arg.value = val;
+            }
             func.args.push(arg);
             if (prod.meta.inputMode === InputType.Slider) {
                 arg.min = prod.args[1].min;
@@ -84,7 +94,7 @@ export class SaveJavascriptComponent {
 
         const end = fl.nodes[fl.nodes.length - 1];
         const returnProd = end.procedure[end.procedure.length - 1];
-        if (returnProd.args[1].value) {
+        if (returnProd.args[0].value) {
             func.hasReturn = true;
         } else {
             func.hasReturn = false;
@@ -140,34 +150,30 @@ export class SaveJavascriptComponent {
             ` *   _ result.result -> returned output of the flowchart, if the flowchart does not return any value,` +
             ` result.result is the model of the flowchart\n */\n\n` +
             argString +  '\n\n' +
-            `const __modules__ = require('@design-automation/mobius-sim-funcs').Funcs;\n` +
-            `const __inline__ = require('@design-automation/mobius-inline-funcs');\n\n` +
+            `const mfn = require('@design-automation/mobius-sim-funcs').Funcs();\n` +
+            `const ifn = require('@design-automation/mobius-inline-funcs').InlineClass(${this.dataService.mobiusSettings.debug});\n\n` +
             `async function ${funcName}(` + func.args.map(arg => arg.name).join(',') + `) {\n\n` +
-            `var __debug__ = ${this.dataService.mobiusSettings.debug};\n` +
-            `var __model__ = null;\n` +
-            '/** * **/' +
-            '\nvar ' + inlineVarString.split(';\n').join(';\nvar ') + `\n\n` +
+            `var __model__ = null;\n\n` +
+            '/** * **/\n\n' +
             fnString +
             pythonListFunc +
             printFuncString +
-            `\n\nconst __params__ = {};\n` +
-            `__params__["model"] = __modules__._model.__new__();\n` +
+            `\n\nconst $p = {};\n` +
             `if (__model__) {\n` +
-            `__modules__.io._importGI(__params__["model"], __model__);\n` +
+            `mfn.io._importGI(__model__);\n` +
             `}\n` +
-            `__params__["model"].debug = __debug__;\n` +
-            `__params__["console"] = [];\n` +
-            `__params__["modules"] = __modules__;\n` +
-            `__params__["curr_ss"] = {};\n` +
-            `const result = await exec_${funcName}(__params__` +
+            `mfn._getModel().debug = ${this.dataService.mobiusSettings.debug};\n` +
+            `$p["console"] = [];\n` +
+            `$p["modules"] = mfn;\n` +
+            `$p["curr_ss"] = {};\n` +
+            `const result = await exec_${funcName}($p` +
             func.args.map(arg => ', ' + arg.name).join('') +
             `);\n` +
-            `if (result === __params__.model) { return { "model": __params__.model, "result": null };}\n` +
-            `return {"model": __params__.model, "result": result};\n` +
+            `if (result === mfn._getModel()) { return { "model": mfn._getModel(), "result": null };}\n` +
+            `return {"model": mfn._getModel(), "result": result};\n` +
             '/** * **/' +
             `\n\n}\n\n` +
             `module.exports = ${funcName};\n`;
-
         // fnString = beautify(fnString, { indent_size: 4, space_in_empty_paren: true });
         const blob = new Blob([fnString], {type: 'application/json'});
 

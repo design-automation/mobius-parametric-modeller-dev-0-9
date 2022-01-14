@@ -211,7 +211,6 @@ for (const mod of inlinedoc.children) {
     if (mod.name.toLowerCase().startsWith('inline')) { continue; }
     addDoc(mod, mod.name, inlineDocs);
 }
-console.log(inlineDocs)
 export const ModuleList = module_list;
 export const ModuleDocList = moduleDocs;
 export const InlineDocList = inlineDocs;
