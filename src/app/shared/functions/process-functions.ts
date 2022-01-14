@@ -1,3 +1,4 @@
+import inlinedoc from '@assets/typedoc-json/doc-inline.json';
 import doc from '@assets/typedoc-json/doc.json';
 import { _parameterTypes, Funcs } from '@design-automation/mobius-sim-funcs';
 import { IArgument } from '@models/code';
@@ -5,7 +6,7 @@ import { IFunction } from '@models/procedure';
 import * as showdown from 'showdown';
 
 // const doc = require('@assets/typedoc-json/doc.json');
-const mdConverter = new showdown.Converter({literalMidWordUnderscores: true});
+const mdConverter = new showdown.Converter({literalMidWordUnderscores: true, simpleLineBreaks: true});
 const module_list = {};
 const extraMods = [ 'variable', 'comment', 'expression',
                     'control_flow', 'global_func', 'local_func',
@@ -200,25 +201,17 @@ const inlineDocs = {};
 // const functionDocs = {};
 for (const mod of doc.children) {
     let modName: any = mod.sources[0].fileName.replace(/"/g, '').replace(/'/g, '').split('/');
-    // if (modName[0] === 'inline') {
-    //     modName = modName[modName.length - 1];
-    //     addDoc(mod, mod.name, inlineDocs);
-    // } else if (modName[0] === 'modules') {
-    //     modName = modName[modName.length - 1];
-    //     if (modName === 'index' || modName === 'categorization') {
-    //         continue;
-    //     }
-    //     addDoc(mod, mod.name, moduleDocs);
-    // }
     modName = modName[modName.length - 1];
     if (modName === 'index' || modName === 'categorization') {
         continue;
     }
     addDoc(mod, mod.name, moduleDocs);
 }
-for (const i of extraMods) {
-    // addModFuncDoc(functionDocs, `assets/typedoc-json/${extraModPaths[i]}.md`, i);
+for (const mod of inlinedoc.children) {
+    if (mod.name.toLowerCase().startsWith('inline')) { continue; }
+    addDoc(mod, mod.name, inlineDocs);
 }
+console.log(inlineDocs)
 export const ModuleList = module_list;
 export const ModuleDocList = moduleDocs;
 export const InlineDocList = inlineDocs;

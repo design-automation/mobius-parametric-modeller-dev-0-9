@@ -1,19 +1,20 @@
-import { Component, Input, HostListener, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { DataService, KeyboardService } from '@shared/services';
-import * as Flatted from 'flatted';
-import { IFlowchart } from '@models/flowchart';
-import { ProcedureTypes, IFunction, IProcedure } from '@models/procedure';
-import { SaveFileComponent } from '../file';
-import { IdGenerator, parseMobFile } from '@utils';
-import { InputType } from '@models/port';
+import { Funcs } from '@design-automation/mobius-sim-funcs';
 import { IArgument } from '@models/code';
+import { IFlowchart } from '@models/flowchart';
+import { InputType } from '@models/port';
+import { IFunction, IProcedure, ProcedureTypes } from '@models/procedure';
+import { inline_func, InlineDocList, inlineVarString, primary_func } from '@shared/functions';
 import { checkNodeValidity } from '@shared/parser';
-import { DownloadUtils } from '../file/download.utils';
-import { InlineDocList, inlineVarString, inline_func, primary_func } from '@shared/functions';
-import * as showdown from 'showdown';
-import { Funcs, _parameterTypes } from '@design-automation/mobius-sim-funcs';
+import { DataService, KeyboardService } from '@shared/services';
+import { IdGenerator, parseMobFile } from '@utils';
 import axios from 'axios';
+import * as Flatted from 'flatted';
+import * as showdown from 'showdown';
+
+import { SaveFileComponent } from '../file';
+import { DownloadUtils } from '../file/download.utils';
 
 const API_ENDPOINT = 'https://rwytlj8v41.execute-api.us-east-1.amazonaws.com/test0/upload';
 
@@ -63,7 +64,7 @@ export class PanelHeaderComponent implements OnDestroy {
 
     constructor(private dataService: DataService, private keyboardService: KeyboardService, private router: Router) {
         SaveFileComponent.updateBackupList();
-        const mdConverter = new showdown.Converter({literalMidWordUnderscores: true});
+        const mdConverter = new showdown.Converter({literalMidWordUnderscores: true, simpleLineBreaks: true});
 
         if (this.router.url.startsWith('/about')) {
             this.executeCheck = false;
@@ -1148,7 +1149,11 @@ export class PanelHeaderComponent implements OnDestroy {
             fnDocHtml += `<br><p><span>Parameters: </span></p>`;
             for (const param of fnDoc.parameters) {
                 if (!param) {continue; }
-                fnDocHtml += `<p class="paramP"><span>${param.name} - </span> ${param.description}</p>`;
+                if (!param.description) {
+                    fnDocHtml += `<p class="paramP"><span>${param.name}</p>`;
+                } else {
+                    fnDocHtml += `<p class="paramP"><span>${param.name} - </span> ${param.description}</p>`;
+                }
             }
         }
         if (fnDoc.returns) {

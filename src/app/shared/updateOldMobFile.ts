@@ -32,9 +32,9 @@ export function checkMobFile(file: IMobius) {
         }
     }
     updateNode(file.flowchart);
-    for (const ifn of file.flowchart.functions ) { updateNode(ifn.flowchart); }
+    for (const flFn of file.flowchart.functions ) { updateNode(flFn.flowchart); }
     if (file.flowchart.subFunctions) {
-        for (const ifn of file.flowchart.subFunctions) { updateNode(ifn.flowchart); }
+        for (const flSFn of file.flowchart.subFunctions) { updateNode(flSFn.flowchart); }
     }
     if (hasError) {
         alert('The flowchart contains functions that do not exist in the current version of Mobius');

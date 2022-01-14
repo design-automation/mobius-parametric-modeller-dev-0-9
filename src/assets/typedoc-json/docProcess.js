@@ -1,4 +1,5 @@
 const dc = require('./doc.json');
+const ildc = require('./doc-inline.json');
 const docReplace = require('./docReplace.json');
 const fs = require('fs');
 // const config = require('../gallery/__config__.json');
@@ -283,7 +284,7 @@ function addModFuncDoc(modUrl, modName) {
 const doc = dc;
 const moduleDocs = [];
 for (const mod of doc.children) {
-    const modSourceSplit = mod.sources[0].fileName.replace(/"/g, '').replace(/'/g, '').split('/');
+    // const modSourceSplit = mod.sources[0].fileName.replace(/"/g, '').replace(/'/g, '').split('/');
     // const coreIndex = modSourceSplit.indexOf('core');
     // if (modSourceSplit.length < 3 || coreIndex === -1) {
     //     continue;

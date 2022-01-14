@@ -1,7 +1,7 @@
-import { INode } from '@models/node';
-import { IProcedure, ProcedureTypes, IFunction } from '@models/procedure';
-import { IPortInput, InputType } from '@models/port';
 import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
+import { INode } from '@models/node';
+import { InputType, IPortInput } from '@models/port';
+import { IFunction, IProcedure, ProcedureTypes } from '@models/procedure';
 
 let _terminateCheck: string;
 
@@ -17,7 +17,7 @@ export class CodeUtils {
         // mark _terminateCheck to terminate all process after this
         if (prod.type === ProcedureTypes.Terminate && prod.enabled) {
             // _terminateCheck = '';
-            return ['__params__.terminated = true;', 'return null;'];
+            return ['$p.terminated = true;', 'return null;'];
         }
 
         prod.hasError = false;
@@ -38,7 +38,7 @@ export class CodeUtils {
         if (isMainFlowchart && prod.type !== ProcedureTypes.Else 
             && prod.type !== ProcedureTypes.Elseif
             && prod.type !== ProcedureTypes.LocalFuncDef) {
-            codeStr.push(`__params__.currentProcedure[0] = "${prod.ID}";`);
+            codeStr.push(`$p.currentProcedure[0] = "${prod.ID}";`);
         }
 
         switch ( prod.type ) {
@@ -90,13 +90,13 @@ export class CodeUtils {
                 specialPrint = true;
                 // if (isMainFlowchart && prod.print) {
                 if (prod.print) {
-                    codeStr.push(`printFunc(__params__.console,` +
+                    codeStr.push(`printFunc($p.console,` +
                     `\`Evaluating If: (${args[0].value}) is \` + (${args[0].jsValue}), '__null__');`);
                 }
                 codeStr.push(`if (${args[0].jsValue}){`);
                 // if (isMainFlowchart && prod.print) {
                 if (prod.print) {
-                    codeStr.push(`printFunc(__params__.console,'Executing If', '__null__');`);
+                    codeStr.push(`printFunc($p.console,'Executing If', '__null__');`);
                 }
                 break;
 
@@ -105,7 +105,7 @@ export class CodeUtils {
                 codeStr.push(`else {`);
                 // if (isMainFlowchart && prod.print) {
                 if (prod.print) {
-                    codeStr.push(`printFunc(__params__.console,'Executing Else', '__null__');`);
+                    codeStr.push(`printFunc($p.console,'Executing Else', '__null__');`);
                 }
                 break;
 
@@ -113,20 +113,20 @@ export class CodeUtils {
                 specialPrint = true;
                 codeStr.push(`else {`);
                 if (isMainFlowchart) {
-                    codeStr.push(`__params__.currentProcedure[0] = "${prod.ID}";`);
+                    codeStr.push(`$p.currentProcedure[0] = "${prod.ID}";`);
                     // if (prod.print) {
-                    //     codeStr.push(`printFunc(__params__.console,` +
+                    //     codeStr.push(`printFunc($p.console,` +
                     //     `'Evaluating Else-if: (${args[0].value}) = ' + (${args[0].jsValue}), '__null__');`);
                     // }
                 }
                 if (prod.print) {
-                    codeStr.push(`printFunc(__params__.console,` +
+                    codeStr.push(`printFunc($p.console,` +
                     `\`Evaluating Else-if: (${args[0].value}) is \` + (${args[0].jsValue}), '__null__');`);
                 }
                 codeStr.push(`if(${args[0].jsValue}){`);
                 // if (isMainFlowchart && prod.print) {
                 if (prod.print) {
-                    codeStr.push(`printFunc(__params__.console,'Executing Else-if', '__null__');`);
+                    codeStr.push(`printFunc($p.console,'Executing Else-if', '__null__');`);
                 }
                 break;
 
@@ -135,7 +135,7 @@ export class CodeUtils {
                 codeStr.push(`for (${prefix} ${args[0].jsValue} of ${args[1].jsValue}){`);
                 // if (isMainFlowchart && prod.print) {
                 if (prod.print) {
-                    codeStr.push(`printFunc(__params__.console,` +
+                    codeStr.push(`printFunc($p.console,` +
                     `'Executing For-each: ${args[0].value} = ' + (${args[0].jsValue}), '__null__');`);
                 }
                 existingVars.push(args[0].jsValue);
@@ -146,7 +146,7 @@ export class CodeUtils {
                 codeStr.push(`while (${args[0].jsValue}){`);
                 // if (isMainFlowchart && prod.print) {
                 if (prod.print) {
-                    codeStr.push(`printFunc(__params__.console,` +
+                    codeStr.push(`printFunc($p.console,` +
                     `'Executing While: (${args[0].value}) = ' + (${args[0].jsValue}), '__null__');`);
                 }
                 break;
@@ -167,24 +167,24 @@ export class CodeUtils {
                 if (constName[0] === '"' || constName[0] === '\'') {
                     constName = args[0].jsValue.substring(1, args[0].jsValue.length - 1);
                 }
-                codeStr.push(`__params__['constants']['${constName}'] = ${prod.resolvedValue};`);
+                codeStr.push(`$p['constants']['${constName}'] = ${prod.resolvedValue};`);
 
                 break;
 
             // case ProcedureTypes.AddData:
             //     let cst = args[0].value;
             //     if (!isMainFlowchart) {
-            //         return [`__modules__.${_parameterTypes.addData}( __params__.model, ${cst});`];
+            //         return [`mfn.${_parameterTypes.addData}( $p.model, ${cst});`];
             //     }
             //     if (cst[0] === '"' || cst[0] === '\'') {
             //         cst = args[0].value.substring(1, args[0].value.length - 1);
             //     }
 
-            //     codeStr.push(`__params__['constants']['${cst}'] = ${prod.resolvedValue};`);
+            //     codeStr.push(`$p['constants']['${cst}'] = ${prod.resolvedValue};`);
             //     if (_parameterTypes.addData) {
-            //         codeStr.push(`__modules__.${_parameterTypes.addData}( __params__.model, __params__.constants['${cst}']);`);
+            //         codeStr.push(`mfn.${_parameterTypes.addData}( $p.model, $p.constants['${cst}']);`);
             //     } else {
-            //         codeStr.push(`__params__.model = mergeInputs( [__params__.model, __params__.constants['${cst}']]);`);
+            //         codeStr.push(`$p.model = mergeInputs( [$p.model, $p.constants['${cst}']]);`);
             //     }
 
             //     break;
@@ -195,11 +195,11 @@ export class CodeUtils {
                 const returnArgVals = [];
                 for (const arg of args) {
                     if (arg.name === _parameterTypes.constList) {
-                        returnArgVals.push('__params__.constants');
+                        returnArgVals.push('$p.constants');
                         continue;
                     }
                     if (arg.name === _parameterTypes.model) {
-                        // returnArgVals.push('__params__.model');
+                        // returnArgVals.push('$p.model');
                         continue;
                     }
                     if (!arg.jsValue) {
@@ -215,13 +215,13 @@ export class CodeUtils {
                 if (!check) {
                     codeStr.push(`return null;`);
                 } else {
-                    codeStr.push(`let __return_value__ = __modules__.${_parameterTypes.return}(${returnArgVals.join(', ')});`);
+                    codeStr.push(`let __return_value__ = mfn.${_parameterTypes.return}(${returnArgVals.join(', ')});`);
                     if (isMainFlowchart) {
                         codeStr.push(`if (__return_value__ !== undefined && __return_value__ !== null) {` +
-                                     `__params__.console.push('<p><b>Return: <i>' + ` +
+                                     `$p.console.push('<p><b>Return: <i>' + ` +
                                      `__return_value__.toString().replace(/,/g,', ') + '</i></b></p>');` +
                                      `} else {` +
-                                     `__params__.console.push('<p><b>Return: <i> null </i></b></p>');` +
+                                     `$p.console.push('<p><b>Return: <i> null </i></b></p>');` +
                                      `}`);
                     }
                     codeStr.push(`return __return_value__;`);
@@ -232,19 +232,19 @@ export class CodeUtils {
                 const argVals = [];
                 for (const arg of args.slice(1)) {
                     if (arg.name === _parameterTypes.constList) {
-                        argVals.push('__params__.constants');
+                        argVals.push('$p.constants');
                         continue;
                     }
                     if (arg.name === _parameterTypes.model) {
-                        // argVals.push('__params__.model');
+                        // argVals.push('$p.model');
                         continue;
                     }
                     if (arg.name === _parameterTypes.console) {
-                        argVals.push('__params__.console');
+                        argVals.push('$p.console');
                         continue;
                     }
                     if (arg.name === _parameterTypes.fileName) {
-                        argVals.push('__params__.fileName');
+                        argVals.push('$p.fileName');
                         continue;
                     }
 
@@ -269,7 +269,7 @@ export class CodeUtils {
                     }
                 }
                 // const argValues = argVals.join(', ');
-                let fnCall = `__modules__.${prod.meta.module}.${prod.meta.name}( ${argVals.join(', ')} )`;
+                let fnCall = `mfn.${prod.meta.module}.${prod.meta.name}( ${argVals.join(', ')} )`;
                 const fullName = prod.meta.module + '.' + prod.meta.name;
                 for (const asyncFunc of _parameterTypes.asyncFuncs) {
                     if (fullName === asyncFunc) {
@@ -328,7 +328,7 @@ export class CodeUtils {
                     funcDef_prefix = `${functionName}_` + funcDef_prefix;
                 }
                 codeStr.push(`\nasync function ${funcDef_prefix}${prod.args[0].jsValue}` +
-                             `(__params__, ${prod.args.slice(1).map(arg => arg.jsValue).join(', ')}) {`);
+                             `($p, ${prod.args.slice(1).map(arg => arg.jsValue).join(', ')}) {`);
                 break;
             case ProcedureTypes.Return:
                 if (prod.args.length > 0) {
@@ -349,10 +349,10 @@ export class CodeUtils {
                     lArgsVals.push(args[i].jsValue);
                 }
 
-                const lfn = `await ${funcCall_prefix}${prod.meta.name}_(__params__${lArgsVals.map(val => ', ' + val).join('')})`;
+                const lfn = `await ${funcCall_prefix}${prod.meta.name}_($p${lArgsVals.map(val => ', ' + val).join('')})`;
                 if (args[0].name === '__none__' || !args[0].jsValue) {
                     codeStr.push(`${lfn};`);
-                    codeStr.push('if (__params__.terminated) { return __modules__._getModel();}')
+                    codeStr.push('if ($p.terminated) { return mfn._getModel();}')
                     break;
                 } else if (args[0].jsValue.startsWith('|*')) {
                     const varList = args[0].jsValue.substring(2).split('|');
@@ -392,7 +392,7 @@ export class CodeUtils {
                 if (prefix === 'let ') {
                     existingVars.push(args[0].jsValue);
                 }
-                codeStr.push('if (__params__.terminated) { return __modules__._getModel();}')
+                codeStr.push('if ($p.terminated) { return mfn._getModel();}')
                 break;
 
             case ProcedureTypes.globalFuncCall:
@@ -425,15 +425,15 @@ export class CodeUtils {
                     }
                 }
 
-                codeStr.push(`__params__.console.push('<div style="margin: 5px 0px 5px 10px; border: 1px solid #E6E6E6"><p><b> Global Function: ${prod.meta.name}</b></p>');`);
-                codeStr.push(`__params__.curr_ss.${nodeId} = __modules__._getModel().prepGlobalFunc([${prepArgs.join(', ')}]);`);
+                codeStr.push(`$p.console.push('<div style="margin: 5px 0px 5px 10px; border: 1px solid #E6E6E6"><p><b> Global Function: ${prod.meta.name}</b></p>');`);
+                codeStr.push(`$p.curr_ss.${nodeId} = mfn._getModel().prepGlobalFunc([${prepArgs.join(', ')}]);`);
                 // if (prepArgs.length === 0) {
-                //     codeStr.push(`__params__.curr_ss.${nodeId} = __modules__._getModel().prepGlobalFunc([${argsVals[0]}]);`);
+                //     codeStr.push(`$p.curr_ss.${nodeId} = mfn._getModel().prepGlobalFunc([${argsVals[0]}]);`);
                 // } else {
-                //     codeStr.push(`__params__.curr_ss.${nodeId} = __modules__._getModel().prepGlobalFunc([${prepArgs.join(', ')}]);`);
+                //     codeStr.push(`$p.curr_ss.${nodeId} = mfn._getModel().prepGlobalFunc([${prepArgs.join(', ')}]);`);
                 // }
-                const fn = `await ${namePrefix}${prod.meta.name}(__params__${argsVals.map(val => ', ' + val).join('')})`;
-                // codeStr.push(`__params__.prevModel = __modules__._getModel().clone();`);
+                const fn = `await ${namePrefix}${prod.meta.name}($p${argsVals.map(val => ', ' + val).join('')})`;
+                // codeStr.push(`$p.prevModel = mfn._getModel().clone();`);
                 if (args[0].name === '__none__' || !args[0].jsValue) {
                     codeStr.push(`${fn};`);
                 } else if (args[0].jsValue.startsWith('|*')) {
@@ -473,16 +473,16 @@ export class CodeUtils {
                         existingVars.push(args[0].jsValue);
                     }
                 }
-                codeStr.push(`__modules__._getModel().postGlobalFunc(__params__.curr_ss.${nodeId})`);
-                codeStr.push(`__params__.console.push('</div>')`);
+                codeStr.push(`mfn._getModel().postGlobalFunc($p.curr_ss.${nodeId})`);
+                codeStr.push(`$p.console.push('</div>')`);
                 break;
             case ProcedureTypes.Error:
-                codeStr.push(`__params__.misc.exit = true;`);
-                codeStr.push(`__params__.misc.exit_value = ${prod.args[0].jsValue};`);
+                codeStr.push(`$p.misc.exit = true;`);
+                codeStr.push(`$p.misc.exit_value = ${prod.args[0].jsValue};`);
                 codeStr.push(`throw new Error('__EXIT__');`);
                 break;
             case ProcedureTypes.BreakBranch:
-                codeStr.push(`__params__.misc.breakbranch['${nodeId}'] = true;`);
+                codeStr.push(`$p.misc.breakbranch['${nodeId}'] = true;`);
                 codeStr.push(`throw new Error('__BREAK_BRANCH__');`);
                 break;
         }
@@ -504,10 +504,10 @@ export class CodeUtils {
                         assembledVarList.push(varList[ind]);
                     }
                 }
-                codeStr.push(`printFunc(__params__.console,\`${prod.args[0].value}\`, [${assembledVarList.join(', ')}]);`);
+                codeStr.push(`printFunc($p.console,\`${prod.args[0].value}\`, [${assembledVarList.join(', ')}]);`);
             } else {
                 const repGet = this.repGetAttrib(prod.args[0].jsValue);
-                codeStr.push(`printFunc(__params__.console,\`${prod.args[0].value}\`, ${repGet});`);
+                codeStr.push(`printFunc($p.console,\`${prod.args[0].value}\`, ${repGet});`);
             }
         }
         // if (isMainFlowchart && prod.selectGeom && prod.args[0].jsValue) {
@@ -515,9 +515,9 @@ export class CodeUtils {
         //     const repGet = this.repGetAttrib(prod.args[0].value);
         //     const repGetJS = this.repGetAttrib(prod.args[0].jsValue);
         //     codeStr.push(`try {` +
-        //     `\t__modules__.${_parameterTypes.select}(__modules__._getModel(), ${repGetJS}, "${repGet}"); ` +
+        //     `\tmfn.${_parameterTypes.select}(mfn._getModel(), ${repGetJS}, "${repGet}"); ` +
         //     `} catch (ex) {` +
-        //     `\t__params__.message = 'Trying to select geometric entities in node "%node%", but no entity was found';` +
+        //     `\t$p.message = 'Trying to select geometric entities in node "%node%", but no entity was found';` +
         //     `}`);
         // }
 
@@ -532,7 +532,7 @@ export class CodeUtils {
 
         // mark _terminateCheck to terminate all process after this
         if (prod.terminate && prod.enabled) {
-            codeStr.push('__params__.terminated = true;');
+            codeStr.push('$p.terminated = true;');
             codeStr.push('return null;');
         }
 
@@ -589,13 +589,13 @@ export class CodeUtils {
         if (bracketIndex !== -1) {
             const name = val_1.slice(0, bracketIndex);
             const index = val_1.lastIndexOf(name);
-            // return [`__modules__.${_parameterTypes.setattrib}(__params__.model, ${val_0}, '${name}', ` +
+            // return [`mfn.${_parameterTypes.setattrib}($p.model, ${val_0}, '${name}', ` +
             //         `${val_1.substring(bracketIndex + 12, index - 2)},`, `);`];
-            return [`__modules__.${_parameterTypes.setattrib}(${val_0},` +
+            return [`mfn.${_parameterTypes.setattrib}(${val_0},` +
                     `[\`${name}\`, ${val_1.substring(bracketIndex + 12, index - 2)}], `, `);`];
         } else {
-            // return [`__modules__.${_parameterTypes.setattrib}(__params__.model, ${val_0}, '${val_1}', null, `, ');'];
-            return [`__modules__.${_parameterTypes.setattrib}(${val_0}, \`${val_1}\`, `, ');'];
+            // return [`mfn.${_parameterTypes.setattrib}($p.model, ${val_0}, '${val_1}', null, `, ');'];
+            return [`mfn.${_parameterTypes.setattrib}(${val_0}, \`${val_1}\`, `, ');'];
         }
     }
 
@@ -621,10 +621,10 @@ export class CodeUtils {
             att_index = 'null';
         }
         if (att_index === 'null') {
-            return `__modules__.${_parameterTypes.getattrib}(${entity}, '${att_name}', 'one_value')`;
+            return `mfn.${_parameterTypes.getattrib}(${entity}, '${att_name}', 'one_value')`;
         }
-        return `__modules__.${_parameterTypes.getattrib}(${entity}, ['${att_name}', ${att_index}], 'one_value')`;
-        // return `__modules__.${_parameterTypes.getattrib}(${entity}, '${att_name}', ${att_index}, 'one_value')`;
+        return `mfn.${_parameterTypes.getattrib}(${entity}, ['${att_name}', ${att_index}], 'one_value')`;
+        // return `mfn.${_parameterTypes.getattrib}(${entity}, '${att_name}', ${att_index}, 'one_value')`;
     }
 
     static async getURLContent(url: string): Promise<any> {
@@ -778,7 +778,7 @@ export class CodeUtils {
 
     static getFunctionString(func: IFunction): string {
         func.args.forEach(arg => arg.name = arg.name.toUpperCase());
-        let fullCode = `async function ${func.name}(__params__${func.args.map(arg => ', ' + arg.name + '_').join('')}){\n`;
+        let fullCode = `async function ${func.name}($p${func.args.map(arg => ', ' + arg.name + '_').join('')}){\n`;
 
         let fnCode = `var merged;\n`;
 
@@ -794,14 +794,14 @@ export class CodeUtils {
             numRemainingOutputs[node.id] = node.output.edges.length;
             const nodeFuncName = `${func.name}_${node.id}`;
             if (node.type === 'start') {
-                // fnCode += `let result_${nodeFuncName} = __params__.model;\n`;
-                fnCode += `let ssid_${nodeFuncName} = __modules__._getModel().getActiveSnapshot();\n`;
+                // fnCode += `let result_${nodeFuncName} = $p.model;\n`;
+                fnCode += `let ssid_${nodeFuncName} = mfn._getModel().getActiveSnapshot();\n`;
             } else {
                 const codeRes = CodeUtils.getNodeCode(node, false, nodeIndices, func.name, node.id)[0];
                 const nodecode = codeRes[0].join('\n').split('_-_-_+_-_-_');
                 fullCode += `${nodecode[0]}\nasync function ${nodeFuncName}` +
-                            `(__params__${func.args.map(arg => ', ' + arg.name + '_').join('')}){\n` +
-                            `if (__debug__) { printFunc(__params__.console, 'Executing: ${node.name.replace(/\\/g, '').replace(/\n/g, ' ')}', '__null__') }\n` +
+                            `($p${func.args.map(arg => ', ' + arg.name + '_').join('')}){\n` +
+                            `if (__debug__) { printFunc($p.console, 'Executing: ${node.name.replace(/\\/g, '').replace(/\n/g, ' ')}', '__null__') }\n` +
                             nodecode[1] + `\n}\n\n`;
 
 
@@ -817,12 +817,12 @@ export class CodeUtils {
                         activeNodes.push([nodeIndices[nodeEdge.source.parentNode.id], `ssid_${func.name}_${nodeEdge.source.parentNode.id}`]);
                     }
                     activeNodes = activeNodes.sort((a, b) => a[0] - b[0]);
-                    fnCode += `\nlet ssid_${nodeFuncName} = __modules__._getModel().nextSnapshot([${activeNodes.map(nodeId => nodeId[1]).join(', ')}]);\n`;
+                    fnCode += `\nlet ssid_${nodeFuncName} = mfn._getModel().nextSnapshot([${activeNodes.map(nodeId => nodeId[1]).join(', ')}]);\n`;
                 }
                 if (node.type === 'end') {
-                    fnCode += `\nreturn await ${nodeFuncName}(__params__${func.args.map(arg => ', ' + arg.name + '_').join('')});\n`;
+                    fnCode += `\nreturn await ${nodeFuncName}($p${func.args.map(arg => ', ' + arg.name + '_').join('')});\n`;
                 } else {
-                    fnCode += `\nawait ${nodeFuncName}(__params__${func.args.map(arg => ', ' + arg.name + '_').join('')});\n`;
+                    fnCode += `\nawait ${nodeFuncName}($p${func.args.map(arg => ', ' + arg.name + '_').join('')});\n`;
                 }
             }
         }

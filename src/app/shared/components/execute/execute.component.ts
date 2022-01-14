@@ -1,6 +1,6 @@
 import { Component, isDevMode } from '@angular/core';
 import { Router } from '@angular/router';
-import * as Inlines from '@design-automation/mobius-inline-funcs';
+import { InlineClass } from '@design-automation/mobius-inline-funcs';
 import { _parameterTypes, GICommon } from '@design-automation/mobius-sim-funcs';
 import { FlowchartUtils } from '@models/flowchart';
 import { INode } from '@models/node';
@@ -8,6 +8,7 @@ import { IProcedure, ProcedureTypes } from '@models/procedure';
 import { DataService } from '@services';
 import { SaveFileComponent } from '@shared/components/file';
 import { WindowMessageComponent } from '@shared/components/window-message/window-message.component';
+import { inlineVarString } from '@shared/functions';
 import { DataOutputService } from '@shared/services/dataOutput.service';
 import JSZip from 'jszip';
 
@@ -84,11 +85,9 @@ function printFunc(_console, name, value){
     return val;
 }
 `;
-const inlineVarNames = Inlines.inlineVarString.split(';').map(v => v.split('=')[0].trim());
+const inlineVarNames = inlineVarString.split(';').map(v => v.split('=')[0].trim());
 
 const DEBUG = false;
-
-const AsyncFunction = Object.getPrototypeOf(async function() {}).constructor;
 
 @Component({
     selector: 'execute',
@@ -521,7 +520,7 @@ export class ExecuteComponent {
             // start with asembling the node's code
             fnString =  '\n\n//  ------------ MAIN CODE ------------\n' +
                         nodeCode[0] +
-                        '\nasync function __main_node_code__(__modules__, __inline__, __params__){\n' +
+                        '\nasync function __main_node_code__(){\n' +
                         nodeCode[1] +
                         '\n}\nreturn __main_node_code__;';
 
@@ -537,7 +536,7 @@ export class ExecuteComponent {
             });
 
             // add the constants from the start node and the predefined constants/functions (e.g. PI, sqrt, ...)
-            fnString = Inlines.inlineVarString + globalVars + '\n\n// <<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>\n\n' + fnString;
+            fnString = globalVars + '\n\n// <<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>\n\n' + fnString;
 
             // add the merge input function and the print function
             fnString = `\nconst __debug__ = ${this.dataService.mobiusSettings.debug};` +
@@ -593,10 +592,12 @@ export class ExecuteComponent {
             // #########################################################
             // *********************************************************
             // console.log(fnString.split('<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>')[1]);
+            // console.log(fnString);
 
-            const fn = new Function('__modules__', '__inline__', fnString);
+            const fn = new Function('mfn', 'ifn', '$p', fnString);
             // execute the function
-            const result = await fn(this.dataService.executeModel, Inlines)(this.dataService.executeModel, Inlines, params);
+            const inline = new InlineClass(this.dataService.mobiusSettings.debug);
+            const result = await fn(this.dataService.executeModel, inline, params)();
             node.model = snapshotID;
             if (params['terminated']) {
                 this.terminated = node.name;
@@ -780,7 +781,7 @@ export class ExecuteComponent {
 
     runningFunction(functionDetails) {
         // create the function with the string: new Function ([arg1[, arg2[, ...argN]],] functionBody)
-        const fn = new Function('__modules__', '__inline__', '__params__', functionDetails.fnString);
+        const fn = new Function('mfn', 'ifn', '$p', functionDetails.fnString);
         // execute the function
         const result = fn(functionDetails.Funcs, functionDetails.Inlines, functionDetails.params);
         return [result, functionDetails.params];

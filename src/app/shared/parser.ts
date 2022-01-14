@@ -3,7 +3,7 @@ import { IArgument } from '@models/code';
 import { INode } from '@models/node';
 import { InputType } from '@models/port';
 import { IProcedure, ProcedureTypes } from '@models/procedure';
-import { inline_func } from '@shared/functions';
+import { inline_func, inlineVarString } from '@shared/functions';
 
 enum strType {
     NUM,
@@ -76,6 +76,16 @@ for (const funcMod of inline_func) {
         }
     }
 }
+const funcReplace = {};
+for (const line of inlineVarString.split('\n')) {
+    if (line === '') {continue;}
+    const lineSplit = line.split('= __inline__.');
+    let repVal = 'ifn.' + lineSplit[1].trim();
+    if (repVal.endsWith(';')) {
+        repVal = repVal.slice(0, -1);
+    }
+    funcReplace[lineSplit[0].trim()] = repVal;
+}
 
 
 let globals = [];
@@ -98,7 +108,7 @@ export function modifyVar(procedure: IProcedure, nodeProdList: IProcedure[]) {
     procedure.args[0].value = modifyVarArg(procedure.args[0]).trim();
     const modifiedVar = parseVariable(procedure.args[0].value);
     procedure.args[0].jsValue = modifiedVar.jsStr;
-    // if (modifiedVar.jsStr && modifiedVar.jsStr.startsWith('__modules__')) {
+    // if (modifiedVar.jsStr && modifiedVar.jsStr.startsWith('mfn')) {
     //     procedure.args[0].invalidVar = `Error: Invalid query call: "${procedure.args[0].value}"`;
     //     return;
     // }
@@ -817,7 +827,8 @@ function analyzeVar(comps: {'type': strType, 'value': string}[], i: number, vars
     // }
 
     if (constantSet.has(comp.value)) {
-        jsString = `JSON.parse(JSON.stringify(${comp.value}))`;
+        const constVal = funcReplace[comp.value] ? funcReplace[comp.value] : comp.value
+        jsString = `JSON.parse(JSON.stringify(${constVal}))`;
     } else if (!disallowAt && !specialVars.has(comp.value)) {
         jsString += '_';
     }
@@ -875,7 +886,7 @@ function analyzeVar(comps: {'type': strType, 'value': string}[], i: number, vars
     // if variable is followed by "(" --> function
     // does not add to the var list since it's function name
     } else if (comps[i + 1].value === '(') {
-        jsString = jsString.slice(0, -1);
+        jsString = funcReplace[jsString.slice(0, -1)];
         if (i + 2 >= comps.length) {
             return { 'error': `Error: ")" expected \nat: ... ${comps.slice(i).map(cp => cp.value).join(' ')}`};
         }
@@ -890,7 +901,7 @@ function analyzeVar(comps: {'type': strType, 'value': string}[], i: number, vars
                 return { 'error': `Error: ")" expected \nat: ... ${comps.slice(i).map(cp => cp.value).join(' ')}`}; }
             i = result.i + 1;
             newString += `(${result.str})`;
-            jsString += `(__debug__, ${result.jsStr})`;
+            jsString += `(${result.jsStr})`;
 
             if (i + 1 < comps.length && comps[i + 1].value === '[') {
                 // look for all subsequent "." or "[]" for the variable
@@ -1105,19 +1116,19 @@ function analyzeQuery(comps: {'type': strType, 'value': string}[],
             if (bracketIndex !== -1) {
                 const arrayName = result.jsStr.substring(0, bracketIndex);
                 const index = result.jsStr.lastIndexOf(arrayName);
-                jsString = ` __modules__.${_parameterTypes.getattrib}(${entity},` +
+                jsString = ` mfn.${_parameterTypes.getattrib}(${entity},` +
                            ` ['${arrayName}', ${result.jsStr.substring(bracketIndex + 12, index - 2)}])`;
-                // jsString = ` __modules__.${_parameterTypes.getattrib}(${entity},` +
+                // jsString = ` mfn.${_parameterTypes.getattrib}(${entity},` +
                 //            ` '${arrayName}', ${result.jsStr.substring(bracketIndex + 12, index - 2)})`;
             } else if (result.jsStr.indexOf('[') !== -1) {
                 bracketIndex = result.jsStr.indexOf('[');
                 const arrayName = result.jsStr.substring(0, bracketIndex);
                 const index = result.jsStr.slice(bracketIndex + 1, -1);
-                jsString = ` __modules__.${_parameterTypes.getattrib}(${entity}, ['${arrayName}', ${index}])`;
-                // jsString = ` __modules__.${_parameterTypes.getattrib}(${entity}, '${arrayName}', ${index})`; //////////
+                jsString = ` mfn.${_parameterTypes.getattrib}(${entity}, ['${arrayName}', ${index}])`;
+                // jsString = ` mfn.${_parameterTypes.getattrib}(${entity}, '${arrayName}', ${index})`; //////////
             } else {
-                jsString = ` __modules__.${_parameterTypes.getattrib}(${entity}, '${result.str}')`;
-                // jsString = ` __modules__.${_parameterTypes.getattrib}(${entity}, '${result.str}', null)`; //////////
+                jsString = ` mfn.${_parameterTypes.getattrib}(${entity}, '${result.str}')`;
+                // jsString = ` mfn.${_parameterTypes.getattrib}(${entity}, '${result.str}', null)`; //////////
             }
             // return {'i': i, 'str': newString, 'jsStr': jsString};
 
@@ -1145,19 +1156,19 @@ function analyzeQuery(comps: {'type': strType, 'value': string}[],
             if (bracketIndex !== -1) {
                 const arrayName = result.jsStr.substring(0, bracketIndex);
                 const index = result.jsStr.lastIndexOf(arrayName);
-                jsString = ` __modules__.${_parameterTypes.queryGet}('${arrayName}', ${entity})` +
+                jsString = ` mfn.${_parameterTypes.queryGet}('${arrayName}', ${entity})` +
                            `[pythonList(${result.jsStr.substring(bracketIndex + 12, index - 2)}, ` +
-                           `__modules__.${_parameterTypes.queryGet}('${arrayName}', ${entity}).length)]`;
+                           `mfn.${_parameterTypes.queryGet}('${arrayName}', ${entity}).length)]`;
                 // const att_name = result.jsStr.slice(0, bracketIndex);
                 // const att_index = result.jsStr.slice(bracketIndex + 7, -4);
-                // jsString = ` __modules__.${_parameterTypes.queryGet}('${att_name}', ${entity}).slice(${att_index})[0]`;
+                // jsString = ` mfn.${_parameterTypes.queryGet}('${att_name}', ${entity}).slice(${att_index})[0]`;
             } else if (result.jsStr.indexOf('.slice(') !== -1) {
                 bracketIndex = result.jsStr.indexOf('.slice(');
                 const arrayName = result.jsStr.substring(0, bracketIndex);
-                jsString = ` __modules__.${_parameterTypes.queryGet}('${arrayName}', ${entity})` +
+                jsString = ` mfn.${_parameterTypes.queryGet}('${arrayName}', ${entity})` +
                            result.jsStr.substring(bracketIndex);
             } else {
-                jsString = ` __modules__.${_parameterTypes.queryGet}('${result.str}', ${entity})`;
+                jsString = ` mfn.${_parameterTypes.queryGet}('${result.str}', ${entity})`;
             }
 
 
@@ -1214,11 +1225,11 @@ function analyzeQuery(comps: {'type': strType, 'value': string}[],
             bracketIndex = nComp.jsStr.indexOf('[pythonList(');
             if (bracketIndex !== -1) {
                 newString += `?@${result.str}${operator}${nComp.str} `;
-                jsString = ` __modules__.${_parameterTypes.queryFilter}(${entity}, ['${att_name}'` +
+                jsString = ` mfn.${_parameterTypes.queryFilter}(${entity}, ['${att_name}'` +
                            `, ${att_index}], '${operator}', ${nComp.jsStr.slice(0, bracketIndex)})${nComp.jsStr.slice(bracketIndex)}`;
             } else {
                 newString += `?@${result.str}${operator}${nComp.str} `;
-                jsString = ` __modules__.${_parameterTypes.queryFilter}(${entity}, ['${att_name}'` +
+                jsString = ` mfn.${_parameterTypes.queryFilter}(${entity}, ['${att_name}'` +
                            `, ${att_index}], '${operator}', ${nComp.jsStr})`;
             }
 
