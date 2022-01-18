@@ -5,6 +5,7 @@ import { IArgument } from '@models/code';
 import { IFunction } from '@models/procedure';
 import * as showdown from 'showdown';
 
+
 // const doc = require('@assets/typedoc-json/doc.json');
 const mdConverter = new showdown.Converter({ literalMidWordUnderscores: true, simpleLineBreaks: true });
 const module_list = {};
@@ -12,8 +13,6 @@ const extraMods = ['variable', 'comment', 'expression',
     'control_flow', 'global_func', 'local_func',
     'dashboard', 'editor', 'flowchart', 'gallery', 'menu',
     'console', 'geoviewer', 'cadviewer', 'vrviewer'];
-const asyncFuncList = ['io.Read', 'io.Write', 'io.Import', 'io.Export', 'io._getFile',
-    'util.ModelCompare', 'util.ModelMerge'];
 
 /**
  * DOCUMENTATION
@@ -168,23 +167,11 @@ for (const m_name of moduleNames) {
         fnObj.module = m_name;
         fnObj.name = fn_name;
 
-        if (asyncFuncList.indexOf(`${m_name}.${fn_name}`) !== -1) {
-            const paramFunc = mobiusFuncs[m_name]['_Async_Param_' + fn_name]
-            fnObj.argCount = paramFunc.length;
-            const args = extract_params(paramFunc);
-            fnObj.args = args[0];
-            fnObj.hasReturn = args[1];
-            modObj[fn_name] = fnObj;
-        } else {
-            fnObj.argCount = func.length;
-            const args = extract_params(func);
-            fnObj.args = args[0];
-            fnObj.hasReturn = args[1];
-            modObj[fn_name] = fnObj;
-        }
-        if (moduleDocs[m_name] && moduleDocs[m_name][fn_name] && moduleDocs[m_name][fn_name].returns) {
-            fnObj.hasReturn = moduleDocs[m_name][fn_name].returns.indexOf('void') === -1;
-        }
+        fnObj.argCount = func.length;
+        const args = extract_params(func);
+        fnObj.args = args[0];
+        fnObj.hasReturn = args[1];
+        modObj[fn_name] = fnObj;
     }
     module_list[m_name] = modObj;
 }
