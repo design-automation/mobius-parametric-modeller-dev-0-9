@@ -160,7 +160,7 @@ export class SaveJavascriptComponent {
             printFuncString +
             `\n\nconst $p = {};\n` +
             `if (__model__) {\n` +
-            `mfn.io._importGI(__model__);\n` +
+            `mfn.io.ImportData(__model__, 'gi');\n` +
             `}\n` +
             `mfn._getModel().debug = ${this.dataService.mobiusSettings.debug};\n` +
             `$p["console"] = [];\n` +
