@@ -1,15 +1,14 @@
-import { Component, Input, OnDestroy } from '@angular/core';
-import { DownloadUtils } from './download.utils';
-import * as Flatted from 'flatted';
+import { Component, OnDestroy } from '@angular/core';
 import { FlowchartUtils, IFlowchart } from '@models/flowchart';
-import { DataService } from '@services';
-import { InputType } from '@models/port';
-import { ProcedureTypes, IProcedure } from '@models/procedure';
-import { IdGenerator } from '@utils';
 import { IMobius } from '@models/mobius';
 import { INode, NodeUtils } from '@models/node';
+import { IProcedure, ProcedureTypes } from '@models/procedure';
+import { DataService } from '@services';
+import { IdGenerator } from '@utils';
+import * as Flatted from 'flatted';
 import JSZip from 'jszip';
-import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
+
+import { DownloadUtils } from './download.utils';
 
 declare global {
     interface Navigator {
@@ -312,6 +311,11 @@ export class SaveFileComponent implements OnDestroy{
                 for (const arg of prod.args) {
                     delete arg['invalidVar'];
                     delete arg['linked'];
+                }
+                for (const arg of prod.args) {
+                    if (arg.value !== '"___LONG_STRING_DATA___"') {
+                        delete arg.jsValue;
+                    }
                 }
             }
             if (prod.children) {
