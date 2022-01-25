@@ -2,7 +2,9 @@
 export class DownloadUtils {
 
     static downloadFile(fileName: string, fileContent: Blob) {
-        if (window.navigator.msSaveOrOpenBlob) {
+        // @ts-ignore
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            // @ts-ignore
             window.navigator.msSaveOrOpenBlob(fileContent, fileName);
         } else {
             const a = document.createElement('a');

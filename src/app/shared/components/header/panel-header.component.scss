@@ -113,7 +113,7 @@ button.mat-menu-item:hover{
 #mobiusDropdownMenu {
     display: none;
     position: fixed;
-    top: 40px;
+    top: 32px;
     transition: display 0.4s;
 
     z-index: 5;
@@ -127,7 +127,7 @@ button.mat-menu-item:hover{
         display: inline-block;
         width: 160px;
         line-height: $fsize3;
-        height: $fsize3;
+        height: 32px;
         font-size: $fsize2;
         vertical-align: middle;
         text-align: left;
@@ -148,11 +148,14 @@ button.mat-menu-item:hover{
             padding-top: 3px;
         }
         .help-btn {
-            display: none;
+            display: inline-block;
             position: absolute;
             color: $color8;
             width: 30px;
             right: 0px;
+            opacity: 0;
+            background-color: transparent;
+            transition: opacity 0.1s linear;
             .icon{
                 position:absolute;
                 top: 3px;
@@ -162,7 +165,8 @@ button.mat-menu-item:hover{
             color: $selected-color;
             background-color: $color5;
             .help-btn {
-                display: inline-block;
+                opacity: 1;
+                background-color: transparent;
             }
         }
     }
