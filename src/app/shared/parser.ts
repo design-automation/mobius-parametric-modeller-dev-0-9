@@ -1549,12 +1549,13 @@ export function checkValidVar(vars: string[], procedure: IProcedure, nodeProdLis
                 }
             }
             if (!prod.variable || prod.type === ProcedureTypes.Foreach || !prod.enabled) { continue; }
-            prod.variable.forEach( v => {
+            if (typeof prod.variable === 'string') { prod.variable = [prod.variable]; }
+            for (const v of prod.variable) {
                 const index = vars.indexOf(v);
                 if (index !== -1) {
                     validVars.push(vars.splice(index, 1)[0]);
                 }
-            });
+            }
         }
         current = current.parent;
         if (current.type === ProcedureTypes.LocalFuncDef) {
@@ -1585,12 +1586,13 @@ export function checkValidVar(vars: string[], procedure: IProcedure, nodeProdLis
             }
         }
         if (!prod.variable || prod.type === ProcedureTypes.Foreach || !prod.enabled) { continue; }
-        prod.variable.forEach( v => {
+        if (typeof prod.variable === 'string') { prod.variable = [prod.variable]; }
+        for (const v of prod.variable) {
             const index = vars.indexOf(v);
             if (index !== -1) {
                 validVars.push(vars.splice(index, 1)[0]);
             }
-        });
+        }
     }
     if (vars.length > 0) {
         return { 'error': `Error: Invalid vars: ${vars.join(', ')}`};
