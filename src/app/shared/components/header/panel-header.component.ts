@@ -6,7 +6,7 @@ import { IFlowchart } from '@models/flowchart';
 import { InputType } from '@models/port';
 import { IFunction, IProcedure, ProcedureTypes } from '@models/procedure';
 import { inline_func, InlineDocList, inlineVarString, primary_func } from '@shared/functions';
-import { checkNodeValidity } from '@shared/parser';
+import { checkFlowchartValidity } from '@shared/parser';
 import { DataService, KeyboardService } from '@shared/services';
 import { IdGenerator, parseMobFile } from '@utils';
 import axios from 'axios';
@@ -336,21 +336,7 @@ export class PanelHeaderComponent implements OnDestroy {
             }
             this.dataService.file.flowchart.meta.selected_nodes = [this.dataService.file.flowchart.nodes.length - 1];
             this.dataService.flagModifiedNode(this.dataService.flowchart.nodes[0].id);
-            for (const func of this.dataService.flowchart.functions) {
-                for (const node of func.flowchart.nodes) {
-                    checkNodeValidity(node);
-                }
-            }
-            if (this.dataService.flowchart.subFunctions) {
-                for (const func of this.dataService.flowchart.subFunctions) {
-                    for (const node of func.flowchart.nodes) {
-                        checkNodeValidity(node);
-                    }
-                }
-            }
-            for (const node of this.dataService.flowchart.nodes) {
-                checkNodeValidity(node);
-            }
+            checkFlowchartValidity(this.dataService.flowchart);
             if (this.settings.execute) {
                 document.getElementById('executeButton').click();
             }
@@ -410,9 +396,10 @@ export class PanelHeaderComponent implements OnDestroy {
             }
             func.argCount = func.args.length;
 
+            checkFlowchartValidity(fl);
             const end = fl.nodes[fl.nodes.length - 1];
             const returnProd = end.procedure[end.procedure.length - 1];
-            if (returnProd.args[1].value) {
+            if (returnProd.args[0].value) {
                 func.hasReturn = true;
             } else {
                 func.hasReturn = false;
@@ -882,6 +869,7 @@ export class PanelHeaderComponent implements OnDestroy {
         }
         func.argCount = func.args.length;
 
+        checkFlowchartValidity(fl);
         for (const i of fl.functions) {
             i.name = func.name + '_' + i.name;
             this.dataService.flowchart.subFunctions.push(i);
@@ -895,7 +883,7 @@ export class PanelHeaderComponent implements OnDestroy {
 
         const end = fl.nodes[fl.nodes.length - 1];
         const returnProd = end.procedure[end.procedure.length - 1];
-        if (returnProd.args[1].value) {
+        if (returnProd.args[0].value) {
             func.hasReturn = true;
         } else {
             func.hasReturn = false;

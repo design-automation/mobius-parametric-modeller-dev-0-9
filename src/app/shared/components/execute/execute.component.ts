@@ -474,7 +474,6 @@ export class ExecuteComponent {
             'terminated': false,
             'misc': miscData,
         };
-
         if (node.hasError) {
             document.getElementById('Console').click();
             this.dataService.log(

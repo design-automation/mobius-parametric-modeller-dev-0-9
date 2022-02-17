@@ -9,6 +9,7 @@ import { DataService } from '@services';
 import { SaveFileComponent } from '@shared/components/file';
 import { DownloadUtils } from '@shared/components/file/download.utils';
 import { ModuleDocList, ModuleList, primary_func } from '@shared/functions';
+import { checkFlowchartValidity } from '@shared/parser';
 import { IdGenerator, parseMobFile } from '@utils';
 import JSZip from 'jszip';
 
@@ -297,9 +298,10 @@ export class ToolsetComponent implements OnInit {
             }
             func.argCount = func.args.length;
 
+            checkFlowchartValidity(fl);
             const end = fl.nodes[fl.nodes.length - 1];
             const returnProd = end.procedure[end.procedure.length - 1];
-            if (returnProd.args[1].value) {
+            if (returnProd.args[0].value) {
                 func.hasReturn = true;
             } else {
                 func.hasReturn = false;

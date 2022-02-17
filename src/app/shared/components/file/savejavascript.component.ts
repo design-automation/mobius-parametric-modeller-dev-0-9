@@ -5,6 +5,7 @@ import { InputType } from '@models/port';
 import { IFunction, ProcedureTypes } from '@models/procedure';
 import { DataService } from '@services';
 import { CodeUtils } from '@shared/components/execute/code.util';
+import { checkNodeValidity } from '@shared/parser';
 import { IdGenerator } from '@utils';
 
 import { printFuncString, pythonListFunc } from '../execute/execute.component';
@@ -92,6 +93,9 @@ export class SaveJavascriptComponent {
         }
         func.argCount = func.args.length;
 
+        for (const node of fl.nodes) {
+            checkNodeValidity(node);
+        }
         const end = fl.nodes[fl.nodes.length - 1];
         const returnProd = end.procedure[end.procedure.length - 1];
         if (returnProd.args[0].value) {

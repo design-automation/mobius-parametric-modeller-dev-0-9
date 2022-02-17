@@ -1,5 +1,6 @@
 import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
 import { IArgument } from '@models/code';
+import { IFlowchart } from '@models/flowchart';
 import { INode } from '@models/node';
 import { InputType } from '@models/port';
 import { IProcedure, ProcedureTypes } from '@models/procedure';
@@ -1604,12 +1605,30 @@ export function checkValidVar(vars: string[], procedure: IProcedure, nodeProdLis
  * __________________________________________________________________________
  * __________________________________________________________________________
  * __________________________________________________________________________
- * ______________________ CHECK THE VALIDITY OF A NODE ______________________
+ * _____________________________ CHECK VALIDITY _____________________________
  * __________________________________________________________________________
  * __________________________________________________________________________
  * __________________________________________________________________________
  *
 */
+export function checkFlowchartValidity(flowchart: IFlowchart) {
+    for (const func of flowchart.functions) {
+        for (const node of func.flowchart.nodes) {
+            checkNodeValidity(node);
+        }
+    }
+    if (flowchart.subFunctions) {
+        for (const func of flowchart.subFunctions) {
+            for (const node of func.flowchart.nodes) {
+                checkNodeValidity(node);
+            }
+        }
+    }
+    for (const node of flowchart.nodes) {
+        checkNodeValidity(node);
+    }
+}
+
 export function checkNodeValidity(node: INode) {
     if (node.type === 'start') {
         updateGlobals(node);

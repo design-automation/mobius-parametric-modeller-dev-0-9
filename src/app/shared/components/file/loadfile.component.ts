@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
 import { IMobius } from '@models/mobius';
-import { Observable } from 'rxjs';
 import { DataService } from '@services';
-import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
-import { checkNodeValidity } from '@shared/parser';
-import { IdGenerator, updateLocalViewerSettings, updateGeoViewerSettings, updateAframeViewerSettings, parseMobFile } from '@utils';
+import { checkFlowchartValidity } from '@shared/parser';
 import { checkMobFile } from '@shared/updateOldMobFile';
+import {
+    IdGenerator,
+    parseMobFile,
+    updateAframeViewerSettings,
+    updateGeoViewerSettings,
+    updateLocalViewerSettings,
+} from '@utils';
+import { Observable } from 'rxjs';
+
 import { SaveFileComponent } from './savefile.component';
 
 @Component({
@@ -99,21 +105,7 @@ export class LoadFileComponent {
                 //     }
                 // }
             }
-            for (const func of this.dataService.flowchart.functions) {
-                for (const node of func.flowchart.nodes) {
-                    checkNodeValidity(node);
-                }
-            }
-            if (this.dataService.flowchart.subFunctions) {
-                for (const func of this.dataService.flowchart.subFunctions) {
-                    for (const node of func.flowchart.nodes) {
-                        checkNodeValidity(node);
-                    }
-                }
-            }
-            for (const node of loadeddata.flowchart.nodes) {
-                checkNodeValidity(node);
-            }
+            checkFlowchartValidity(loadeddata.flowchart);
             setTimeout(() => {
                 if (this.dataService.mobiusSettings.execute) {
                     document.getElementById('executeButton').click();

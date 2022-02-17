@@ -1,14 +1,20 @@
 import { Component } from '@angular/core';
-import { IMobius } from '@models/mobius';
-import { ProcedureTypes } from '@shared/models/procedure';
-import * as Flatted from 'flatted';
-import { DataService } from '@services';
 import { Router } from '@angular/router';
-import { checkNodeValidity } from '@shared/parser';
-import { IdGenerator, updateLocalViewerSettings, updateGeoViewerSettings, updateAframeViewerSettings, parseMobFile } from '@utils';
-import { checkMobFile } from '@shared/updateOldMobFile';
-import { SaveFileComponent } from './savefile.component';
+import { IMobius } from '@models/mobius';
 import { InputType } from '@models/port';
+import { DataService } from '@services';
+import { ProcedureTypes } from '@shared/models/procedure';
+import { checkFlowchartValidity } from '@shared/parser';
+import { checkMobFile } from '@shared/updateOldMobFile';
+import {
+    IdGenerator,
+    parseMobFile,
+    updateAframeViewerSettings,
+    updateGeoViewerSettings,
+    updateLocalViewerSettings,
+} from '@utils';
+
+import { SaveFileComponent } from './savefile.component';
 
 const S3_BUCKET = 'https://mobius-modeller-publish-bucket.s3.amazonaws.com/';
 
@@ -204,21 +210,7 @@ export class LoadUrlComponent {
         } else if (this.dataService.node.type !== 'end') {
             loadeddata.flowchart.meta.selected_nodes = [loadeddata.flowchart.nodes.length - 1];
         }
-        for (const func of this.dataService.flowchart.functions) {
-            for (const node of func.flowchart.nodes) {
-                checkNodeValidity(node);
-            }
-        }
-        if (this.dataService.flowchart.subFunctions) {
-            for (const func of this.dataService.flowchart.subFunctions) {
-                for (const node of func.flowchart.nodes) {
-                    checkNodeValidity(node);
-                }
-            }
-        }
-        for (const node of loadeddata.flowchart.nodes) {
-            checkNodeValidity(node);
-        }
+        checkFlowchartValidity(loadeddata.flowchart);
         if (newParams) {
             for (const prod of this.dataService.flowchart.nodes[0].procedure) {
                 if (prod.type === ProcedureTypes.Constant && prod.args[0]) {
@@ -287,21 +279,7 @@ export class LoadUrlComponent {
         }
         this.dataService.newFlowchart = true;
         this.router.navigate(['/editor']);
-        for (const func of this.dataService.flowchart.functions) {
-            for (const node of func.flowchart.nodes) {
-                checkNodeValidity(node);
-            }
-        }
-        if (this.dataService.flowchart.subFunctions) {
-            for (const func of this.dataService.flowchart.subFunctions) {
-                for (const node of func.flowchart.nodes) {
-                    checkNodeValidity(node);
-                }
-            }
-        }
-        for (const node of loadeddata.flowchart.nodes) {
-            checkNodeValidity(node);
-        }
+        checkFlowchartValidity(loadeddata.flowchart);
         this.dataService.clearModifiedNode();
         SaveFileComponent.deleteFile('___TEMP___.mob');
 
