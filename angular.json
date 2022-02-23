@@ -82,14 +82,17 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "mobius-parametric-modeller:build"
+            "browserTarget": "mobius-parametric-modeller:build",
+            "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {
-              "browserTarget": "mobius-parametric-modeller:build:production"
+              "browserTarget": "mobius-parametric-modeller:build:production",
+              "proxyConfig": "src/proxy.conf.json"
             },
             "development": {
-              "browserTarget": "mobius-parametric-modeller:build:development"
+              "browserTarget": "mobius-parametric-modeller:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           }
         },

@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { IMobius } from '@models/mobius';
-import { IFlowchart, FlowchartUtils } from '@models/flowchart';
-import { INode } from '@models/node';
-import { IProcedure, ProcedureTypes } from '@models/procedure';
-import { IEdge } from '@models/edge';
-import { Subject } from 'rxjs';
+import { Funcs } from '@design-automation/mobius-sim-funcs';
 import { VERSION } from '@env/version';
-import { Funcs, Model, _parameterTypes } from '@design-automation/mobius-sim-funcs';
+import { IEdge } from '@models/edge';
+import { FlowchartUtils, IFlowchart } from '@models/flowchart';
+import { IMobius } from '@models/mobius';
+import { INode } from '@models/node';
+import { IProcedure } from '@models/procedure';
+import { Subject } from 'rxjs';
+
 const DIALOGSLIST = ['publish', 'publish_url', 'backup', 'globalfunc',
-                     'inlinefunc', 'savels', 'settings'];
+                     'inlinefunc', 'savels', 'settings', 'httprequest'];
 
 @Injectable()
 export class DataService {

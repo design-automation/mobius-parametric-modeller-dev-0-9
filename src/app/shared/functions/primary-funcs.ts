@@ -175,6 +175,7 @@ const util = [
     'ModelCompare',
     'ModelMerge',
     'SendData',
+    'HTTPRequest',
 ];
 
 export const primary_func: [string, string[]][] = [

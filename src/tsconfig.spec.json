@@ -16,9 +16,21 @@
             "@shared/*" : ["app/shared/*"],
             "@views" : ["app/views"],
             "@services" : ["app/shared/services"],
-            "@test" : ["app/views"]
+            "@test" : ["app/views"],
+            "@design-automation/mobius-sim" : [
+                "design-automation/mobius-sim/libs"
+            ],
+            "@design-automation/mobius-sim-funcs" : [
+                "design-automation/mobius-sim-funcs/src"
+            ],
+            "@design-automation/mobius-inline-funcs" : [
+                "design-automation/mobius-inline-funcs/src"
+            ],
+            "@@design-automation/mobius-sim/libs/verb/verb" : [
+                "design-automation/mobius-sim/libs/verb/verb"
+            ],
+            "@libs" : ["design-automation/mobius-sim/libs"],
         }
-
     },
     "files": [
         "test.ts",

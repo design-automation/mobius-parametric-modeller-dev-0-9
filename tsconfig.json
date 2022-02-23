@@ -20,6 +20,20 @@
       "@views" : ["src/app/views"],
       "@model-viewers": ["src/app/mobius-viewer/viewers"],
       "@services" : ["src/app/shared/services"],
+      "@design-automation/mobius-sim" : [
+        "src/design-automation/mobius-sim/libs"
+      ],
+      "@design-automation/mobius-sim-funcs" : [
+        "src/design-automation/mobius-sim-funcs/src"
+      ],
+      "@design-automation/mobius-inline-funcs" : [
+        "src/design-automation/mobius-inline-funcs/src"
+      ],
+      "@design-automation/mobius-sim/libs/verb/verb" : [
+        "src/design-automation/mobius-sim/libs/verb/verb"
+      ],
+      "@libs/*" : ["src/design-automation/mobius-sim/libs/*"],
+
     },
     "typeRoots": [
       "node_modules/@types"

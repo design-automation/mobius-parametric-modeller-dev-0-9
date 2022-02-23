@@ -136,6 +136,12 @@
                         <mat-icon class='icon' svgIcon='icon_help'></mat-icon>
                     </button>
                 </button>
+                <br>
+                <button (click)="openHeaderDialog($event, 'httprequest')"
+                title="Send a HTTP request">
+                    <mat-icon svgIcon='icon_link'></mat-icon>
+                    HTTP request
+                </button>
             </div>
         </div>
         <button id='pageHelpButton' class='menu-btn' (click)='openPageHelp($event)' title='Page Help'>
@@ -422,5 +428,47 @@
         <br>
         <button class='settingsButton' (click)="closeDialog()">Cancel</button>
         <button class='settingsButton' (click)="updateSettings()">Apply</button>
+    </div>
+    <div id='headerDialog_httprequest' (mousedown)='textareaMousedown = true'>
+        <p>HTTP Request:</p>
+        <div class='settingLine'>
+            url:
+            <textarea id="httprequest-url" [(ngModel)]='httprequest_data.url'></textarea>
+        </div>
+        <div class='settingLine'>
+            method:
+            <select name="methods" id="httprequest-method" [(ngModel)]='httprequest_data.method'>
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+                <option value="PATCH">PATCH</option>
+                <option value="DELETE">DELETE</option>
+                <option value="PUT">PUT</option>
+            </select>
+        </div>
+        <div class='settingLine'>
+            request body attributes:
+        </div>
+        <div class='settingLine'>
+            <input value="data" disabled> : <input value="&lt;&lt;current_model&gt;&gt;" disabled>
+        </div>
+        <div class='settingLine'>
+            <input [(ngModel)]='httprequest_data.attributes[0][0]'> : <input [(ngModel)]='httprequest_data.attributes[0][1]'>
+        </div>
+        <div class='settingLine'>
+            <input [(ngModel)]='httprequest_data.attributes[1][0]'> : <input [(ngModel)]='httprequest_data.attributes[1][1]'>
+        </div>
+        <div class='settingLine'>
+            <input [(ngModel)]='httprequest_data.attributes[2][0]'> : <input [(ngModel)]='httprequest_data.attributes[2][1]'>
+        </div>
+        <div class='settingLine'>
+            <input [(ngModel)]='httprequest_data.attributes[3][0]'> : <input [(ngModel)]='httprequest_data.attributes[3][1]'>
+        </div>
+        <div class='settingLine'>
+            <input [(ngModel)]='httprequest_data.attributes[4][0]'> : <input [(ngModel)]='httprequest_data.attributes[4][1]'>
+        </div>
+        <br>
+        <br>
+        <button class='settingsButton' (click)="closeDialog()">Cancel</button>
+        <button class='settingsButton' (click)="sendHTTPRequest()">Send</button>
     </div>
 </dialog>

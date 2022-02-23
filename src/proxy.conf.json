@@ -1,0 +1,7 @@
+{
+    "/function": {
+        "target": "http://172.23.95.231:8080",
+        "changeOrigin": true,
+        "secure": false
+    }
+}
