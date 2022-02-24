@@ -128,7 +128,7 @@ for (const mod of inlinedoc.children) {
  * MAIN FUNCTIONS
  */
 
-function extract_params(func: Function): [IArgument[], boolean] {
+function extract_params(func: Function, asyncCheck: boolean): [IArgument[], boolean] {
     const fnStr = func.toString().replace(/((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg, '');
     let result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).split(','); // .match( /([^\s,]+)/g);
     if (result === null || result[0] === '') {
@@ -146,7 +146,11 @@ function extract_params(func: Function): [IArgument[], boolean] {
 
     });
     let hasReturn = true;
-    if (fnStr.indexOf('return') === -1 || fnStr.indexOf('return;') !== -1) {
+    if (asyncCheck) {
+        if (fnStr.split('return').length === 2) {
+            hasReturn = false;
+        }
+    } else if (fnStr.indexOf('return') === -1 || fnStr.indexOf('return;') !== -1) {
         hasReturn = false;
     }
     return [final_result, hasReturn];
@@ -157,7 +161,7 @@ const moduleNames = Object.getOwnPropertyNames(mobiusFuncs);
 for (const m_name of moduleNames) {
     if (m_name === '__model__' || m_name.endsWith('Model')) { continue; }
     const modObj = { '__enum__': mobiusFuncs[m_name].__enum__ };
-    const funcNames = Object.getOwnPropertyNames(Object.getPrototypeOf(mobiusFuncs[m_name]))
+    const funcNames = Object.getOwnPropertyNames(Object.getPrototypeOf(mobiusFuncs[m_name]));
     for (const fn_name of funcNames) {
         if (fn_name === 'constructor') { continue; }
 
@@ -166,9 +170,12 @@ for (const m_name of moduleNames) {
         const fnObj = <IFunction>{};
         fnObj.module = m_name;
         fnObj.name = fn_name;
-
         fnObj.argCount = func.length;
-        const args = extract_params(func);
+        let asyncCheck = false;
+        if (_parameterTypes.asyncFuncs.indexOf(`${m_name}.${fn_name}`) !== -1) {
+            asyncCheck = true;
+        }
+        const args = extract_params(func, asyncCheck);
         fnObj.args = args[0];
         fnObj.hasReturn = args[1];
         modObj[fn_name] = fnObj;

@@ -62,18 +62,6 @@ export class PanelHeaderComponent implements OnDestroy {
 
     docModList;
 
-    httprequest_data = {
-        url: '/function/count-polygons',
-        method: 'POST',
-        attributes: [
-            ['', ''],
-            ['', ''],
-            ['', ''],
-            ['', ''],
-            ['', ''],
-        ]
-    };
-
     constructor(private dataService: DataService, private keyboardService: KeyboardService, private router: Router) {
         SaveFileComponent.updateBackupList();
         const mdConverter = new showdown.Converter({literalMidWordUnderscores: true, simpleLineBreaks: true});
@@ -1230,28 +1218,5 @@ export class PanelHeaderComponent implements OnDestroy {
         this.urlValid = undefined;
     }
 
-    async sendHTTPRequest() {
-        if (!this.flowchart.model) {
-            return;
-        }
-        const attributes = {
-            data: this.flowchart.model.exportGI(null)
-        };
-        this.httprequest_data.attributes.forEach(([a, b]) => {
-            if (a !== '' && b !== '') {
-                attributes[a] = b;
-            }
-        });
-        let res;
-        await axios({
-            method: <any> this.httprequest_data.method,
-            url: this.httprequest_data.url === '' ? '/function/count-polygons' : this.httprequest_data.url,
-            timeout: 0,
-            data: attributes,
-        }).then(r => {
-            res = r;
-        });
-        this.closeDialog();
-    }
 
 }
