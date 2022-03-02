@@ -6,18 +6,17 @@ then
     cd src/design-automation;
 fi
 
-if cd mobius-sim;
-then git pull; cd ..;
+if [[ -f "mobius-sim/package.json" ]]
+then cd mobius-sim; git pull; cd ..;
 else git clone https://github.com/design-automation/mobius-sim.git;
 fi
 
-if cd mobius-sim-funcs;
-then git pull; cd ..;
+if [[ -f "mobius-sim-funcs/package.json" ]];
+then cd mobius-sim-funcs; git pull; cd ..;
 else git clone https://github.com/design-automation/mobius-sim-funcs.git;
 fi
 
-if cd mobius-inline-funcs;
-then git pull; cd ..;
+if [[ -f "mobius-inline-funcs/package.json" ]];
+then cd mobius-inline-funcs; git pull; cd ..;
 else git clone https://github.com/design-automation/mobius-inline-funcs.git;
 fi
-
