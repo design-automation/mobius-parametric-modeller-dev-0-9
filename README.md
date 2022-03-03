@@ -13,6 +13,7 @@ Assume that both mobius-sim and mobius-simfuncs have been updated.
 To deploy mobius-sim:
 - In mobius-sim `package.json`, update the mobius-sim version number.
 - In mobus-sim root folder, run `npm run deploy`. This will publish the new version to npm.
+- Commit changes to the repo.
 
 To deploy mobius-sim-funcs with the new version of mobius-sim:
 - In mobus-sim-funcs root folder, run `npm install @design-automation/mobius-sim@latest`. This will update 
