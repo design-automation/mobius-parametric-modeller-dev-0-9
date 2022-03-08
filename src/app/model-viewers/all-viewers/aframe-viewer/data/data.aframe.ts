@@ -49,6 +49,8 @@ export class DataAframe {
     private _currentPos = null;
     private _Funcs;
 
+    private north_rotation = 0;
+
 
     // test file: https://raw.githubusercontent.com/design-automation/mobius-vr/master/assets/Street%20View%20360_1.jpg
 
@@ -221,10 +223,10 @@ export class DataAframe {
                 const model_cartesian = new THREE.Vector3(north_dir[0], north_dir[1], 0);
                 const north_cartesian = new THREE.Vector3(0, 1, 0);
                 let angle = north_cartesian.angleTo(model_cartesian);
-                if (north_cartesian.cross(model_cartesian).z > 0) {
+                if (north_cartesian.cross(model_cartesian).z < 0) {
                     angle = -angle;
                 }
-                threeJSGroup.rotateZ(angle);
+                this.north_rotation = angle * 180 / Math.PI;
             }
         }
 
@@ -387,7 +389,7 @@ export class DataAframe {
                 assetEnt.appendChild(imgEnt);
                 imgEnt.addEventListener('load', postloadSkyBGImg);
 
-                skyBG.setAttribute('rotation', `0 ${90 + this.vr.background_rotation} 0`);
+                skyBG.setAttribute('rotation', `0 ${90 + this.vr.background_rotation + this.north_rotation} 0`);
             });
             if (this.vr.foreground_url) {
                 const fgUrl = processDownloadURL(this.vr.foreground_url);
@@ -419,7 +421,7 @@ export class DataAframe {
                     assetEnt.appendChild(imgEnt);
                     imgEnt.addEventListener('load', postloadSkyFGImg);
 
-                    skyFG.setAttribute('rotation', `0 ${90 + this.vr.foreground_rotation} 0`);
+                    skyFG.setAttribute('rotation', `0 ${90 + this.vr.foreground_rotation + this.north_rotation} 0`);
                     skyFG.setAttribute('visible', 'true');
                 });
             } else {
@@ -663,7 +665,7 @@ export class DataAframe {
                 imgEnt.setAttribute('src', bgUrl);
                 assetEnt.appendChild(imgEnt);
                 imgEnt.addEventListener('load', postloadSkyBGImg);
-                skyBG.setAttribute('rotation', `0 ${90 + posDetails.background_rotation} 0`);
+                skyBG.setAttribute('rotation', `0 ${90 + posDetails.background_rotation + this.north_rotation} 0`);
             });
         } else {
             this.updateSky();
@@ -697,7 +699,7 @@ export class DataAframe {
                 imgEnt.setAttribute('src', fgUrl);
                 assetEnt.appendChild(imgEnt);
                 imgEnt.addEventListener('load', postloadSkyFGImg);
-                skyFG.setAttribute('rotation', `0 ${90 + posDetails.foreground_rotation} 0`);
+                skyFG.setAttribute('rotation', `0 ${90 + posDetails.foreground_rotation + this.north_rotation} 0`);
                 skyFG.setAttribute('visible', 'true');
             });
         } else {
