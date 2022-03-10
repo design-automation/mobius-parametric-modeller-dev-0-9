@@ -9,6 +9,7 @@ import { DataService } from '@services';
 import { SaveFileComponent } from '@shared/components/file';
 import { WindowMessageComponent } from '@shared/components/window-message/window-message.component';
 import { inlineVarString } from '@shared/functions';
+import { checkNodeValidity } from '@shared/parser';
 import { DataOutputService } from '@shared/services/dataOutput.service';
 import JSZip from 'jszip';
 
@@ -161,6 +162,8 @@ export class ExecuteComponent {
             if (!node.enabled) {
                 continue;
             }
+
+            checkNodeValidity(node);
 
             let validCheck = await this.checkProdValidity(node, node.localFunc);
             InvalidECheck = InvalidECheck || validCheck[0];
