@@ -555,18 +555,24 @@ export class DataThreejs extends DataThreejsLookAt {
                 const mat = new THREE.LineDashedMaterial({
                     color: element.color || 0,
                     vertexColors: true,
+                    linewidth: element.linewidth ||  1,
                     scale: 1,
                     dashSize: 1000,
                     gapSize: 0,
+                    linecap: 'round', // ignored by WebGLRenderer
+                    linejoin: 'round' // ignored by WebGLRenderer
                 });
                 material_arr.push(mat);
             } else {
                 const mat = new THREE.LineDashedMaterial({
                     color: element.color || 0,
+                    vertexColors: true,
+                    linewidth: element.linewidth ||  1,
                     scale: element.scale || 1,
                     dashSize: element.dashSize || 2,
-                    gapSize: element.gapSize || 1,
-                    vertexColors: true
+                    gapSize: element.gapSize !== null ? element.gapSize : 0,
+                    linecap: 'round', // ignored by WebGLRenderer
+                    linejoin: 'round' // ignored by WebGLRenderer
                 });
                 material_arr.push(mat);
             }
