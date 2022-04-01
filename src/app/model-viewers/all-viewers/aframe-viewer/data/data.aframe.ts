@@ -428,6 +428,7 @@ export class DataAframe {
                 skyFG.setAttribute('visible', 'false');
             }
         } else {
+            skyBG.setAttribute('rotation', `0 0 0`);
             skyFG.setAttribute('visible', 'false');
         }
 
@@ -467,6 +468,7 @@ export class DataAframe {
             const pts = <string[]> this._Funcs.query.Get('pt', null);
             const pos = this._Funcs.attrib.Get(this._Funcs.query.Get('ps', pts), 'xyz');
             const ptAttribs = this._Funcs.attrib.Get(pts, 'vr_hotspot');
+            this._currentPos = null;
             this.camPosList = [
                 {
                 name: 'Default',
@@ -483,7 +485,6 @@ export class DataAframe {
                 cam.pos = pos[i];
                 if (!cam.name) { cam.name = pts[i]; }
                 this.camPosList.push(cam);
-                // this.camPosList.splice(this.camPosList.length - 1, 0, cam);
             }
             const viewpointsList = document.getElementById('aframe_viewpoints');
             const newPointNum = this.camPosList.length - 1 - (viewpointsList.children.length / 2);
@@ -584,15 +585,11 @@ export class DataAframe {
         const skyBG = document.getElementById('aframe_sky_background');
         const skyFG = document.getElementById('aframe_sky_foreground');
         const viewpointsList = <any> document.getElementById('aframe_viewpoints');
-        // skyBG.setAttribute('rotation', '0 0 0');
-        // skyFG.setAttribute('rotation', '0 0 0');
         this.staticCamOn = false;
         if (!posDetails || !posDetails.pos || posDetails.pos.length < 2) {
             if (this._currentPos !== null) {
                 this._currentPos = null;
                 this.updateSky();
-                // skyBG.setAttribute('rotation', '0 0 0');
-                // skyFG.setAttribute('rotation', '0 0 0');
                 if (viewpointsList) {
                     for (let i = 1; i < this.camPosList.length; i++) {
                         const extra = this.camPosList[i].background_url ? 1 : 0;
@@ -638,6 +635,19 @@ export class DataAframe {
             }
         }
 
+        let bgCorrection = [0, 0]
+        // if there's a adjustment attribute
+        if (posDetails.correction ) {
+            let adj_dir = posDetails.correction[0];
+            const adj_rot = posDetails.correction[1];
+            adj_dir = adj_dir + (90 + posDetails.background_rotation + this.north_rotation);
+
+            const rad_dir = adj_dir * Math.PI / 180;
+            const rotX = adj_rot * Math.cos(rad_dir)
+            const rotY = adj_rot * Math.sin(rad_dir)
+            bgCorrection = [rotX, rotY]
+        }
+
         if (posDetails.background_url) {
             skyBG.setAttribute('src', '');
             skyBG.setAttribute('rotation', '0 0 0');
@@ -666,7 +676,11 @@ export class DataAframe {
                 imgEnt.setAttribute('src', bgUrl);
                 assetEnt.appendChild(imgEnt);
                 imgEnt.addEventListener('load', postloadSkyBGImg);
-                skyBG.setAttribute('rotation', `0 ${90 + posDetails.background_rotation + this.north_rotation} 0`);
+                skyBG.setAttribute('rotation',
+                    `${bgCorrection[0]} ` +
+                    `${90 + posDetails.background_rotation + this.north_rotation} ` +
+                    `${bgCorrection[1]}`
+                );
             });
         } else {
             this.updateSky();
@@ -700,7 +714,10 @@ export class DataAframe {
                 imgEnt.setAttribute('src', fgUrl);
                 assetEnt.appendChild(imgEnt);
                 imgEnt.addEventListener('load', postloadSkyFGImg);
-                skyFG.setAttribute('rotation', `0 ${90 + posDetails.foreground_rotation + this.north_rotation} 0`);
+                skyFG.setAttribute('rotation',
+                `${bgCorrection[0]} ` +
+                `${90 + posDetails.foreground_rotation + this.north_rotation} ` +
+                `${bgCorrection[1]}`);
                 skyFG.setAttribute('visible', 'true');
             });
         } else {
