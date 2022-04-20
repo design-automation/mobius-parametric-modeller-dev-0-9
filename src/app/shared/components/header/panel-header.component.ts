@@ -1190,6 +1190,7 @@ export class PanelHeaderComponent implements OnDestroy {
     publishUpload(event) {
         document.getElementById('spinner-on').click();
         const fileStr = SaveFileComponent.fileDownloadString(this.dataService.file, true);
+        console.log('~~~~~~~', fileStr.file)
         axios({
             method: 'PUT',
             url: API_ENDPOINT,
