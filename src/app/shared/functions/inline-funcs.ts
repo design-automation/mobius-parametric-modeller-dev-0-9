@@ -101,7 +101,8 @@ const dictionaries = [
 
 const colors = [
     'colFalse(val, min, max)',
-    'colScale(val, min, max, sc)'
+    'colScale(val, min, max, sc)',
+    'colFromStr(col_str)',
 ];
 
 const planes = [
@@ -376,6 +377,7 @@ rayLtoG = __inline__.ray.rayLtoG;
 rayGtoL = __inline__.ray.rayGtoL;
 colFalse = __inline__.colors.colFalse;
 colScale = __inline__.colors.colScale;
+colFromStr = __inline__.colors.colFromStr;
 radToDeg = __inline__.conversion.radToDeg;
 degToRad = __inline__.conversion.degToRad;
 numToStr = __inline__.conversion.numToStr;
