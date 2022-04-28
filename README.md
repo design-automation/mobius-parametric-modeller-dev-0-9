@@ -1,5 +1,17 @@
 # mobius-parametric-modeller-dev-0-9
+
 Mobius Modeller version 0.9
+
+## Intsall Instructions
+
+To install, change to the root folder and `npm install` as usual.
+
+There is an script (`pull-mobius-sim.sh`) that will pull code from three other repsoitories. 
+- mobius-sim
+- mobius-sim-funcs
+- mobius-inline-funcs
+
+When `npm install` is executed, it will also execute this script. If a popup box opens up asking which program to use to execute this script, select `Git`.
 
 ## Deployment Instruction:
 
@@ -35,3 +47,13 @@ When `npm install` is run, mobius-sim, mobius-sim-funcs and mobius-inline-funcs 
 
 To disable mobius referencing those projects and instead use the npm published version, comment out the paths pointing towards them in `tsconfig.json` and `src/tsconfig.app.json`
 
+## Modifying functions in mobius-sim-funcs and mobius-inline-funcs
+
+If the functions in mobius-sim-funcs or mobius-inline-funcs are modified, the the docs need to be updated.
+To do this, change to the respective folders and run `npm run moduleDocs`.
+
+For mobius-sim-func:
+- ...\mobius-parametric-modeller-dev-0-9\src\design-automation\mobius-sim-funcs
+
+For mobius-inline-func:
+- ...\mobius-parametric-modeller-dev-0-9\src\design-automation\mobius-inline-funcs
