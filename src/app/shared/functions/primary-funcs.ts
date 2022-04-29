@@ -78,6 +78,7 @@ const attrib = [
     'Delete',
     'Rename',
     'Push',
+    'Values',
     'Discover',
 ];
 
