@@ -8,6 +8,13 @@ const inline_query_expr = [
 
 const constants = [
     'PI',
+    'VX',
+    'VY',
+    'VZ',
+    'VO',
+    'RX',
+    'RY',
+    'RZ',
     'XY',
     'YZ',
     'ZX',
@@ -85,10 +92,13 @@ const dictionaries = [
     'vecDiv(v, num)',
     'vecMult(v, num)',
     'vecSum(...v)',
+    'vecAvg(...v)',
+    'vecAvgDir(...v)',
     'vecLen(v)',
     'vecSetLen(v, num)',
     'vecNorm(v)',
     'vecRev(v)',
+    'vecRot(v1, v2, a)',
     'vecFromTo(xyz1, xyz2)',
     'vecAng(v1, v2)',
     'vecAng2(v1, v2, n)',
@@ -237,6 +247,13 @@ ZX = __inline__.constants.ZX;
 YX = __inline__.constants.YX;
 ZY = __inline__.constants.ZY;
 XZ = __inline__.constants.XZ;
+VX = __inline__.constants.VX;
+VY = __inline__.constants.VY;
+VZ = __inline__.constants.VZ;
+RX = __inline__.constants.RX;
+RY = __inline__.constants.RY;
+RZ = __inline__.constants.RZ;
+VO = __inline__.constants.VO;
 isNum = __inline__.types.isNum;
 isInt = __inline__.types.isInt;
 isFlt = __inline__.types.isFlt;
@@ -347,10 +364,13 @@ vecSub = __inline__.vec.vecSub;
 vecDiv = __inline__.vec.vecDiv;
 vecMult = __inline__.vec.vecMult;
 vecSum = __inline__.vec.vecSum;
+vecAvg = __inline__.vec.vecAvg;
+vecAvgDir = __inline__.vec.vecAvgDir;
 vecLen = __inline__.vec.vecLen;
 vecSetLen = __inline__.vec.vecSetLen;
 vecNorm = __inline__.vec.vecNorm;
 vecRev = __inline__.vec.vecRev;
+vecRot = __inline__.vec.vecRot;
 vecFromTo = __inline__.vec.vecFromTo;
 vecAng = __inline__.vec.vecAng;
 vecAng2 = __inline__.vec.vecAng2;

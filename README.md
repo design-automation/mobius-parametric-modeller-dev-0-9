@@ -28,7 +28,7 @@ Assume that both mobius-sim and mobius-simfuncs have been updated.
 To deploy mobius-sim:
 - In mobius-sim `package.json`, update the mobius-sim version number.
 - In mobus-sim root folder, run `npm run deploy`. This will publish the new version to npm.
-- Open the mobus-sim root folder in a new vscdoe, and commit changes to the repo.
+- Open the mobus-sim root folder in a new vscode, and commit changes to the repo.
 
 To deploy mobius-sim-funcs with the new version of mobius-sim:
 - In mobus-sim-funcs root folder, run `npm install @design-automation/mobius-sim@latest`. This will update 
@@ -54,7 +54,8 @@ To disable mobius referencing those projects and instead use the npm published v
 
 If the functions in mobius-sim-funcs or mobius-inline-funcs are modified, the list of functions need to be updated. These lists can be found here:
 
-- \mobius-parametric-modeller-dev-0-9\src\app\shared\functions\primary-funcs.ts
+- `\mobius-parametric-modeller-dev-0-9\src\app\shared\functions\primary-funcs.ts`
+- `\mobius-parametric-modeller-dev-0-9\src\app\shared\functions\inline-funcs.ts`
 
 ## Updating documentation in mobius-sim-funcs and mobius-inline-funcs
 
@@ -68,4 +69,4 @@ For mobius-inline-func:
 
 ## Commit changes
 
-To commit changes to mobius-sim, mobius-sim-funcs, or mobius-inline-funcs, it is best to open the root folder in a new vscode. (You can open a new vscode, and drag thr root folder into it.) Then commit from the new vscode in the usual way.
+To commit changes to mobius-sim, mobius-sim-funcs, or mobius-inline-funcs, it is suggested to open the root folder in a new vscode. (You can open a new vscode, and drag thr root folder into it.) Then commit from the new vscode in the usual way.
