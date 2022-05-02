@@ -94,6 +94,7 @@ const analyze = [
     'Raytrace',
     'Isovist',
     'View',
+    'Visibility',
     'Sky',
     'Sun',
     'SkyDome',
