@@ -93,6 +93,7 @@ const collection = [
 const analyze = [
     'Raytrace',
     'Isovist',
+    'View',
     'Sky',
     'Sun',
     'SkyDome',
