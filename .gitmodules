@@ -1,0 +1,9 @@
+[submodule "src/mobius-sim"]
+	path = src/mobius-sim
+	url = https://github.com/design-automation/mobius-sim.git
+[submodule "src/mobius-sim-funcs"]
+	path = src/mobius-sim-funcs
+	url = https://github.com/design-automation/mobius-sim-funcs.git
+[submodule "src/mobius-inline-funcs"]
+	path = src/mobius-inline-funcs
+	url = https://github.com/design-automation/mobius-inline-funcs.git

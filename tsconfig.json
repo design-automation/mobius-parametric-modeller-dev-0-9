@@ -21,18 +21,18 @@
       "@model-viewers": ["src/app/mobius-viewer/viewers"],
       "@services" : ["src/app/shared/services"],
       "@design-automation/mobius-sim" : [
-        "src/design-automation/mobius-sim/libs"
+        "src/mobius-sim/libs"
       ],
       "@design-automation/mobius-sim-funcs" : [
-        "src/design-automation/mobius-sim-funcs/src"
+        "src/mobius-sim-funcs/src"
       ],
       "@design-automation/mobius-inline-funcs" : [
-        "src/design-automation/mobius-inline-funcs/src"
+        "src/mobius-inline-funcs/src"
       ],
       "@design-automation/mobius-sim/libs/verb/verb" : [
-        "src/design-automation/mobius-sim/libs/verb/verb"
+        "src/mobius-sim/libs/verb/verb"
       ],
-      "@libs/*" : ["src/design-automation/mobius-sim/libs/*"],
+      "@libs/*" : ["src/mobius-sim/libs/*"],
 
     },
     "typeRoots": [
