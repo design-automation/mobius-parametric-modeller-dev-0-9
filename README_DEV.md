@@ -22,7 +22,7 @@ The other three parts are libraries published on NPM.
 
 ## Integration with mobius-sim, mobius-sim-funcs and mobius-inline-funcs
 
-When `npm install` is run, mobius-sim, mobius-sim-funcs and mobius-inline-funcs are cloned into `src/design-automation`. When running mobius with `npm start`, the references to these packages will direct to these projects. 
+When `npm install` is run, mobius-sim, mobius-sim-funcs and mobius-inline-funcs are cloned into `src`. When running mobius with `npm start`, the references to these packages will direct to these projects. 
 
 This is done so that any changes made in those project would be reflected on mobius, allowing for easier code testing. The changes made can also be committed and pushed inside each of the projects
 
@@ -81,7 +81,3 @@ For mobius-sim-func:
 
 For mobius-inline-func:
 - ...\mobius-parametric-modeller-dev-0-9\src\design-automation\mobius-inline-funcs
-
-## Commit changes
-
-To commit changes to mobius-sim, mobius-sim-funcs, or mobius-inline-funcs, it is suggested to open the root folder in a new vscode. (You can open a new vscode, and drag thr root folder into it.) Then commit from the new vscode in the usual way.
