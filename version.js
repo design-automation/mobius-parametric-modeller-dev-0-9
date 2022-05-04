@@ -43,9 +43,8 @@ function copyFolderRecursiveSync( source, target ) {
     }
 }
 
-copyFolderRecursiveSync('src/design-automation/mobius-sim-funcs/typedoc-json', './src/assets')
-copyFileSync('src/design-automation/mobius-inline-funcs/typedoc-json/doc.json',
-             './src/assets/typedoc-json/doc-inline.json')
+copyFolderRecursiveSync('src/mobius-sim-funcs/typedoc-json', './src/assets')
+copyFileSync('src/mobius-inline-funcs/typedoc-json/doc.json', './src/assets/typedoc-json/doc-inline.json')
 // copyFolderRecursiveSync('./node_modules/@design-automation/mobius-sim-funcs/typedoc-json', './src/assets')
 // copyFileSync('./node_modules/@design-automation/mobius-inline-funcs/typedoc-json/doc.json',
 //              './src/assets/typedoc-json/doc-inline.json')
