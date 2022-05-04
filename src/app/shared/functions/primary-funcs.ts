@@ -78,6 +78,8 @@ const attrib = [
     'Delete',
     'Rename',
     'Push',
+    'Values',
+    'Discover',
 ];
 
 const collection = [
@@ -91,6 +93,8 @@ const collection = [
 const analyze = [
     'Raytrace',
     'Isovist',
+    'View',
+    'Visibility',
     'Sky',
     'Sun',
     'SkyDome',
