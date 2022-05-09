@@ -19,7 +19,7 @@
                                 <div class="tile--contents" (click)='loadFile(galleryData.link + f[0])'>
                                     <img data-src='{{getImgURL(galleryData.link, f[0])}}' alt='project image' loading="lazy">
                                 </div>
-                                <span class = 'project__title'>{{ f[1] | simplename }}</span>
+                                <span class = 'project__title'>{{ f[0]| simplename }} {{f[1]}}</span>
                             </div>
                         </div>
                     </div>
