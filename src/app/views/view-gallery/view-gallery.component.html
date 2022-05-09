@@ -16,10 +16,10 @@
                     <div class = 'content--container'>
                         <div class="container__element container__element--project-container">
                             <div class="project-container__project" *ngFor="let f of galleryData.files">
-                                <div class="tile--contents" (click)='loadFile(galleryData.link + f)'>
-                                    <img data-src='{{getImgURL(galleryData.link,f)}}' alt='project image' loading="lazy">
+                                <div class="tile--contents" (click)='loadFile(galleryData.link + f[0])'>
+                                    <img data-src='{{getImgURL(galleryData.link, f[0])}}' alt='project image' loading="lazy">
                                 </div>
-                                <span class = 'project__title'>{{ f | simplename }}</span>
+                                <span class = 'project__title'>{{ f[1] | simplename }}</span>
                             </div>
                         </div>
                     </div>

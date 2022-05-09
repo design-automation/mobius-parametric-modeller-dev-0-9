@@ -8,9 +8,18 @@ function resizeImg(fileIn, fileOut) {
 galleryConfig.forEach(section => {
     const link1 = section.link.replace('/assets/gallery', 'src/assets/gallery');
     section.files.forEach(file => {
-        const link2 = file.split('.mob')[0];
+        let link2;
+        if (Array.isArray(file)) {
+            link2 = file[0].split('.mob')[0];
+        } else {
+            link2 = file.split('.mob')[0];
+        }
         const fileIn = link1 + 'imgs/' + link2 + '.JPG'
         const fileOut = link1 + 'imgs/' + link2 + '_resized.JPG'
-        resizeImg(fileIn, fileOut);
+        try {
+            resizeImg(fileIn, fileOut);
+        } catch (ex) {
+            console.log('error resizing file '+ fileIn)
+        }
     })
 })
