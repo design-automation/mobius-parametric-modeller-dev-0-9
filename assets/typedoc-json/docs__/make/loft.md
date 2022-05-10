@@ -1,7 +1,13 @@
 ## make.Loft  
   
   
-**Description:** Lofts between entities.  
+**Description:** Lofts between entities.
+
+
+The geometry that is generated depends on the method that is selected.
+- The 'quads' methods will generate polygons.
+- The 'stringers' and 'ribs' methods will generate polylines.
+- The 'copies' method will generate copies of the input geometry type.  
   
 **Parameters:**  
   * *entities:* List of entities, or list of lists of entities.  

@@ -3,114 +3,180 @@
         {
             "name": "Generative Examples",
             "files": [
-                "Floor_area_constraint.mob",
-                "Form_Finding_Solver.mob",
-                "Minimise_Detours_Solver.mob",
-                "Rectangle_Solver.mob",
-                "Urban_plot_subdivision.mob",
-                "Podium_tower_options_part1.mob",
-                "Podium_tower_options_part2.mob",
-                "Podium_tower_options_part3.mob&defaultViewer=2",
-                "Undulating_Pavilion_Site.mob&defaultViewer=2",
-                "Spiral_staircase_options.mob"
+                ["Floor_area_constraint.mob", "Generating buildings based on their floor area constant."],
+                ["Form_Finding_Solver.mob", "A model that shows tension and gravity."],
+                ["Minimise_Detours_Solver.mob", "A model which finds the shortest path between buildings."],
+                ["Rectangle_Solver.mob", "Creating rectangles based on specifications."],
+                ["Urban_plot_subdivision.mob", "Subdividing various urban plots."],
+                ["Podium_tower_options_part1.mob", ": Generating the urban buildings. "],
+                ["Podium_tower_options_part2.mob", ": Generating the taller podium towers, with selectable options. "],
+                ["Podium_tower_options_part3.mob&defaultViewer=2", ": Combining the two prior models."],
+                ["Undulating_Pavilion_Site.mob&defaultViewer=2", " "],
+                ["Spiral_staircase_options.mob", " "]
             ],
             "link": "/assets/gallery/generative_modelling_examples/"
         },
         {
             "name": "Analysis Examples",
             "files": [
-                "Centrality_Analysis.mob",
-                "Sky_and_Sun_dome.mob",
-                "Facade_sky_and_sun_analysis.mob",
-                "Isovist.mob",
-                "Isovist_T_shapes.mob",
-                "Proximity_Analysis.mob",
-                "Ray_casting.mob",
-                "Sky_and_sun_exposure.mob",
-                "View_tower_block_options_part_1.mob",
-                "View_tower_block_options_part_2.mob",
-                "Multiple_criteria_part_1.mob",
-                "Multiple_criteria_part_2.mob",
-                "Wind_paths.mob"
+                ["Centrality_Analysis.mob", " "],
+                ["Sky_and_Sun_dome.mob", " "],
+                ["Facade_sky_and_sun_analysis.mob", " "],
+                ["Isovist.mob", " "],
+                ["Isovist_T_shapes.mob", " "],
+                ["Proximity_Analysis.mob", " "],
+                ["Ray_casting.mob", " "],
+                ["Sky_and_sun_exposure.mob", " "],
+                ["View_tower_block_options_part_1.mob"," "],
+                ["View_tower_block_options_part_2.mob", " "],
+                ["Multiple_criteria_part_1.mob", " "],
+                ["Multiple_criteria_part_2.mob", " "],
+                ["Wind_paths.mob", " "]
             ],
             "link": "/assets/gallery/analysis_examples/"
         },
         {
             "name": "VR Examples",
             "files": [
-                "winding_streets.mob&defaultViewer=vr",
-                "podium_tower.mob&defaultViewer=vr",
-                "navmesh_stair.mob&defaultViewer=vr"
+                ["winding_streets.mob&defaultViewer=vr", ": A model with VR enabled, situated at Singapore's winding streets."],
+                ["podium_tower.mob&defaultViewer=vr", ": A podium tower model with VR enabled."],
+                ["VR_Bridge.mob&defaultViewer=vr", ": A bridge model with VR enabled, situated at Marina Bay."]
             ],
             "link": "/assets/gallery/vr_examples/"
         },
         {
-            "name": "Global Function Examples",
-            "files": [
-                "pyramids_from_pgons_example.mob&node=1",
-                "pyramids_from_pgons_func.mob&node=0",
-                "div_pgons_example1.mob&node=1",
-                "div_pgons_example2.mob&node=1",
-                "div_pgons_func.mob&node=0",
-                "offset_floors_and_windows_example.mob&node=1",
-                "offset_pgons_func.mob&node=0",
-                "hello_example.mob&node=1",
-                "hello_func.mob&node=0"
-            ],
-            "link": "/assets/gallery/user_functions_examples/"
-        },
-        {
             "name": "Import Examples",
             "files": [
-                "Import_geojson_map.mob&node=3",
-                "Import_geojson_data.mob&node=7"
+                ["Import_geojson_map.mob&node=3", ""],
+                ["Import_geojson_data.mob&node=7", ""]
             ],
             "link": "/assets/gallery/import_examples/"
         },
         {
-            "name": "Material Examples",
+            "name": "Skeletal Modeling Demonstrations",
             "files": [
-                "glass_materials.mob&node=2",
-                "front_and_back_materials.mob&node=1",
-                "Visualising_materials.mob&node=10"
+                ["Mars_Science_City.mob", ""],
+                ["Cooper_Union.mob", ""],
+                ["The_Coral_Reef.mob", ""],
+                ["Florida_Polytechnic_University.mob", ""],
+                ["Tree_column_Pavilion.mob", ""]
             ],
-            "link": "/assets/gallery/rendering_examples/"
+            "link": "/assets/gallery/student_examples/"
         },
         {
-            "name": "Shapes Examples",
+            "name": "Building Examples",
             "files": [
-                "Cubes.mob&node=2",
-                "Spiral_Staircase.mob&node=2",
-                "torus.mob&node=2",
-                "Undulating_pavillion.mob&node=8",
-                "Wrapping_hexagons.mob&node=2"
+                ["Twisting_Ellipse_Tower.mob&node=2", ""],
+                ["Undulating_Facade.mob&node=6", ""],
+                ["Different_Facades_Boolean.mob&node=8", ""],
+                ["City_Hall_London.mob&node=9", ""],
+                ["Sliced_Block.mob&node=9", ""],
+                ["Star_Roof.mob&node=1", ""],
+                ["Rotated_Curvy_Roofs.mob&node=5", ""],
+                ["Chapel_Wavy_roof.mob&node=8", ""],
+                ["Swallows_Nest.mob&node=7", ""],
+                ["Undulating_pavillion.mob&node=8", ""]
+            ],
+            "link": "/assets/gallery/building_examples/"
+        },
+        {
+            "name": "Law curve Examples",
+            "files": [
+                ["Sections_follwoing_Curve.mob&node=1", ": Using a LawCurve to create 'bumps' in a line."],
+                ["Double_LawCurve_Arch.mob&node=1", ": Using one curve as a perimeter and another to control height."],
+                ["Double_LawCurve_Waves.mob&node=1", ": Creating a 3D wave-like form with two curves."],
+                ["Circles_on_Spiral.mob&node=1", ": Placing circles on a spiral at regular intervals."],
+                ["Curved_Facade.mob&node=1", ": Creating a wall of curved slices."],
+                ["Undulating_Wall.mob&node=1", " Creating a wall with a top curve and bottom curve."],
+                ["Curve_Subdivision_and_Intersections.mob&node=1", ": Using the intersections of circles to create walls and arches."],
+                ["Curved_Tower.mob&node=1", ": Using LawCurves to make a convex tower."],
+                ["Nurbs_LawCurve_Tower.mob&node=1", ": Creating a NurbsCurve to generate a tower's form."],
+                ["Eroded_Tower.mob&node=1", ": Eroding a tower by following a curve."],
+                ["Flower_Roof.mob&node=1", ": Using curves to create a flowery roof."]
+            ],
+            "link": "/assets/gallery/lawcurve_examples/"
+        },
+        {
+            "name": "Randomization Examples",
+            "files": [
+                ["Random_Stacked_spaces.mob", ": The height and angle of the spaces are randomized. "],
+                ["Random_Stacked_polygons.mob", ": The location of each polygon's positions is randomized. "],
+                ["Random_Facade_arches.mob", ": The size of the arches are randomized. "],
+                ["Random_Stacked_blocks.mob", ": The grid and blocks are randomized. "],
+                ["Random_Balconies_with_Louvers.mob", ": The positions of the louvers on the building are randomized. "]
+        ],
+            "link": "/assets/gallery/randomized_examples/"
+        },
+        {
+            "name": "3D Geometry Examples",
+            "files": [
+                ["Cube_in_Sphere.mob", ": Using patterns and polylines to create a cube in a sphere."],
+                ["Dome_Roof.mob", ": Using polylines to create a simple domed roof."],
+                ["Facade_of_Stacked_Boxes.mob", ": Creating a wavy set of lines based on a stack of boxes."],
+                ["Surface_from_Spheres.mob", ": Using the intersection between circles to create surfaces."],
+                ["Wrapping_hexagons.mob&node=2", ": Wrapping hexagons around a tube-like shape."],
+                ["Lofted_NurbsCurves.mob", ": Making a surface by lofting NurbCrvs. "],
+                ["Cylindrical_Net.mob", ": Making a cylinder and creating holes in it."],
+                ["Slits_in_Loft.mob", ": Making a lofted form and altering its curves to create 'slits'."],
+                ["Shell_form.mob", ": Making an open shell-like form."],
+                ["Sloping_Apartments.mob", ""],
+                ["Cubes.mob&node=2", ": A rainbow of cubes in a cube formation."],
+                ["Spiral_Staircase.mob&node=2", ": A staircase following a spiral."],
+                ["Torus.mob&node=2", ":  A surface of revolution generated by revolving a circle in three-dimensional space about an axis that is coplanar with the circle."],
+                ["Cube_Landscape.mob", ": Arranging cubes along extruded positions."],
+                ["Cross_along_Planes.mob", ": Arranging a 3D unit (crosses) onto planes."],
+                ["Twisting_ribs.mob", ""]
             ],
             "link": "/assets/gallery/shapes_examples/"
         },
         {
-            "name": "Basic Examples",
+            "name": "2D Modeling Examples",
             "files": [
-                "basic_variable.mob&node=1",
-                "basic_ifelse.mob&node=1",
-                "basic_foreach.mob&node=1",
-                "basic_while.mob&node=1",
-                "podium_with_towers.mob",
-                "block_patterns.mob",
-                "Parametric_stairs.mob",
-                "Polyline.mob"
+                ["Connected_arcs.mob&node=1", ": How to connect different arcs into one arc."],
+                ["Rectangle_Curved_end.mob&node=1", ": How to change one side of a rectangle into a curve."],
+                ["Curvy_wave_Rectangle.mob&node=1", ": Making a wave pattern and adding dimension to it."],
+                ["Floorplates_boolean1.mob&node=1", ""],
+                ["Floorplates_boolean2.mob&node=1", ""],
+                ["Floorplates_rounded_corners.mob&node=1", ""],
+                ["Voronoi_Cells_and_Corridor.mob&node=1", ": Creating cells and corridors from one line."],
+                ["Shifting_floor_pattern.mob&node=1", ": How to have a varied floor pattern from one rectangle."],
+                ["Hemisphere_Hexagons.mob&node=1", ": Wrapping a 3D shape with a 2D pattern."]
             ],
-            "link": "/assets/gallery/basic_examples/"
+            "link": "/assets/gallery/2dgeometry_examples/"
         },
         {
-            "name": "Function Examples",
+            "name": "Global Function Examples",
             "files": [
-                "make.Position.mob&node=1",
-                "make.Point.mob&node=1",
-                "make.Polyline.mob&node=1",
-                "make.Polygon.mob&node=1",
-                "make.Collection.mob&node=1"
+                ["pyramids_from_pgons_example.mob&node=1", " "],
+                ["pyramids_from_pgons_func.mob&node=0", " "],
+                ["div_pgons_example1.mob&node=1", " "],
+                ["div_pgons_example2.mob&node=1", " "],
+                ["div_pgons_func.mob&node=0", " "],
+                ["offset_floors_and_windows_example.mob&node=1", " "],
+                ["offset_pgons_func.mob&node=0", " "],
+                ["hello_example.mob&node=1", " "]
             ],
-            "link": "/assets/gallery/function_examples/"
+            "link": "/assets/gallery/user_functions_examples/"
+        },
+        {
+            "name": "Basic Examples",
+            "files": [
+                ["glass_materials.mob&node=2", "(Material Example)"],
+                ["front_and_back_materials.mob&node=1", "(Material Example)"],
+                ["Visualising_materials.mob&node=10", "(Material Example)"],
+                ["basic_variable.mob&node=1", " "],
+                ["basic_ifelse.mob&node=1", " "],
+                ["basic_foreach.mob&node=1", " "],
+                ["basic_while.mob&node=1", " "],
+                ["podium_with_towers.mob", " "],
+                ["block_patterns.mob", " "],
+                ["Parametric_stairs.mob", " "],
+                ["Polyline.mob", " "],
+                ["Edge_Order.mob&node=1", " "],
+                ["Circle_with_Hole.mob&node=1", " "]
+
+            ],
+            "link": "/assets/gallery/basic_examples/"
         }
     ]
 }

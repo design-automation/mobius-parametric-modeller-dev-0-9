@@ -13203,7 +13203,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Sorts an list, based on the values of the items in the list.\n\\n\nFor alphabetical sort, values are sorted character by character,\nnumbers before upper case alphabets, upper case alphabets before lower case alphabets.",
+                "shortText": "Sorts a list, based on the values of the items in the list.\n\\n\nFor alphabetical sort, values are sorted character by character,\nnumbers before upper case alphabets, upper case alphabets before lower case alphabets.",
                 "returns": "void",
                 "tags": [
                   {
@@ -13212,7 +13212,7 @@
                   },
                   {
                     "tag": "example_info",
-                    "text": "where list = [\"1\",\"2\",\"10\",\"Orange\",\"apple\"]\nExpected value of list is [\"1\",\"10\",\"2\",\"Orange\",\"apple\"]."
+                    "text": "where list = [\"1\",\"2\",\"10\",\"Orange\",\"apple\"].\nExpected value of list is [\"1\",\"10\",\"2\",\"Orange\",\"apple\"]."
                   },
                   {
                     "tag": "example",
@@ -13220,7 +13220,7 @@
                   },
                   {
                     "tag": "example_info",
-                    "text": "where list = [56,6,48]\nExpected value of list is [6,48,56].\n"
+                    "text": "where list = [56,6,48].\nExpected value of list is [6,48,56].\n"
                   }
                 ]
               },
@@ -14606,7 +14606,7 @@
           "sources": [
             {
               "fileName": "functions/make/Extrude.ts",
-              "line": 46,
+              "line": 48,
               "character": 16
             }
           ],
@@ -14627,7 +14627,7 @@
                   },
                   {
                     "tag": "example_info",
-                    "text": "Creates a polyline of total length 10 (with two edges of length 5 each) in the z-direction.\nIn this case, the 'quads' setting is ignored."
+                    "text": "Creates a polyline of total length 10 (with two edges of length 5 each) in the\nz-direction.\nIn this case, the 'quads' setting is ignored."
                   },
                   {
                     "tag": "example",
@@ -14687,7 +14687,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "Number or vector. If number, assumed to be [0,0,value] (i.e. extrusion distance in z-direction)."
+                    "shortText": "Number or vector. If number, assumed to be [0,0,value] (i.e. extrusion distance in\nz-direction)."
                   },
                   "type": {
                     "type": "union",
@@ -14848,8 +14848,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Lofts between entities.",
-                "text": "The geometry that is generated depends on the method that is selected.\n- The 'quads' methods will generate polygons.\n- The 'stringers' and 'ribs' methods will generate polylines.\n- The 'copies' method will generate copies of the input geometry type.\n",
+                "shortText": "Lofts between entities.\n\\n\nThe geometry that is generated depends on the method that is selected.\n- The 'quads' methods will generate polygons.\n- The 'stringers' and 'ribs' methods will generate polylines.\n- The 'copies' method will generate copies of the input geometry type.",
                 "returns": "Entities, a list of new polygons or polylines resulting from the loft.",
                 "tags": [
                   {
