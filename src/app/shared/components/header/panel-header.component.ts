@@ -1148,7 +1148,7 @@ export class PanelHeaderComponent implements OnDestroy {
             fnDocHtml += `<p><span>Returns: </span> ${fnDoc.returns}</p>`;
         }
         if (fnDoc.example) {
-            fnDocHtml += `<br><p><span>Examples: </span></p>`;
+            fnDocHtml += `<br><br><p><span>Examples: </span></p>`;
             for (const i in fnDoc.example) {
                 if (!fnDoc.example[i]) {continue; }
                 fnDocHtml += `<p class="paramP">${fnDoc.example[i]}</p>`;
