@@ -1138,7 +1138,7 @@ export class PanelHeaderComponent implements OnDestroy {
             for (const param of fnDoc.parameters) {
                 if (!param) {continue; }
                 if (!param.description) {
-                    fnDocHtml += `<p class="paramP"><span>${param.name}</p>`;
+                    fnDocHtml += `<p class="paramP"><span>${param.name}</span></p>`;
                 } else {
                     fnDocHtml += `<p class="paramP"><span>${param.name} - </span> ${param.description}</p>`;
                 }
@@ -1146,6 +1146,16 @@ export class PanelHeaderComponent implements OnDestroy {
         }
         if (fnDoc.returns) {
             fnDocHtml += `<p><span>Returns: </span> ${fnDoc.returns}</p>`;
+        }
+        if (fnDoc.example) {
+            fnDocHtml += `<br><p><span>Examples: </span></p>`;
+            for (const i in fnDoc.example) {
+                if (!fnDoc.example[i]) {continue; }
+                fnDocHtml += `<p class="paramP">${fnDoc.example[i]}</p>`;
+                if (fnDoc.example_info) {
+                    fnDocHtml += `<p class="paramP">${fnDoc.example_info[i]}</p>`;
+                }
+            }
         }
         fnDocHtml += '</div>';
         inlineHelp.innerHTML = fnDocHtml;
