@@ -1,10 +1,10 @@
 ## VR-VIEWER-HOTSPOTS 
 
 Hotspots are defined by creating point objects in your model with an attribute called `vr_hotspot`.
-The position of the point object defines the location of the VR hotspot. The `vr_hotspot` `attribute
+The position of the point object defines the location of the VR hotspot. The `vr_hotspot` attribute
 is a dictionary containing various settings. 
 
-For standard hotspots, only one setting is required: the rotation of the camera. Here is an
+For standard hotspots, only one setting is required: the rotation of the camera in degrees. Here is an
 example of a line of code setting the `vr_hotspot` attribute:
 
 ```
@@ -41,20 +41,20 @@ direction when looking down at the XY plane; negative angles rotate in an anti-c
 
 The panorama hotspot can include two panorama images: one for the foreground and another for the
 background. These images form two domes, centered on the camera location. The 3D model
-is placed at the dentre of these two domes. Below is a diagram of the setup:
+is placed at the centre of these two domes. Below is a diagram of the setup:
 
-![Two panorama images](assets/typedoc-json/docVW/imgs/viewer_vr_hemi_domes.png)
+![Two panorama images](assets/typedoc-json/docVW/imgs/viewer_vr_hemi_domes.PNG)
 
 For the 360° panorama images, you can either have only a foreground image or you can have both a
 foreground and a background image. In the foreground image, only the entities that appear infront of
 the digital model should be kept. All other parts of the image should be cut and made transparent
-using an image editing application. In addition, if the images contain any buildings will be
+using an image editing application. In addition, if the images contain any buildings that will be
 demolished, then these should also be deleted. Image editing applications such as Photoshop and Gimp
 have specialised editing tools for 360 images that can be helpful.
 
-Below is an example of a forground 360° panorama image (reduced resolution):
+Below is an example of a foreground 360° panorama image (reduced resolution):
 
-![Forground 360° panorama image](assets/typedoc-json/docVW/imgs/viewer_vr_foreground.png)
+![Foreground 360° panorama image](assets/typedoc-json/docVW/imgs/viewer_vr_foreground.png)
 
 And here is the matching background 360° panorama image (reduced resolution)::
 
@@ -79,17 +79,16 @@ Panorama images can also be downloaded from online sources and repositories. Her
 desktop application called SVD360 that can be used for downloading imgages from Google Street View:
 * [Street View Download (SVD360)](https://svd360.istreetview.com/)
 
-You can download one or more 360 image using SVD360 application as follows:
+You can download one or more 360 images using SVD360 application as follows:
 * In Google Maps, navigate to the Google Street view image that you want to download and copy the
   URL.
 * In SVD360, go to the 'Tools' tab and paste the URL into the URL input box. This will give you the
   ID of the panorama image. 
 * In SVD360, go to the 'Panorama Download' tab and specify the filename where the image should be
-  save, paste the the panorama ID, and set the resolution to 2048 x 1024. Save the image in `.png`
+  saved, paste the the panorama ID, and set the resolution to 2048 x 1024. Save the image in `.png`
   format.
 * In SVD360, you will see the downloaded image, and also some data about the image. Save this data
-  to a text file. In particular, you need to save the Geolocation and North Rotation. you need to
-  save the `Geolocation` and `North Rotation`.
+  to a text file. In particular, you need to save the `Geolocation` and `North Rotation`.
 
 ```
 panorama1_lat = 1.277360
@@ -101,13 +100,13 @@ panorama1_back_url = "https://www.dropbox.com/s/xxxxxxxxxx/panorama1_back.jpg?dl
 **Creating a Panorama Hotspot**
 
 In Mobius Modeller, you first need to create a script that defines a geolocation for the model.
-Then, for each panorama image that you downloaded, you need to create a point object at the correct
-longitude and latitude for the image. creates a hotspot point object. 
+Then, for each panorama image that you downloaded, you need to creates a hotspot point object
+at the correct longitude and latitude for the image. 
 * In the Mobius script, create a model attribute that specifies the longitude and latitude of the
   model. 
 * In the Mobius script, convert the latitude and longitude of each panorama image to an XYZ location
-  the model coordinate system. 
-* In the Mobius script, create a point object for each
+  in the model coordinate system. 
+* In the Mobius script, create a point object for each panorama position. 
 
 Here is a snippet of code for the above steps:
 ```

@@ -27,6 +27,7 @@ const conversion = [
     'boolean(val)',
     'number(val)',
     'string(val)',
+    'numToCurr(num)',
     'numToStr(num)',
     'radToDeg(rad)',
     'degToRad(deg)'
@@ -60,7 +61,7 @@ const lists = [
     'listJoin(list1, list2)',
     'listFlat(list)',
     'listRot(list, rot)',
-    'listSlice(list, start, end?)',
+    'listSlice(list, start)',
     'listRev(list)',
     'listSort(list1, list2)',
     'listCull(list1, list2)',
@@ -75,6 +76,7 @@ const dictionaries = [
     'dictVals(dict)',
     'dictHasKey(dict, key)',
     'dictHasVal(dict, val)',
+    'dictCopy(dict)',
     'dictFind(dict, val)',
     'dictEq(dict1, dict2)'
 ];
@@ -152,6 +154,7 @@ const arithmetic = [
     'sqrt(num)',
     'exp(num)',
     'log(num)',
+    'log10(num)',
     'round(num)',
     'sigFig(num, f)',
     'ceil(num)',
@@ -168,7 +171,7 @@ const arithmetic = [
 
 const geometry = [
     'distance(a, b)',
-    'distanceM(a, b)',
+    'distanceM(c1, c2)',
     'distanceMS(a, b)',
     'intersect(a, b)',
     'project(a, b)'
@@ -281,48 +284,46 @@ strEnds = __inline__.strs.strEnds;
 strPadL = __inline__.strs.strPadL;
 strPadR = __inline__.strs.strPadR;
 strToJSON = __inline__.strs.strToJSON;
-isApprox = __inline__.util.isApprox;
-isIn = __inline__.util.isIn;
-isWithin = __inline__.util.isWithin;
-min = __inline__.math.min;
-max = __inline__.math.max;
-pow = __inline__.math.pow;
-sqrt = __inline__.math.sqrt;
-exp = __inline__.math.exp;
-log = __inline__.math.log;
-round = __inline__.math.round;
-sigFig = __inline__.math.sigFig;
-ceil = __inline__.math.ceil;
-floor = __inline__.math.floor;
-abs = __inline__.math.abs;
-sin = __inline__.math.sin;
-asin = __inline__.math.asin;
-sinh = __inline__.math.sinh;
-asinh = __inline__.math.asinh;
-cos = __inline__.math.cos;
-acos = __inline__.math.acos;
-cosh = __inline__.math.cosh;
-acosh = __inline__.math.acosh;
-tan = __inline__.math.tan;
-atan = __inline__.math.atan;
-tanh = __inline__.math.tanh;
-atanh = __inline__.math.atanh;
-atan2 = __inline__.math.atan2;
-boolean = __inline__.mathjs.boolean;
-number = __inline__.mathjs.number;
-string = __inline__.mathjs.string;
-mad = __inline__.mathjs.mad;
-mean = __inline__.mathjs.mean;
-median = __inline__.mathjs.median;
-mode = __inline__.mathjs.mode;
-prod = __inline__.mathjs.prod;
-std = __inline__.mathjs.std;
-vari = __inline__.mathjs.vari;
-sum = __inline__.mathjs.sum;
-hypot = __inline__.mathjs.hypot;
-norm = __inline__.mathjs.norm;
-square = __inline__.mathjs.square;
-cube = __inline__.mathjs.cube;
+sin = __inline__.trigonometry.sin;
+asin = __inline__.trigonometry.asin;
+sinh = __inline__.trigonometry.sinh;
+asinh = __inline__.trigonometry.asinh;
+cos = __inline__.trigonometry.cos;
+acos = __inline__.trigonometry.acos;
+cosh = __inline__.trigonometry.cosh;
+acosh = __inline__.trigonometry.acosh;
+tan = __inline__.trigonometry.tan;
+atan = __inline__.trigonometry.atan;
+tanh = __inline__.trigonometry.tanh;
+atanh = __inline__.trigonometry.atanh;
+atan2 = __inline__.trigonometry.atan2;
+min = __inline__.statistics.min;
+max = __inline__.statistics.max;
+mad = __inline__.statistics.mad;
+mean = __inline__.statistics.mean;
+median = __inline__.statistics.median;
+mode = __inline__.statistics.mode;
+std = __inline__.statistics.std;
+vari = __inline__.statistics.vari;
+abs = __inline__.arithmetic.abs;
+square = __inline__.arithmetic.square;
+cube = __inline__.arithmetic.cube;
+pow = __inline__.arithmetic.pow;
+sqrt = __inline__.arithmetic.sqrt;
+exp = __inline__.arithmetic.exp;
+log = __inline__.arithmetic.log;
+log10 = __inline__.arithmetic.log10;
+round = __inline__.arithmetic.round;
+sigFig = __inline__.arithmetic.sigFig;
+ceil = __inline__.arithmetic.ceil;
+floor = __inline__.arithmetic.floor;
+sum = __inline__.arithmetic.sum;
+prod = __inline__.arithmetic.prod;
+hypot = __inline__.arithmetic.hypot;
+norm = __inline__.arithmetic.norm;
+isApprox = __inline__.arithmetic.isApprox;
+isIn = __inline__.arithmetic.isIn;
+isWithin = __inline__.arithmetic.isWithin;
 remap = __inline__.arithmetic.remap;
 distance = __inline__.geometry.distance;
 distanceM = __inline__.geometry.distanceM;
@@ -388,6 +389,7 @@ plnLRotX = __inline__.plane.plnLRotX;
 plnLRotY = __inline__.plane.plnLRotY;
 plnLRotZ = __inline__.plane.plnLRotZ;
 rayMake = __inline__.ray.rayMake;
+rayFromTo = __inline__.ray.rayFromTo;
 rayCopy = __inline__.ray.rayCopy;
 rayMove = __inline__.ray.rayMove;
 rayRot = __inline__.ray.rayRot;
@@ -398,9 +400,13 @@ rayGtoL = __inline__.ray.rayGtoL;
 colFalse = __inline__.colors.colFalse;
 colScale = __inline__.colors.colScale;
 colFromStr = __inline__.colors.colFromStr;
+boolean = __inline__.conversion.boolean;
+number = __inline__.conversion.number;
+string = __inline__.conversion.string;
 radToDeg = __inline__.conversion.radToDeg;
 degToRad = __inline__.conversion.degToRad;
 numToStr = __inline__.conversion.numToStr;
+numToCurr = __inline__.conversion.numToCurr;
 rand = __inline__.rand.rand;
 randInt = __inline__.rand.randInt;
 randPick = __inline__.rand.randPick;`;

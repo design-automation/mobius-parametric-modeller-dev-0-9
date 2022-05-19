@@ -2,9 +2,9 @@
   
 Opens a dialog box for managing global functions.
 
-A global function is a custom function defined by you. Global functions can server two key purposes:
-* Global functions allow you to break-down long and complex flowchart into more manageable sub-flowcharts.
-* In cases where multiple procedures in various nodes in the flowchart all need to repeat certain operations, global functions allows you to avoid repeating the same code multiple times.
+A global function is a custom function defined by you. Global functions can serve two key purposes:
+* Global functions allow you to break-down long and complex flowcharts into more manageable sub-flowcharts.
+* In cases where multiple procedures in various nodes in the flowchart all need to repeat certain operations, global functions allow you to avoid repeating the same code multiple times.
 
 A global function can be called in any procedure in any node. This differs from local functions, which can only be called in the node in which they are defined.
 
@@ -53,7 +53,7 @@ Just as with local functions, if a global function needs to return more than one
 
 **Updating Global Functions**
 
-When a global function needs to be edited, 
+When a global function needs to be edited, [opens a new browser and needs to be saved local storage so can be edited there then closed and returned to the main model ]
 
 **Global Functions That Process Geometric Entities**
 

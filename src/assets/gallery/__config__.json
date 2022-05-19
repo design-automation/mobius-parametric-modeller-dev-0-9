@@ -82,17 +82,17 @@
         {
             "name": "Law curve Examples",
             "files": [
-                ["Sections_follwoing_Curve.mob&node=1", ": Using a LawCurve to create 'bumps' in a line."],
-                ["Double_LawCurve_Arch.mob&node=1", ": Using one curve as a perimeter and another to control height."],
-                ["Double_LawCurve_Waves.mob&node=1", ": Creating a 3D wave-like form with two curves."],
-                ["Circles_on_Spiral.mob&node=1", ": Placing circles on a spiral at regular intervals."],
-                ["Curved_Facade.mob&node=1", ": Creating a wall of curved slices."],
-                ["Undulating_Wall.mob&node=1", " Creating a wall with a top curve and bottom curve."],
-                ["Curve_Subdivision_and_Intersections.mob&node=1", ": Using the intersections of circles to create walls and arches."],
-                ["Curved_Tower.mob&node=1", ": Using LawCurves to make a convex tower."],
-                ["Nurbs_LawCurve_Tower.mob&node=1", ": Creating a NurbsCurve to generate a tower's form."],
-                ["Eroded_Tower.mob&node=1", ": Eroding a tower by following a curve."],
-                ["Flower_Roof.mob&node=1", ": Using curves to create a flowery roof."]
+                ["Sections_follwoing_Curve.mob", ": Using a LawCurve to create 'bumps' in a line."],
+                ["Double_LawCurve_Arch.mob", ": Using one curve as a perimeter and another to control height."],
+                ["Double_LawCurve_Waves.mob", ": Creating a 3D wave-like form with two curves."],
+                ["Circles_on_Spiral.mob", ": Placing circles on a spiral at regular intervals."],
+                ["Curved_Facade.mob", ": Creating a wall of curved slices."],
+                ["Undulating_Wall.mob", " Creating a wall with a top curve and bottom curve."],
+                ["Curve_Subdivision_and_Intersections.mob", ": Using the intersections of circles to create walls and arches."],
+                ["Curved_Tower.mob", ": Using LawCurves to make a convex tower."],
+                ["Nurbs_LawCurve_Tower.mob", ": Creating a NurbsCurve to generate a tower's form."],
+                ["Eroded_Tower.mob", ": Eroding a tower by following a curve."],
+                ["Flower_Roof.mob", ": Using curves to create a flowery roof."]
             ],
             "link": "/assets/gallery/lawcurve_examples/"
         },

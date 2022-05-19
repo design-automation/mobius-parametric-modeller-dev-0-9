@@ -2,11 +2,11 @@
   
 Opens up the _Expression Builder_ dialog box for creating expressions.
 
-![The Expression builder dialog box](assets/typedoc-json/docCF/imgs/expression_builder.png)
-
 An expression is a combination of one or more constants, variables, functions, and operators that can be evaluated to produce another value.
 
-To create an expression, you do not necessarily need to use the Expression Builder. Alternatively, you can also just type the expression directly into one of teh input boxes in the procedure. However, this requires you to remember all the name of the inline functions, so often it may be useful to use the Expression Builder. In addition, for very long expressions, the Expression Builder provides a larger input box.
+To create an expression, you do not necessarily need to use the Expression Builder. Alternatively, you can also just type the expression directly into one of the input boxes in the procedure. However, this requires you to remember all the names of the inline functions, so often it may be useful to use the Expression Builder. In addition, for very long expressions, the Expression Builder provides a larger input box.
+
+![The Expression builder dialog box](assets/typedoc-json/docCF/imgs/expression_builder.png)
 
 Once you have created your expression, you have three options:
 * Clicking 'Insert' will insert the expression into the active input box in the procedure, overwriting anything that is already there.
@@ -15,7 +15,7 @@ Once you have created your expression, you have three options:
 
 Note that if you click the 'Expressions' button when no input boxes in the procedure are active, then the 'Insert' button will be disabled. 
 
-**Arithmetic Expressions**
+**Basic Math Expressions**
 
 Examples of simple expressions are `2 + 2`, which evaluates to `4`, and `1 == 2`, which evaluates to `false`. Expressions can also contain variables. For example, if the variable `x` exists in the current scope, and has a value of `10`, then the expression `x + 2` will evaluate to `12`. 
 
