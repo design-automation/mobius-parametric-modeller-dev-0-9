@@ -300,17 +300,6 @@ export function modifyVarArg(arg: IArgument, toLower = true) {
                     return str;
                 }
             }
-            let currentWindow;
-            if (window.hasOwnProperty(i)) {
-                currentWindow = window[i];
-            }
-            const fn = new Function('', `${i}=1;`);
-            fn();
-            delete window[i];
-            if (currentWindow) {
-                window[i] = currentWindow;
-            }
-
             arg.invalidVar = false;
         } catch (ex) {
             arg.invalidVar = 'Error: Invalid variable name';
