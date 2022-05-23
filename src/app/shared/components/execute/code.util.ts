@@ -171,24 +171,6 @@ export class CodeUtils {
 
                 break;
 
-            // case ProcedureTypes.AddData:
-            //     let cst = args[0].value;
-            //     if (!isMainFlowchart) {
-            //         return [`mfn.${_parameterTypes.addData}( $p.model, ${cst});`];
-            //     }
-            //     if (cst[0] === '"' || cst[0] === '\'') {
-            //         cst = args[0].value.substring(1, args[0].value.length - 1);
-            //     }
-
-            //     codeStr.push(`$p['constants']['${cst}'] = ${prod.resolvedValue};`);
-            //     if (_parameterTypes.addData) {
-            //         codeStr.push(`mfn.${_parameterTypes.addData}( $p.model, $p.constants['${cst}']);`);
-            //     } else {
-            //         codeStr.push(`$p.model = mergeInputs( [$p.model, $p.constants['${cst}']]);`);
-            //     }
-
-            //     break;
-
 
             case ProcedureTypes.EndReturn:
                 let check = true;
@@ -705,21 +687,6 @@ export class CodeUtils {
                 // }
                 // window.localStorage.setItem(val.name, result);
                 arg.jsValue = {'name': val.name};
-            }
-        }
-        return result;
-    }
-
-    static mergeInputs(models): any {
-        let result = null;
-        if (models.length === 0) {
-            result = _parameterTypes.newFn();
-        } else if (models.length === 1) {
-            result = models[0].clone();
-        } else {
-            result = models[0].clone();
-            for (let i = 1; i < models.length; i++) {
-                _parameterTypes.mergeFn(result, models[i]);
             }
         }
         return result;
