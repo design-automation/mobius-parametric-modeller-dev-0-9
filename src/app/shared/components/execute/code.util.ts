@@ -612,7 +612,7 @@ export class CodeUtils {
 
         let att_name;
         let att_index;
-        const bracketIndex = res[1].indexOf('.slice(');
+        let bracketIndex = res[1].indexOf('.slice(');
         if (bracketIndex !== -1) {
             att_name = res[1].slice(0, bracketIndex);
             att_index = res[1].slice(bracketIndex + 7, -4);
@@ -620,6 +620,13 @@ export class CodeUtils {
             att_name = res[1];
             att_index = 'null';
         }
+        bracketIndex = res[1].indexOf('[pythonList(');
+        if (bracketIndex !== -1) {
+            att_name = res[1].slice(0, bracketIndex);
+            const index = res[1].lastIndexOf(att_name);
+            att_index = res[1].substring(bracketIndex + 12, index - 2)
+        }
+
         if (att_index === 'null') {
             return `mfn.${_parameterTypes.getattrib}(${entity}, '${att_name}', 'one_value')`;
         }
