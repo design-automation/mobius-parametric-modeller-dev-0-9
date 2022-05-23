@@ -62,6 +62,8 @@ export class PanelHeaderComponent implements OnDestroy {
 
     docModList;
 
+    inlineHelpText = 'Inline Function Help'
+
     constructor(private dataService: DataService, private keyboardService: KeyboardService, private router: Router) {
         SaveFileComponent.updateBackupList();
         const mdConverter = new showdown.Converter({literalMidWordUnderscores: true, simpleLineBreaks: true});
@@ -1112,9 +1114,36 @@ export class PanelHeaderComponent implements OnDestroy {
         }, 0);
     }
 
+    genInlineDoc(inlineFunc, func) {
+        let fnString = ``;
+        fnString += `**Description:** ${func.description}  \n  \n`;
+        if (func.parameters && func.parameters.length > 0) {
+            fnString += `**Parameters:**  \n`;
+            for (const param of func.parameters) {
+                if (!param) {continue; }
+                const paramName = param.name.replace(/_/g, '\\_')
+                fnString += `  * *${paramName}:* ${param.description}  \n`;
+            }
+        }
+        if (func.returns) {
+            fnString += `  \n**Returns:** ${func.returns}  \n`;
+        }
+        if (func.example) {
+            fnString += `**Examples:**  \n`;
+            for (const i in func.example) {
+                if (!func.example[i]) {continue; }
+                fnString += `  * ${func.example[i]}  \n`;
+                if (func.example_info) {
+                    fnString += `    ${func.example_info[i]}  \n`;
+                }
+            }
+        }
+        fnString = `## ${inlineFunc}  \n  \n  \n` + fnString + `  \n  \n`;
+        return fnString
+    }
+
     updateInlineHelpText(event: MouseEvent, inlineFunc: string, category?: string) {
         event.stopPropagation();
-        const inlineHelp = <HTMLTextAreaElement> document.getElementById('inlineHelp');
         let fnDoc;
         if (category && category === 'parameters') {
             fnDoc = this.inlineDocs['param_' + inlineFunc];
@@ -1122,43 +1151,10 @@ export class PanelHeaderComponent implements OnDestroy {
             fnDoc = this.inlineDocs[inlineFunc.split('(')[0]];
         }
         if (!fnDoc) {
-            inlineHelp.innerHTML = `<h3>${inlineFunc}</h3><br><div></div>`;
+            this.inlineHelpText = `<h3>${inlineFunc}</h3><br><div></div>`;
             return;
         }
-        let fnDocHtml = `<h3>${inlineFunc}</h3><br><div class='inlineHelpDiv'>`;
-        if (fnDoc.summary) {
-            fnDocHtml += `<p>${fnDoc.summary}</p>`;
-        } else if (fnDoc.description) {
-            fnDocHtml += `<p>${fnDoc.description}</p>`;
-        } else {
-            fnDocHtml += `<p></p>`;
-        }
-        if (fnDoc.parameters && fnDoc.parameters.length > 0) {
-            fnDocHtml += `<br><p><span>Parameters: </span></p>`;
-            for (const param of fnDoc.parameters) {
-                if (!param) {continue; }
-                if (!param.description) {
-                    fnDocHtml += `<p class="paramP"><span>${param.name}</span></p>`;
-                } else {
-                    fnDocHtml += `<p class="paramP"><span>${param.name} - </span> ${param.description}</p>`;
-                }
-            }
-        }
-        if (fnDoc.returns) {
-            fnDocHtml += `<p><span>Returns: </span> ${fnDoc.returns}</p>`;
-        }
-        if (fnDoc.example) {
-            fnDocHtml += `<br><br><p><span>Examples: </span></p>`;
-            for (const i in fnDoc.example) {
-                if (!fnDoc.example[i]) {continue; }
-                fnDocHtml += `<p class="paramP">${fnDoc.example[i]}</p>`;
-                if (fnDoc.example_info) {
-                    fnDocHtml += `<p class="paramP">${fnDoc.example_info[i]}</p>`;
-                }
-            }
-        }
-        fnDocHtml += '</div>';
-        inlineHelp.innerHTML = fnDocHtml;
+        this.inlineHelpText = this.genInlineDoc(inlineFunc, fnDoc)
     }
 
     getInlineHoverText(funcText: string, category: string) {

@@ -36,6 +36,7 @@ import { ProcedureInputViewerComponent } from './components/parameter-viewer/pro
 import { ParameterViewerComponent } from './components/parameter-viewer/parameter-viewer.component';
 import { SaveJavascriptComponent } from './components/file/savejavascript.component';
 import { WindowMessageComponent } from './components/window-message/window-message.component';
+import { ShowdownModule } from 'ngx-showdown';
 
 @NgModule({
     providers: [ ],
@@ -64,6 +65,7 @@ import { WindowMessageComponent } from './components/window-message/window-messa
             AngularSplitModule,
             FormsModule,
             MatIconModule,
+            ShowdownModule,
         ],
     entryComponents: [  ],
     exports: [

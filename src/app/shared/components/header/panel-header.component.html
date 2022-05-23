@@ -339,7 +339,7 @@
             </ng-container>
         </div>
         <div class='inlineFuncHelpContainer' id='inlineHelp'>
-            <p>Inline Function Help</p>
+            <showdown [value]="inlineHelpText" ngPreserveWhitespaces></showdown>
         </div>
         <div class='inlineFuncExpressionContainer'>
             <textarea id='inlineExpression' class='inlineFuncExpression' placeholder='Expression'></textarea>
