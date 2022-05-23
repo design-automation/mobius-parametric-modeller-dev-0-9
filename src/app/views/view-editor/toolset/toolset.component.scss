@@ -261,8 +261,9 @@
     font-family: $inputTextFontFam;
 
     &.invalid{
-        opacity: $disabled-opacity;
-        pointer-events: none;
+        // opacity: $disabled-opacity;
+        color: $basic-function-text-color-disabled;
+        // pointer-events: none;
     }
 }
 

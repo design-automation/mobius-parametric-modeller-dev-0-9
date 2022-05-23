@@ -103,7 +103,8 @@ export class ToolsetComponent implements OnInit {
     }
 
     // add selected basic function as a new procedure
-    add_basic_func(type: ProcedureTypes, data?): void {
+    add_basic_func(event: MouseEvent, type: ProcedureTypes, data?): void {
+        if ((<HTMLElement> event.target).classList.contains('invalid')) { return; }
         this.eventAction.emit({
             'type': 'add_prod',
             'content': { type: type, data: data }

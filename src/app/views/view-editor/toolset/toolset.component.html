@@ -7,7 +7,7 @@
             <li class='tooltip-variable' [class.invalid]='checkInvalid("Variable")'
                 [class.basic]='true' 
                 (mousedown)='selectPrevProd()'
-                (click)='add_basic_func(0)'> 
+                (click)='add_basic_func($event, 0)'> 
                 Variable
                 <button class='helpButton' mat-icon-button title="Help" tabindex="-1" (click)='emitHelpText($event, "variable", "Variable")'>
                     <mat-icon class='icon' svgIcon='icon_help'></mat-icon>
@@ -16,7 +16,7 @@
             <li class='tooltip-variable'
                 [class.basic]='true'
                 (mousedown)='selectPrevProd()'
-                (click)='add_basic_func(ProcedureTypes.Comment)'> 
+                (click)='add_basic_func($event, ProcedureTypes.Comment)'> 
                 Comment
                 <button class='helpButton' mat-icon-button title="Help" tabindex="-1" (click)='emitHelpText($event, "comment", "Comment")'>
                     <mat-icon class='icon' svgIcon='icon_help'></mat-icon>
@@ -45,13 +45,13 @@
                 <li class='tooltip-variable' [class.invalid]='checkInvalid("Variable")'
                     [class.basic]='true' 
                     (mousedown)='selectPrevProd()'
-                    (click)='add_basic_func(0)'> 
+                    (click)='add_basic_func($event, 0)'> 
                         Variable
                 </li>
                 <li class='tooltip-variable'
                     [class.basic]='true'
                     (mousedown)='selectPrevProd()'
-                    (click)='add_basic_func(ProcedureTypes.Comment)'> 
+                    (click)='add_basic_func($event, ProcedureTypes.Comment)'> 
                         Comment
                 </li>
             </ul> -->
@@ -65,7 +65,7 @@
                     <li class='tooltip-basic' [class.invalid]='checkInvalid("If")'
                         [class.basic]='true' 
                         (mousedown)='selectPrevProd()'
-                        (click)='add_basic_func(1)'> 
+                        (click)='add_basic_func($event, 1)'> 
                             If
                             <button class='helpButton' mat-icon-button title="Help" tabindex="-1" (click)='emitHelpText($event, "control_flow", "If")'>
                                 <mat-icon class='icon' svgIcon='icon_help'></mat-icon>
@@ -74,7 +74,7 @@
                     <li class='tooltip-basic' [class.invalid]='checkInvalid("Elseif")'
                         [class.basic]='true' 
                         (mousedown)='selectPrevProd()'
-                        (click)='add_basic_func(2)'> 
+                        (click)='add_basic_func($event, 2)'> 
                             Else-if
                             <button class='helpButton' mat-icon-button title="Help" tabindex="-1" (click)='emitHelpText($event, "control_flow", "Elseif")'>
                                 <mat-icon class='icon' svgIcon='icon_help'></mat-icon>
@@ -83,7 +83,7 @@
                     <li class='tooltip-basic' [class.invalid]='checkInvalid("Else")'
                         [class.basic]='true' 
                         (mousedown)='selectPrevProd()'
-                        (click)='add_basic_func(3)'> 
+                        (click)='add_basic_func($event, 3)'> 
                             Else
                             <button class='helpButton' mat-icon-button title="Help" tabindex="-1" (click)='emitHelpText($event, "control_flow", "Else")'>
                                 <mat-icon class='icon' svgIcon='icon_help'></mat-icon>
@@ -92,7 +92,7 @@
                     <li class='tooltip-basic' [class.invalid]='checkInvalid("Foreach")'
                         [class.basic]='true' 
                         (mousedown)='selectPrevProd()'
-                        (click)='add_basic_func(4)'> 
+                        (click)='add_basic_func($event, 4)'> 
                             For-each
                             <button class='helpButton' mat-icon-button title="Help" tabindex="-1" (click)='emitHelpText($event, "control_flow", "Foreach")'>
                                 <mat-icon class='icon' svgIcon='icon_help'></mat-icon>
@@ -101,7 +101,7 @@
                     <li class='tooltip-basic' [class.invalid]='checkInvalid("While")'
                         [class.basic]='true' 
                         (mousedown)='selectPrevProd()'
-                        (click)='add_basic_func(5)'> 
+                        (click)='add_basic_func($event, 5)'> 
                             While
                             <button class='helpButton' mat-icon-button title="Help" tabindex="-1" (click)='emitHelpText($event, "control_flow", "While")'>
                                 <mat-icon class='icon' svgIcon='icon_help'></mat-icon>
@@ -110,7 +110,7 @@
                     <li class='tooltip-basic' [class.invalid]='checkInvalid("Break")'
                         [class.basic]='true' 
                         (mousedown)='selectPrevProd()'
-                        (click)='add_basic_func(6)'> 
+                        (click)='add_basic_func($event, 6)'> 
                             Break-loop
                             <button class='helpButton' mat-icon-button title="Help" tabindex="-1" (click)='emitHelpText($event, "control_flow", "Break-loop")'>
                                 <mat-icon class='icon' svgIcon='icon_help'></mat-icon>
@@ -119,7 +119,7 @@
                     <li class='tooltip-basic' [class.invalid]='checkInvalid("Continue")'
                         [class.basic]='true' 
                         (mousedown)='selectPrevProd()'
-                        (click)='add_basic_func(7)'> 
+                        (click)='add_basic_func($event, 7)'> 
                             Continue-loop
                             <button class='helpButton' mat-icon-button title="Help" tabindex="-1" (click)='emitHelpText($event, "control_flow", "Continue-loop")'>
                                 <mat-icon class='icon' svgIcon='icon_help'></mat-icon>
@@ -128,7 +128,7 @@
                     <li class='tooltip-basic'
                         [class.basic]='true' 
                         (mousedown)='selectPrevProd()'
-                        (click)='add_basic_func(ProcedureTypes.Return)'>
+                        (click)='add_basic_func($event, ProcedureTypes.Return)'>
                             Return
                             <button class='helpButton' mat-icon-button title="Help" tabindex="-1" (click)='emitHelpText($event, "control_flow", "Return")'>
                                 <mat-icon class='icon' svgIcon='icon_help'></mat-icon>
@@ -137,20 +137,20 @@
                     <!-- <li class='tooltip-basic'
                         [class.basic]='true'
                         (mousedown)='selectPrevProd()'
-                        (click)='add_basic_func(ProcedureTypes.Terminate)'> 
+                        (click)='add_basic_func($event, ProcedureTypes.Terminate)'> 
                             Terminate
                     </li> -->
                     <li class='tooltip-basic'
                         [class.basic]='true'
                         (mousedown)='selectPrevProd()'
-                        (click)='add_basic_func(ProcedureTypes.BreakBranch)'> 
+                        (click)='add_basic_func($event, ProcedureTypes.BreakBranch)'> 
                             Break-branch
                             <button class='helpButton' mat-icon-button title="Help" tabindex="-1" (click)='emitHelpText($event, "control_flow", "Break-branch")'>
                                 <mat-icon class='icon' svgIcon='icon_help'></mat-icon>
                             </button>
                     </li>
                     <li class='tooltip-basic' [class.basic]='true' (mousedown)='selectPrevProd()'
-                        (click)='add_basic_func(ProcedureTypes.Error)'>
+                        (click)='add_basic_func($event, ProcedureTypes.Error)'>
                         Exit
                         <button class='helpButton' mat-icon-button title="Help" tabindex="-1"
                             (click)='emitHelpText($event, "control_flow", "Exit")'>
@@ -324,18 +324,18 @@
                 <section *ngFor='let type of ProcedureTypesArr' >
                     <div *ngIf='type.toUpperCase() == "CONSTANT"'>
                         <ul class='toolset__functions--subset'>
-                            <li (mousedown)='selectPrevProd()' (click)='add_basic_func(ProcedureTypes[type], 5)'> Constant </li>
-                            <li (mousedown)='selectPrevProd()' (click)='add_basic_func(ProcedureTypes[type], 0)'> Basic Input </li>
-                            <li (mousedown)='selectPrevProd()' (click)='add_basic_func(ProcedureTypes[type], 1)'> Slider </li>
-                            <li (mousedown)='selectPrevProd()' (click)='add_basic_func(ProcedureTypes[type], 2)'> Checkbox </li>
-                            <li (mousedown)='selectPrevProd()' (click)='add_basic_func(ProcedureTypes[type], 6)'> Dropdown </li>
-                            <!-- <li (mousedown)='selectPrevProd()' (click)='add_basic_func(ProcedureTypes[type], 3)'> URL </li> -->
-                            <!-- <li (click)='add_basic_func(ProcedureTypes[type], 4)'> File </li> -->
+                            <li (mousedown)='selectPrevProd()' (click)='add_basic_func($event, ProcedureTypes[type], 5)'> Constant </li>
+                            <li (mousedown)='selectPrevProd()' (click)='add_basic_func($event, ProcedureTypes[type], 0)'> Basic Input </li>
+                            <li (mousedown)='selectPrevProd()' (click)='add_basic_func($event, ProcedureTypes[type], 1)'> Slider </li>
+                            <li (mousedown)='selectPrevProd()' (click)='add_basic_func($event, ProcedureTypes[type], 2)'> Checkbox </li>
+                            <li (mousedown)='selectPrevProd()' (click)='add_basic_func($event, ProcedureTypes[type], 6)'> Dropdown </li>
+                            <!-- <li (mousedown)='selectPrevProd()' (click)='add_basic_func($event, ProcedureTypes[type], 3)'> URL </li> -->
+                            <!-- <li (click)='add_basic_func($event, ProcedureTypes[type], 4)'> File </li> -->
                         </ul>
                     </div>
                     <!-- <div *ngIf='type.toUpperCase() == "ADDDATA"'>
                         <ul class='toolset__functions--subset'>
-                            <li (click)='add_basic_func(ProcedureTypes[type])'> Add Model </li>
+                            <li (click)='add_basic_func($event, ProcedureTypes[type])'> Add Model </li>
                         </ul>
                     </div> -->
                 </section>
