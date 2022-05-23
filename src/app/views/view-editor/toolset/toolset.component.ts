@@ -518,6 +518,7 @@ export class ToolsetComponent implements OnInit {
                         'module': mod.module,
                         'name': func.name,
                         'data': func,
+                        'doc': func.doc
                     });
                 }
             }
@@ -532,7 +533,8 @@ export class ToolsetComponent implements OnInit {
                     'type': 'localFunc',
                     'module': 'local',
                     'name': func.args[0].value,
-                    'data': func
+                    'data': func,
+                    'doc': 'Local Function: ' + func.args[0].value
                 });
             }
         }
@@ -543,11 +545,13 @@ export class ToolsetComponent implements OnInit {
         for (const func of this.dataService.flowchart.functions) {
             if (this.searchedMainFuncs.length >= 10) { break; }
             if (func.name.toLowerCase().indexOf(str) !== -1) {
+                const doc = this.assembleImportedTooltip(func);
                 this.searchedMainFuncs.push({
                     'type': 'globalFunc',
                     'module': 'global',
                     'name': func.name,
-                    'data': func
+                    'data': func,
+                    'doc': (doc && doc.doc) ? doc.doc : 'Global Function: ' + func.name
                 });
             }
         }
