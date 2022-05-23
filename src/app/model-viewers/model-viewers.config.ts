@@ -5,9 +5,6 @@ import { HelpViewerComponent } from './all-viewers/help-viewer/help-viewer.compo
 import { GIViewerComponent } from './all-viewers/gi-viewer/gi-viewer.component';
 import { GIViewerModule } from './all-viewers/gi-viewer/gi-viewer';
 
-import { CytoscapeViewerComponent } from './all-viewers/cytoscape-viewer/cytoscape-viewer.component';
-import { CytoscapeViewerModule } from './all-viewers/cytoscape-viewer/cytoscape-viewer.module';
-
 import { GIGeoViewerComponent } from './all-viewers/gi-geo-viewer/gi-geo-viewer.component';
 import { GIGeoViewerModule } from './all-viewers/gi-geo-viewer/gi-geo-viewer';
 
@@ -22,7 +19,6 @@ export const VIEWER_ARR = [
     GIViewerComponent,
     GIGeoViewerComponent,
     AframeViewerComponent
-    // CytoscapeViewerComponent
 ];
 
 // Viewer modules array
@@ -31,7 +27,6 @@ export const VIEWER_MOD = [
     GIViewerModule,
     GIGeoViewerModule,
     AframeViewerModule,
-    // CytoscapeViewerModule,
 ];
 
 // Viewers
@@ -41,7 +36,6 @@ export const Viewers: IView[] = [
     { name: 'CAD Viewer', icon: undefined, component: GIViewerComponent },
     { name: 'Geo Viewer', icon: undefined, component: GIGeoViewerComponent },
     { name: 'VR Viewer', icon: undefined, component: AframeViewerComponent },
-    // { name: 'Cytoscape Viewer', icon: undefined, component: CytoscapeViewerComponent },
     { name: 'Console', icon: undefined, component: ConsoleViewerComponent },
     { name: 'Documentation', icon: undefined, component: HelpViewerComponent }
 ];
