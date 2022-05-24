@@ -334,7 +334,7 @@ export class CodeUtils {
                 const lfn = `await ${funcCall_prefix}${prod.meta.name}_($p${lArgsVals.map(val => ', ' + val).join('')})`;
                 if (args[0].name === '__none__' || !args[0].jsValue) {
                     codeStr.push(`${lfn};`);
-                    codeStr.push('if ($p.terminated) { return mfn._getModel();}')
+                    codeStr.push('if ($p.terminated) { return mfn.getModel();}')
                     break;
                 } else if (args[0].jsValue.startsWith('|*')) {
                     const varList = args[0].jsValue.substring(2).split('|');
@@ -374,7 +374,7 @@ export class CodeUtils {
                 if (prefix === 'let ') {
                     existingVars.push(args[0].jsValue);
                 }
-                codeStr.push('if ($p.terminated) { return mfn._getModel();}')
+                codeStr.push('if ($p.terminated) { return mfn.getModel();}')
                 break;
 
             case ProcedureTypes.globalFuncCall:
@@ -400,14 +400,14 @@ export class CodeUtils {
                 }
 
                 codeStr.push(`$p.console.push('<div style="margin: 5px 0px 5px 10px; border: 1px solid #E6E6E6"><p><b> Global Function: ${prod.meta.name}</b></p>');`);
-                codeStr.push(`$p.curr_ss.${nodeId} = mfn.sim_funcs.model.snapshotPrepGlobalFunc([${prepArgs.join(', ')}]);`);
+                codeStr.push(`$p.curr_ss.${nodeId} = mfn.model.snapshotPrepGlobalFunc([${prepArgs.join(', ')}]);`);
                 // if (prepArgs.length === 0) {
-                //     codeStr.push(`$p.curr_ss.${nodeId} = mfn.sim_funcs.model.snapshotPrepGlobalFunc([${argsVals[0]}]);`);
+                //     codeStr.push(`$p.curr_ss.${nodeId} = mfn.model.snapshotPrepGlobalFunc([${argsVals[0]}]);`);
                 // } else {
-                //     codeStr.push(`$p.curr_ss.${nodeId} = mfn.sim_funcs.model.snapshotPrepGlobalFunc([${prepArgs.join(', ')}]);`);
+                //     codeStr.push(`$p.curr_ss.${nodeId} = mfn.model.snapshotPrepGlobalFunc([${prepArgs.join(', ')}]);`);
                 // }
                 const fn = `await ${namePrefix}${prod.meta.name}($p${argsVals.map(val => ', ' + val).join('')})`;
-                // codeStr.push(`$p.prevModel = mfn._getModel().clone();`);
+                // codeStr.push(`$p.prevModel = mfn.getModel().clone();`);
                 if (args[0].name === '__none__' || !args[0].jsValue) {
                     codeStr.push(`${fn};`);
                 } else if (args[0].jsValue.startsWith('|*')) {
@@ -447,7 +447,7 @@ export class CodeUtils {
                         existingVars.push(args[0].jsValue);
                     }
                 }
-                codeStr.push(`mfn.sim_funcs.model.snapshotPostGlobalFunc($p.curr_ss.${nodeId})`);
+                codeStr.push(`mfn.model.snapshotPostGlobalFunc($p.curr_ss.${nodeId})`);
                 codeStr.push(`$p.console.push('</div>')`);
                 break;
             case ProcedureTypes.Error:
@@ -750,13 +750,13 @@ export class CodeUtils {
             const nodeFuncName = `${func.name}_${node.id}`;
             if (node.type === 'start') {
                 // fnCode += `let result_${nodeFuncName} = $p.model;\n`;
-                fnCode += `let ssid_${nodeFuncName} = mfn.sim_funcs.model.snapshotGetActive();\n`;
+                fnCode += `let ssid_${nodeFuncName} = mfn.model.snapshotGetActive();\n`;
             } else {
                 const codeRes = CodeUtils.getNodeCode(node, false, nodeIndices, func.name, node.id)[0];
                 const nodecode = codeRes[0].join('\n').split('_-_-_+_-_-_');
                 fullCode += `${nodecode[0]}\nasync function ${nodeFuncName}` +
                             `($p${func.args.map(arg => ', ' + arg.name + '_').join('')}){\n` +
-                            `if (mfn._getModel().debug) { printFunc($p.console, 'Executing: ${node.name.replace(/\\/g, '').replace(/\n/g, ' ')}', '__null__') }\n` +
+                            `if (mfn.getModel().debug) { printFunc($p.console, 'Executing: ${node.name.replace(/\\/g, '').replace(/\n/g, ' ')}', '__null__') }\n` +
                             nodecode[1] + `\n}\n\n`;
 
 
@@ -772,7 +772,7 @@ export class CodeUtils {
                         activeNodes.push([nodeIndices[nodeEdge.source.parentNode.id], `ssid_${func.name}_${nodeEdge.source.parentNode.id}`]);
                     }
                     activeNodes = activeNodes.sort((a, b) => a[0] - b[0]);
-                    fnCode += `\nlet ssid_${nodeFuncName} = mfn.sim_funcs.model.snapshotNext([${activeNodes.map(nodeId => nodeId[1]).join(', ')}]);\n`;
+                    fnCode += `\nlet ssid_${nodeFuncName} = mfn.model.snapshotNext([${activeNodes.map(nodeId => nodeId[1]).join(', ')}]);\n`;
                 }
                 if (node.type === 'end') {
                     fnCode += `\nreturn await ${nodeFuncName}($p${func.args.map(arg => ', ' + arg.name + '_').join('')});\n`;

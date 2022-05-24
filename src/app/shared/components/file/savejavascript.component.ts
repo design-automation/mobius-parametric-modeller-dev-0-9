@@ -166,15 +166,15 @@ export class SaveJavascriptComponent {
             `if (__model__) {\n` +
             `mfn.io.ImportData(__model__, 'gi');\n` +
             `}\n` +
-            `mfn._getModel().debug = ${this.dataService.mobiusSettings.debug};\n` +
+            `mfn.getModel().debug = ${this.dataService.mobiusSettings.debug};\n` +
             `$p["console"] = [];\n` +
             `$p["modules"] = mfn;\n` +
             `$p["curr_ss"] = {};\n` +
             `const result = await exec_${funcName}($p` +
             func.args.map(arg => ', ' + arg.name).join('') +
             `);\n` +
-            `if (result === mfn._getModel()) { return { "model": mfn._getModel(), "result": null };}\n` +
-            `return {"model": mfn._getModel(), "result": result};\n` +
+            `if (result === mfn.getModel()) { return { "model": mfn.getModel(), "result": null };}\n` +
+            `return {"model": mfn.getModel(), "result": result};\n` +
             '/** * **/' +
             `\n\n}\n\n` +
             `module.exports = ${funcName};\n`;
