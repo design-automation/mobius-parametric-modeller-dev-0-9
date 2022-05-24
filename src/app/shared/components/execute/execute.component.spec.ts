@@ -78,39 +78,39 @@
 //                 omodel.importGI(output.model);
 //                 if (test.requirements.hasOwnProperty('geometry')) {
 //                     if (test.requirements.geometry.hasOwnProperty('num_positions')) {
-//                         expect(omodel.modeldata.geom.query.numEnts(GICommon.EEntType.POSI)).
+//                         expect(omodel.modeldata.geom.query.numEnts(EEntType.POSI)).
 //                         toBe(test.requirements.geometry['num_positions'], 'No. positions do not match');
 //                     }
 //                     if (test.requirements.geometry.hasOwnProperty('num_vertices')) {
-//                         expect(omodel.modeldata.geom.query.numEnts(GICommon.EEntType.VERT)).
+//                         expect(omodel.modeldata.geom.query.numEnts(EEntType.VERT)).
 //                         toBe(test.requirements.geometry['num_vertices'], 'No. vertices do not match');
 //                     }
 //                     if (test.requirements.geometry.hasOwnProperty('num_edges')) {
-//                         expect(omodel.modeldata.geom.query.numEnts(GICommon.EEntType.EDGE)).
+//                         expect(omodel.modeldata.geom.query.numEnts(EEntType.EDGE)).
 //                         toBe(test.requirements.geometry['num_edges'], 'No. edges do not match');
 //                     }
 //                     if (test.requirements.geometry.hasOwnProperty('num_wires')) {
-//                         expect(omodel.modeldata.geom.query.numEnts(GICommon.EEntType.WIRE)).
+//                         expect(omodel.modeldata.geom.query.numEnts(EEntType.WIRE)).
 //                         toBe(test.requirements.geometry['num_wires'], 'No. wires do not match');
 //                     }
 //                     // if (test.requirements.geometry.hasOwnProperty('num_faces')) {
-//                     //     expect(omodel.modeldata.geom.query.numEnts(GICommon.EEntType.FACE)).
+//                     //     expect(omodel.modeldata.geom.query.numEnts(EEntType.FACE)).
 //                     //     toBe(test.requirements.geometry['num_faces'], 'No. faces do not match');
 //                     // }
 //                     if (test.requirements.geometry.hasOwnProperty('num_points')) {
-//                         expect(omodel.modeldata.geom.query.numEnts(GICommon.EEntType.POINT)).
+//                         expect(omodel.modeldata.geom.query.numEnts(EEntType.POINT)).
 //                         toBe(test.requirements.geometry['num_points'], 'No. points do not match');
 //                     }
 //                     if (test.requirements.geometry.hasOwnProperty('num_polylines')) {
-//                         expect(omodel.modeldata.geom.query.numEnts(GICommon.EEntType.PLINE)).
+//                         expect(omodel.modeldata.geom.query.numEnts(EEntType.PLINE)).
 //                         toBe(test.requirements.geometry['num_polylines'], 'No. polylines do not match');
 //                     }
 //                     if (test.requirements.geometry.hasOwnProperty('num_polygons')) {
-//                         expect(omodel.modeldata.geom.query.numEnts(GICommon.EEntType.PGON)).
+//                         expect(omodel.modeldata.geom.query.numEnts(EEntType.PGON)).
 //                         toBe(test.requirements.geometry['num_polygons'], 'No. polygons do not match');
 //                     }
 //                     if (test.requirements.geometry.hasOwnProperty('num_collections')) {
-//                         expect(omodel.modeldata.geom.query.numEnts(GICommon.EEntType.COLL)).
+//                         expect(omodel.modeldata.geom.query.numEnts(EEntType.COLL)).
 //                         toBe(test.requirements.geometry['num_collections'], 'No. collections do not match');
 //                     }
 //                 }
@@ -118,52 +118,52 @@
 //                     const attrb_data = model.attributes;
 //                     let testSet, resultSet;
 //                     if (test.requirements.attributes.hasOwnProperty('position_attribs')) {
-//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(GICommon.EEntType.POSI));
+//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(EEntType.POSI));
 //                         resultSet = new Set(test.requirements.attributes['position_attribs']);
 //                         expect(testSet).toEqual(resultSet, 'No. position attributes do not match');
 //                     }
 //                     if (test.requirements.attributes.hasOwnProperty('vertex_attribs')) {
-//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(GICommon.EEntType.VERT));
+//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(EEntType.VERT));
 //                         resultSet = new Set(test.requirements.attributes['vertex_attribs']);
 //                         expect(testSet).toEqual(resultSet, 'No. vertex attributes do not match');
 //                     }
 //                     if (test.requirements.attributes.hasOwnProperty('edge_attribs')) {
-//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(GICommon.EEntType.EDGE));
+//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(EEntType.EDGE));
 //                         resultSet = new Set(test.requirements.attributes['edge_attribs']);
 //                         expect(testSet).toEqual(resultSet, 'No. edge attributes do not match');
 //                     }
 //                     if (test.requirements.attributes.hasOwnProperty('wire_attribs')) {
-//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(GICommon.EEntType.WIRE));
+//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(EEntType.WIRE));
 //                         resultSet = new Set(test.requirements.attributes['wire_attribs']);
 //                         expect(testSet).toEqual(resultSet, 'No. wire attributes do not match');
 //                     }
 //                     if (test.requirements.attributes.hasOwnProperty('face_attribs')) {
-//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(GICommon.EEntType.FACE));
+//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(EEntType.FACE));
 //                         resultSet = new Set(test.requirements.attributes['face_attribs']);
 //                         expect(testSet).toEqual(resultSet, 'No. face attributes do not match');
 //                     }
 //                     if (test.requirements.attributes.hasOwnProperty('point_attribs')) {
-//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(GICommon.EEntType.POINT));
+//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(EEntType.POINT));
 //                         resultSet = new Set(test.requirements.attributes['point_attribs']);
 //                         expect(testSet).toEqual(resultSet, 'No. point attributes do not match');
 //                     }
 //                     if (test.requirements.attributes.hasOwnProperty('polyline_attribs')) {
-//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(GICommon.EEntType.PLINE));
+//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(EEntType.PLINE));
 //                         resultSet = new Set(test.requirements.attributes['polyline_attribs']);
 //                         expect(testSet).toEqual(resultSet, 'No. polyline attributes do not match');
 //                     }
 //                     if (test.requirements.attributes.hasOwnProperty('polygon_attribs')) {
-//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(GICommon.EEntType.PGON));
+//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(EEntType.PGON));
 //                         resultSet = new Set(test.requirements.attributes['polygon_attribs']);
 //                         expect(testSet).toEqual(resultSet, 'No. polygon attributes do not match');
 //                     }
 //                     if (test.requirements.attributes.hasOwnProperty('collection_attribs')) {
-//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(GICommon.EEntType.COLL));
+//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(EEntType.COLL));
 //                         resultSet = new Set(test.requirements.attributes['collection_attribs']);
 //                         expect(testSet).toEqual(resultSet, 'No. collection attributes do not match');
 //                     }
 //                     if (test.requirements.attributes.hasOwnProperty('model_attribs')) {
-//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(GICommon.EEntType.MOD));
+//                         testSet = new Set(omodel.modeldata.attribs.getAttribNames(EEntType.MOD));
 //                         resultSet = new Set(test.requirements.attributes['model_attribs']);
 //                         expect(testSet).toEqual(resultSet, 'No. model attributes do not match');
 //                     }

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnChanges, } from '@angular/core';
-import { Model } from '@design-automation/mobius-sim-funcs';
+import { Model, SIMFuncs } from '@design-automation/mobius-sim-funcs';
 import { DataService } from '@shared/services';
 
 @Component({
@@ -28,7 +28,7 @@ export class ViewerSelectNodeComponent implements OnChanges {
 
     private _getNodeSelect(changes): void {
         if (!this.model) { return; }
-        const select_node: any = this.model.modeldata.attribs.get.getModelAttribVal('select_node');
+        const select_node: any = this.sim_funcs.model.getModelAttribVal('select_node');
         this.timelineEnabled = null;
         if (!select_node || !select_node.nodes) { return; }
         this.timeline_groups = select_node.nodes;

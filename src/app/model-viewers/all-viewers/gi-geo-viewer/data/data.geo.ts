@@ -1,21 +1,20 @@
-import { Model, GICommon, _parameterTypes} from '@design-automation/mobius-sim-funcs';
+import { Model, SIMFuncs, EEntType, LONGLAT } from '@design-automation/mobius-sim-funcs';
 import { GeoSettings } from '../gi-geo-viewer.settings';
 import * as itowns from 'itowns';
 import * as THREE from 'three';
 import * as suncalc from 'suncalc';
 
-const LONGLAT = _parameterTypes.LONGLAT;
 export const API_MAPS = [
-                            'Here map normal',
-                            'Here map normal grey',
-                            'Here map normal traffic',
-                            'Here map normal reduced',
-                            'Here map normal pedestrian',
-                            'Here map aerial terrain',
-                            'Here map aerial satellite',
-                            'Here map aerial hybrid',
-                            'Bing Map'
-                        ];
+    'Here map normal',
+    'Here map normal grey',
+    'Here map normal traffic',
+    'Here map normal reduced',
+    'Here map normal pedestrian',
+    'Here map aerial terrain',
+    'Here map aerial satellite',
+    'Here map aerial hybrid',
+    'Bing Map'
+];
 export const API_MAPS_KEY_MAPPING = {
     'Here map normal': 'here',
     'Here map normal grey': 'here',
@@ -35,7 +34,7 @@ export class DataGeo {
     public viewer: any;
     // the GI model to display
     public model: Model;
-
+    private sim_funcs: SIMFuncs;
     // Geo Settings
     public settings: GeoSettings;
     public attribution: string;
@@ -257,8 +256,8 @@ export class DataGeo {
         this.longitude = LONGLAT[0];
         this.latitude = LONGLAT[1];
         this.elevation = 0;
-        if (this.model.modeldata.attribs.query.hasModelAttrib('geolocation')) {
-            const geoloc: any = this.model.modeldata.attribs.get.getModelAttribVal('geolocation');
+        if (this.sim_funcs.model.hasModelAttrib('geolocation')) {
+            const geoloc: any = this.sim_funcs.model.getModelAttribVal('geolocation');
             const long_value  = geoloc.longitude;
             if (typeof long_value !== 'number') {
                 throw new Error('Longitude attribute must be a number.');
@@ -296,10 +295,10 @@ export class DataGeo {
         threeJSGroup.rotateY(Math.PI);
 
         // if there's a north attribute
-        if (this.model.modeldata.attribs.query.hasModelAttrib('north')) {
+        if (this.sim_funcs.model.hasModelAttrib('north')) {
 
             // get north attribute
-            const north_dir: any = this.model.modeldata.attribs.get.getModelAttribVal('north');
+            const north_dir: any = this.sim_funcs.model.getModelAttribVal('north');
 
             if (north_dir.constructor === [].constructor && north_dir.length === 2) {
                 // make the north vector and the default north vector
@@ -439,12 +438,12 @@ export class DataGeo {
     updateHUD() {
         const hud = document.getElementById('geo_hud');
         if (hud) {
-            if (!this.model.modeldata.attribs.query.hasEntAttrib(GICommon.EEntType.MOD, 'hud')) {
+            if (!this.sim_funcs.model.hasAttrib(EEntType.MOD, 'hud')) {
                 hud.innerHTML = '';
                 hud.style.visibility = 'hidden';
                 return;
             }
-            hud.innerHTML = this.model.modeldata.attribs.get.getModelAttribVal('hud') as string;
+            hud.innerHTML = this.sim_funcs.model.getModelAttribVal('hud') as string;
         }
     }
 

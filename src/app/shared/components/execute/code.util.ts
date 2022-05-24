@@ -1,4 +1,4 @@
-import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
+import { FUNCS_ASYNC } from '@design-automation/mobius-sim-funcs';
 import { INode } from '@models/node';
 import { InputType, IPortInput } from '@models/port';
 import { IFunction, IProcedure, ProcedureTypes } from '@models/procedure';
@@ -253,7 +253,7 @@ export class CodeUtils {
                 // const argValues = argVals.join(', ');
                 let fnCall = `mfn.${prod.meta.module}.${prod.meta.name}( ${argVals.join(', ')} )`;
                 const fullName = prod.meta.module + '.' + prod.meta.name;
-                for (const asyncFunc of _parameterTypes.asyncFuncs) {
+                for (const asyncFunc of FUNCS_ASYNC) {
                     if (fullName === asyncFunc) {
                         fnCall = 'await ' + fnCall;
                         break;
@@ -408,11 +408,11 @@ export class CodeUtils {
                 }
 
                 codeStr.push(`$p.console.push('<div style="margin: 5px 0px 5px 10px; border: 1px solid #E6E6E6"><p><b> Global Function: ${prod.meta.name}</b></p>');`);
-                codeStr.push(`$p.curr_ss.${nodeId} = mfn._getModel().prepGlobalFunc([${prepArgs.join(', ')}]);`);
+                codeStr.push(`$p.curr_ss.${nodeId} = mfn.sim_funcs.model.snapshotPrepGlobalFunc([${prepArgs.join(', ')}]);`);
                 // if (prepArgs.length === 0) {
-                //     codeStr.push(`$p.curr_ss.${nodeId} = mfn._getModel().prepGlobalFunc([${argsVals[0]}]);`);
+                //     codeStr.push(`$p.curr_ss.${nodeId} = mfn.sim_funcs.model.snapshotPrepGlobalFunc([${argsVals[0]}]);`);
                 // } else {
-                //     codeStr.push(`$p.curr_ss.${nodeId} = mfn._getModel().prepGlobalFunc([${prepArgs.join(', ')}]);`);
+                //     codeStr.push(`$p.curr_ss.${nodeId} = mfn.sim_funcs.model.snapshotPrepGlobalFunc([${prepArgs.join(', ')}]);`);
                 // }
                 const fn = `await ${namePrefix}${prod.meta.name}($p${argsVals.map(val => ', ' + val).join('')})`;
                 // codeStr.push(`$p.prevModel = mfn._getModel().clone();`);
@@ -455,7 +455,7 @@ export class CodeUtils {
                         existingVars.push(args[0].jsValue);
                     }
                 }
-                codeStr.push(`mfn._getModel().postGlobalFunc($p.curr_ss.${nodeId})`);
+                codeStr.push(`mfn.sim_funcs.model.snapshotPostGlobalFunc($p.curr_ss.${nodeId})`);
                 codeStr.push(`$p.console.push('</div>')`);
                 break;
             case ProcedureTypes.Error:
@@ -769,7 +769,7 @@ export class CodeUtils {
             const nodeFuncName = `${func.name}_${node.id}`;
             if (node.type === 'start') {
                 // fnCode += `let result_${nodeFuncName} = $p.model;\n`;
-                fnCode += `let ssid_${nodeFuncName} = mfn._getModel().getActiveSnapshot();\n`;
+                fnCode += `let ssid_${nodeFuncName} = mfn.sim_funcs.model.snapshotGetActive();\n`;
             } else {
                 const codeRes = CodeUtils.getNodeCode(node, false, nodeIndices, func.name, node.id)[0];
                 const nodecode = codeRes[0].join('\n').split('_-_-_+_-_-_');
@@ -791,7 +791,7 @@ export class CodeUtils {
                         activeNodes.push([nodeIndices[nodeEdge.source.parentNode.id], `ssid_${func.name}_${nodeEdge.source.parentNode.id}`]);
                     }
                     activeNodes = activeNodes.sort((a, b) => a[0] - b[0]);
-                    fnCode += `\nlet ssid_${nodeFuncName} = mfn._getModel().nextSnapshot([${activeNodes.map(nodeId => nodeId[1]).join(', ')}]);\n`;
+                    fnCode += `\nlet ssid_${nodeFuncName} = mfn.sim_funcs.model.snapshotNext([${activeNodes.map(nodeId => nodeId[1]).join(', ')}]);\n`;
                 }
                 if (node.type === 'end') {
                     fnCode += `\nreturn await ${nodeFuncName}($p${func.args.map(arg => ', ' + arg.name + '_').join('')});\n`;

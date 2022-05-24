@@ -1,7 +1,7 @@
 import { Component, isDevMode } from '@angular/core';
 import { Router } from '@angular/router';
 import { InlineClass } from '@design-automation/mobius-inline-funcs';
-import { _parameterTypes, GICommon } from '@design-automation/mobius-sim-funcs';
+import { Model, SIMFuncs, EEntType } from '@design-automation/mobius-sim-funcs';
 import { FlowchartUtils } from '@models/flowchart';
 import { INode } from '@models/node';
 import { IProcedure, ProcedureTypes } from '@models/procedure';
@@ -186,7 +186,7 @@ export class ExecuteComponent {
                     this.dataService.flowchart.model = this.dataService.executeModel._getModel();
                     this.dataService.finalizeLog();
                     this.dataService.log('<br>');
-                    const hudData = this.dataService.flowchart.model.modeldata.attribs.getAttrib(GICommon.EEntType.MOD, 'hud') || null;
+                    const hudData = this.sim_funcs.model.getModelAttrib('hud') || null;
                     WindowMessageComponent.SendData({
                         messageType: 'execute_end',
                         data: {
@@ -398,7 +398,7 @@ export class ExecuteComponent {
         }
 
         const nodeIndices = {};
-        this.dataService.modelMeta = new _parameterTypes.newMeta();
+        this.dataService.modelMeta = this.sim_funcs.newMetadata();
         // execute each node
         for (let i = 0; i < this.dataService.flowchart.nodes.length; i++) {
             const node = this.dataService.flowchart.nodes[i];

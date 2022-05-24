@@ -7,7 +7,7 @@ import { ISettings } from './data.threejsSettings';
 import { DataThreejsLookAt } from './data.threejsLookAt';
 import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper';
-import { Model, GICommon} from '@design-automation/mobius-sim-funcs';
+import { Model, SIMFuncs, EEntType} from '@design-automation/mobius-sim-funcs';
 
 enum MaterialType {
     MeshBasicMaterial = 'MeshBasicMaterial',
@@ -48,7 +48,7 @@ export class DataThreejs extends DataThreejsLookAt {
             this._addDirectionalLight();
         }
     }
-
+    //----------------------------------------------------------------------------------------------
     /**
      *
      * @param object
@@ -63,7 +63,7 @@ export class DataThreejs extends DataThreejsLookAt {
             }
         }
     }
-
+    //----------------------------------------------------------------------------------------------
     public async populateScene(model: Model, container) {
         const cameraSettings = localStorage.getItem('gi_camera');
         if (cameraSettings && JSON.parse(cameraSettings)) {
@@ -107,13 +107,14 @@ export class DataThreejs extends DataThreejsLookAt {
             if (old) {
                 container.removeChild(old);
             }
-            if (!this.model.modeldata.attribs.query.hasEntAttrib(GICommon.EEntType.MOD, 'hud')) { return; }
-            const hud = this.model.modeldata.attribs.get.getModelAttribVal('hud') as string;
+            if (!this.sim_funcs.model.hasAttrib(EEntType.MOD, 'hud')) { return; }
+            const hud = this.sim_funcs.model.getModelAttribVal('hud') as string;
             const element = this._createHud(hud).element;
             container.appendChild(element);
             old = null;
         }, 0);
     }
+    //----------------------------------------------------------------------------------------------
     // replaces rgb values with THREE.Color objects
     private _replaceColors(materials: object[], keys: string[]): void {
         for (const mat of materials) {
@@ -125,9 +126,10 @@ export class DataThreejs extends DataThreejsLookAt {
             }
         }
     }
+    //----------------------------------------------------------------------------------------------
     private async _addGeom(model: Model) {
         // Add geometry
-        const threejs_data = model.get3jsData(this.nodeIndex);
+        const threejs_data = this.sim_funcs.model.viewerGet3jsData(this.nodeIndex);
         this.select_maps = {
             _t: threejs_data.tri_select_map,
             _e: threejs_data.edge_select_map,
@@ -167,8 +169,7 @@ export class DataThreejs extends DataThreejsLookAt {
         await this._addPlaneLabels(model);
 
     }
-
-
+    //----------------------------------------------------------------------------------------------
     /**
      * Add background, grid, ground
      */
@@ -233,6 +234,7 @@ export class DataThreejs extends DataThreejsLookAt {
             this._addDirectionalLight();
         }
     }
+    //----------------------------------------------------------------------------------------------
     /**
      *
      * @param scale
@@ -250,8 +252,8 @@ export class DataThreejs extends DataThreejsLookAt {
             altitude = this.directional_light_settings.altitude;
         }
         if (this.model && this.model.modeldata.attribs && this.model.modeldata.attribs.query
-        && this.model.modeldata.attribs.query.hasModelAttrib('directional_light')) {
-            const model_light_settings: any = this.model.modeldata.attribs.get.getModelAttribVal('directional_light');
+        && this.sim_funcs.model.hasModelAttrib('directional_light')) {
+            const model_light_settings: any = this.sim_funcs.model.getModelAttribVal('directional_light');
             if (model_light_settings.constructor === {}.constructor) {
                 if (model_light_settings.hasOwnProperty('altitude')) {
                     altitude = model_light_settings.altitude;
@@ -264,8 +266,8 @@ export class DataThreejs extends DataThreejsLookAt {
         if (scale === 0) { scale = 10000; }
         let azimuth_calc = 90 - azimuth;
         if (this.model && this.model.modeldata.attribs && this.model.modeldata.attribs.query
-        && this.model.modeldata.attribs.query.hasModelAttrib('north')) {
-            const north_attr: number[] = this.model.modeldata.attribs.get.getModelAttribVal('north') as number[];
+        && this.sim_funcs.model.hasModelAttrib('north')) {
+            const north_attr: number[] = this.sim_funcs.model.getModelAttribVal('north') as number[];
             const north_vec = new THREE.Vector3(north_attr[0], north_attr[1], 0);
             const y_vec = new THREE.Vector3(0, 1, 0);
             const angle = north_vec.angleTo(y_vec) * 180 / Math.PI;
@@ -286,7 +288,7 @@ export class DataThreejs extends DataThreejsLookAt {
         }
         this.directional_light.position.set(posX, posY, posZ);
     }
-
+    //----------------------------------------------------------------------------------------------
     /**
      * Add axes
      * @param size
@@ -317,6 +319,7 @@ export class DataThreejs extends DataThreejsLookAt {
             this.scene.add(this.axesHelper);
         }
     }
+    //----------------------------------------------------------------------------------------------
     /**
      * Draws a grid on the XY plane.
      * @param size
@@ -353,6 +356,7 @@ export class DataThreejs extends DataThreejsLookAt {
             this.scene.add(this.grid);
         }
     }
+    //----------------------------------------------------------------------------------------------
     /**
      *
      */
@@ -366,12 +370,11 @@ export class DataThreejs extends DataThreejsLookAt {
         this.grid.position.set(0, 0, -0.01);
         return grid_pos;
     }
-
-    // ============================================================================
-    // ============================================================================
+    // =============================================================================================
+    // =============================================================================================
     // Private methods
-    // ============================================================================
-    // ============================================================================
+    // =============================================================================================
+    // =============================================================================================
     /**
      * Create the buffer for threejs triangles
      */
@@ -392,8 +395,7 @@ export class DataThreejs extends DataThreejsLookAt {
         }
         return tris_geom_buff;
     }
-
-
+    //----------------------------------------------------------------------------------------------
     /**
      * Add threejs triangles to the scene
      */
@@ -525,8 +527,7 @@ export class DataThreejs extends DataThreejsLookAt {
         this.scene.add(vrmesh_hidden_mesh);
         this.threejs_nums[2] = (tris_i.length + vrmesh_tris_i.length) / 3;
     }
-
-    // ============================================================================
+    //----------------------------------------------------------------------------------------------
     /**
      * Add threejs lines to the scene
      */
@@ -601,7 +602,7 @@ export class DataThreejs extends DataThreejsLookAt {
         this.threejs_nums[1] = (lines_i.length + vrmesh_lines_i.length) / 2;
 
     }
-    // ============================================================================
+    //----------------------------------------------------------------------------------------------
     /**
      * Add threejs points to the scene
      */
@@ -630,35 +631,36 @@ export class DataThreejs extends DataThreejsLookAt {
         this.scene.add(point);
         this.threejs_nums[0] = points_i.length;
     }
-    // ============================================================================
+    //----------------------------------------------------------------------------------------------
     /**
-     * Add threejs points to the scene
+     * Add threejs plane labes to the scene
      */
      private async _addPlaneLabels(model: Model) {
-        let pgon, pgon_label, coords_attrib;
+        let pgons, pgons_labels, coords_attrib;
         try {
-            pgon = model.modeldata.geom.query.getEnts(GICommon.EEntType.PGON);
-            pgon_label = <any> model.modeldata.attribs.get.getEntAttribVal(GICommon.EEntType.PGON, pgon, 'text');
-            coords_attrib = model.modeldata.attribs.attribs_maps.get(model.modeldata.active_ssid).ps.get('xyz');
+            pgons = this.sim_funcs.model.getEnts(EEntType.PGON);
+            pgons_labels = <any> this.sim_funcs.model.getAttribVal(EEntType.PGON, pgons, 'text');
+            const act_ssid = this.sim_funcs.model.snapshotGetActive();
+            coords_attrib = this.sim_funcs.model.tableGetAttribsMaps(act_ssid).ps.get('xyz');
         } catch (ex) {
             return;
         }
         const pgonTextShapes = [];
-        for (let i = 0; i < pgon_label.length; i ++) {
-            if (!pgon_label[i]) { continue; }
-            const posi = model.modeldata.geom.nav.navAnyToPosi(GICommon.EEntType.PGON, pgon[i]);
-            if (posi.length > 3 || !pgon_label[i].text) { continue; }
+        for (let i = 0; i < pgons_labels.length; i ++) {
+            if (!pgons_labels[i]) { continue; }
+            const posi = this.sim_funcs.model.getEnts(EEntType.POSI, EEntType.PGON, pgons[i]);
+            if (posi.length > 3 || !pgons_labels[i].text) { continue; }
 
-            const labelText = pgon_label[i].text;
-            const labelSize = pgon_label[i].size || 20;
+            const labelText = pgons_labels[i].text;
+            const labelSize = pgons_labels[i].size || 20;
 
-            const fontType = pgon_label[i].font ? pgon_label[i].font : 'roboto';
+            const fontType = pgons_labels[i].font ? pgons_labels[i].font : 'roboto';
             let fontWeight = 'medium';
             let fontStyle = 'regular';
-            if (pgon_label[i].font_style) {
-                if (pgon_label[i].font_style.indexOf('light') !== -1) { fontWeight = 'light'; }
-                if (pgon_label[i].font_style.indexOf('bold') !== -1) { fontWeight = 'bold'; }
-                if (pgon_label[i].font_style.indexOf('italic') !== -1) { fontStyle = 'italic'; }
+            if (pgons_labels[i].font_style) {
+                if (pgons_labels[i].font_style.indexOf('light') !== -1) { fontWeight = 'light'; }
+                if (pgons_labels[i].font_style.indexOf('bold') !== -1) { fontWeight = 'bold'; }
+                if (pgons_labels[i].font_style.indexOf('italic') !== -1) { fontStyle = 'italic'; }
             }
             const fontCode = `${fontType}_${fontWeight}_${fontStyle}`;
             if (!this._text_font[fontCode]) {
@@ -686,18 +688,18 @@ export class DataThreejs extends DataThreejsLookAt {
                 [lengthCheck[1], lengthCheck[2]] = [lengthCheck[2], lengthCheck[1]];
                 [coords[0], coords[1]] = [coords[1], coords[0]];
             }
-            const rotQuat = this.rotateQuartenion(coords);
+            const rotQuat = this._rotateQuaternion(coords);
             geom.applyQuaternion(rotQuat);
             geom.translate(coords[1].x, coords[1].y, coords[1].z);
 
             let color = new THREE.Color(0);
-            if (pgon_label[i].color  && pgon_label[i].color.length === 3) {
-                color = new THREE.Color(`rgb(${pgon_label[i].color[0]}, ${pgon_label[i].color[1]}, ${pgon_label[i].color[2]})`);
+            if (pgons_labels[i].color  && pgons_labels[i].color.length === 3) {
+                color = new THREE.Color(`rgb(${pgons_labels[i].color[0]}, ${pgons_labels[i].color[1]}, ${pgons_labels[i].color[2]})`);
             }
             const colors_buffer = new THREE.Float32BufferAttribute(new Uint8Array(geom.attributes.position.count * 3), 3);
-            if (pgon_label[i].color && pgon_label[i].color.length === 3) {
+            if (pgons_labels[i].color && pgons_labels[i].color.length === 3) {
                 for (let k = 0; k < colors_buffer.count; k++) {
-                    colors_buffer.setXYZ(k, pgon_label[i].color[0], pgon_label[i].color[1], pgon_label[i].color[2]);
+                    colors_buffer.setXYZ(k, pgons_labels[i].color[0], pgons_labels[i].color[1], pgons_labels[i].color[2]);
                 }
             }
             geom.setAttribute('color', colors_buffer);
@@ -714,8 +716,8 @@ export class DataThreejs extends DataThreejsLookAt {
         // this.renderer.render(this.scene, this.camera);
         this.renderer.render(this.scene, this.camera);
     }
-
-    rotateQuartenion(targetCoords: [THREE.Vector3, THREE.Vector3, THREE.Vector3]): THREE.Quaternion {
+    //----------------------------------------------------------------------------------------------
+    private _rotateQuaternion(targetCoords: [THREE.Vector3, THREE.Vector3, THREE.Vector3]): THREE.Quaternion {
         const v1y = new THREE.Vector3(0, 1, 0);
         const v2x = new THREE.Vector3().copy(targetCoords[2]).sub(targetCoords[1]).normalize();
         const v2y = new THREE.Vector3().copy(targetCoords[0]).sub(targetCoords[1]).normalize();
@@ -726,9 +728,7 @@ export class DataThreejs extends DataThreejsLookAt {
         const QuatFinal = quat2.multiply(quat1);
         return QuatFinal;
     }
-
-
-    // ============================================================================
+    //----------------------------------------------------------------------------------------------
     /**
      * Add threejs positions to the scene
      */
@@ -753,7 +753,7 @@ export class DataThreejs extends DataThreejsLookAt {
         this.positions.push(point);
         this.positions.map(p => p.visible = this.settings.positions.show);
     }
-    // ============================================================================
+    //----------------------------------------------------------------------------------------------
     /**
      *
      * @param text
@@ -774,6 +774,7 @@ export class DataThreejs extends DataThreejsLookAt {
             element: div
         };
     }
+    //----------------------------------------------------------------------------------------------
     /**
      *
      * @param background_set
@@ -814,7 +815,7 @@ export class DataThreejs extends DataThreejsLookAt {
 
         // this._renderer.render(this._scene, this._camera);
     }
-
+    //----------------------------------------------------------------------------------------------
     /**
      * Create ambient light
      */
@@ -825,7 +826,7 @@ export class DataThreejs extends DataThreejsLookAt {
         this.ambient_light.castShadow = false;
         this.scene.add(this.ambient_light);
     }
-
+    //----------------------------------------------------------------------------------------------
     /**
      * Create hemisphere light
      */
@@ -843,15 +844,15 @@ export class DataThreejs extends DataThreejsLookAt {
         helper.visible = this.settings.hemisphere_light.helper;
         this.scene.add(helper);
     }
-
+    //----------------------------------------------------------------------------------------------
     // Create Directional Light
     private _addDirectionalLight(): void {
         this.directional_light_settings = JSON.parse(JSON.stringify(this.settings.directional_light));
         if (this.model
         && this.model.modeldata.attribs
         && this.model.modeldata.attribs.query
-        && this.model.modeldata.attribs.query.hasModelAttrib('directional_light')) {
-            const model_light_settings: any = this.model.modeldata.attribs.get.getModelAttribVal('directional_light');
+        && this.sim_funcs.model.hasModelAttrib('directional_light')) {
+            const model_light_settings: any = this.sim_funcs.model.getModelAttribVal('directional_light');
             if (model_light_settings.constructor === {}.constructor) {
                 for (const i in model_light_settings) {
                     if (model_light_settings[i]) {
@@ -896,7 +897,7 @@ export class DataThreejs extends DataThreejsLookAt {
         this._setDLDistance(distance);
         this.scene.add(this.directional_light);
     }
-
+    //----------------------------------------------------------------------------------------------
     /**
      * Get the bounding sphere of all objects
      */
@@ -912,6 +913,7 @@ export class DataThreejs extends DataThreejsLookAt {
             return null;
         }
     }
+    //----------------------------------------------------------------------------------------------
     /**
      *
      * @param size
@@ -986,7 +988,7 @@ export class DataThreejs extends DataThreejsLookAt {
             this.getDLPosition(scale);
         }
     }
-
+    //----------------------------------------------------------------------------------------------
     exportGLTF( input ) {
         let i = 0;
         input.children.splice(3, 1);
@@ -1011,7 +1013,7 @@ export class DataThreejs extends DataThreejsLookAt {
                 console.log( output );
         }, options );
     }
-
+    //----------------------------------------------------------------------------------------------
     private async _loadFont(fontCode) {
         const p = new Promise<void>(resolve => {
             textFontLoader.load( `assets/fonts/${fontCode}.json`, font => {
