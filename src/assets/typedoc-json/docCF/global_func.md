@@ -53,11 +53,18 @@ Just as with local functions, if a global function needs to return more than one
 
 **Updating Global Functions**
 
-When a global function needs to be edited, [opens a new browser and needs to be saved local storage so can be edited there then closed and returned to the main model ]
+When a global function needs to be edited, there are two main approaches.
+
+The first is to delete the old global function from local storage, edit it, then import the updated one.
+
+The second is faster and has three steps:
+1. First, open `Manage Global Functions` and click `Edit` on the relevant function.
+2. Update the global function in the new mobius tab. Click save.
+3. Go back to the original mobius file, open `Manage Global Functions`, and click `Refresh` on the relevant file.
 
 **Global Functions That Process Geometric Entities**
 
-The procedure that calls a global function has access to the geometry in the Mobius model. We refer to this as the _main_ Mobius model,
+The procedure that calls a global function has access to the geometry in the Mobius model. We refer to this as the _main_ Mobius model.
 
 Each time a procedure calls a global function, a new empty Mobius model is initialized for the code in the function to operate on. This new model is separate from the main model.
 

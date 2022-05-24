@@ -43,7 +43,7 @@ The panorama hotspot can include two panorama images: one for the foreground and
 background. These images form two domes, centered on the camera location. The 3D model
 is placed at the centre of these two domes. Below is a diagram of the setup:
 
-![Two panorama images](assets/typedoc-json/docVW/imgs/viewer_vr_hemi_domes.PNG)
+![Two panorama images](assets/typedoc-json/docVW/imgs/viewer_vr_hemi_domes.png)
 
 For the 360° panorama images, you can either have only a foreground image or you can have both a
 foreground and a background image. In the foreground image, only the entities that appear infront of

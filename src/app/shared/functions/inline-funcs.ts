@@ -40,8 +40,8 @@ const strings = [
     'strTrim(s)',
     'strTrimL(s)',
     'strTrimR(s)',
-    'strPadL(s1, m)',
-    'strPadR(s1, m)',
+    'strPadL(s1, max)',
+    'strPadR(s1, max)',
     'strRepl(s1, s2, s3)',
     'strSub(s, from)',
     'strStarts(s1, s2)',
@@ -58,7 +58,7 @@ const lists = [
     'listCount(list, val)',
     'listCopy(list)',
     'listRep(list, num)',
-    'listJoin(list1, list2)',
+    'listJoin(...list)',
     'listFlat(list)',
     'listRot(list, rot)',
     'listSlice(list, start)',
@@ -171,7 +171,7 @@ const arithmetic = [
 
 const geometry = [
     'distance(a, b)',
-    'distanceM(c1, c2)',
+    'distanceM(a, b)',
     'distanceMS(a, b)',
     'intersect(a, b)',
     'project(a, b)'

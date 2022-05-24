@@ -39,7 +39,7 @@ Their output will be displayed on the console.
 
 (The below links will show the overall categories of the functions.)
 
-* [util.EntityInfo](/gallery?defaultViewer=doc&docSection=Func.util): Returns information on a specific entity. 
-* [util.ParamInfo](/gallery?defaultViewer=doc&docSection=Func.util): Returns information about a specific parameter. 
-* [attrib.Discover](/gallery?defaultViewer=doc&docSection=Func.attrib): Returns all the attributes and values in an entity. 
+* [util.EntityInfo](/gallery?defaultViewer=doc&docSection=Funcs.util): Returns information on a specific entity. 
+* [util.ParamInfo](/gallery?defaultViewer=doc&docSection=Funcs.util): Returns information about a specific parameter. 
+* [attrib.Discover](/gallery?defaultViewer=doc&docSection=Funcs.attrib): Returns all the attributes and values in an entity. 
   
