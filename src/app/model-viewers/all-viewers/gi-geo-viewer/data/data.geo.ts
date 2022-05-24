@@ -1,4 +1,4 @@
-import { Model, SIMFuncs, EEntType, LONGLAT } from '@design-automation/mobius-sim-funcs';
+import { Model, SIMFuncs, EEntType } from '@design-automation/mobius-sim-funcs';
 import { GeoSettings } from '../gi-geo-viewer.settings';
 import * as itowns from 'itowns';
 import * as THREE from 'three';
@@ -26,6 +26,8 @@ export const API_MAPS_KEY_MAPPING = {
     'Here map aerial hybrid': 'here',
     'Bing Map': 'bing'
 };
+export const LONGLAT = [103.778329, 1.298759];
+
 
 /**
  * Cesium data
@@ -59,6 +61,7 @@ export class DataGeo {
         this.settings = JSON.parse(JSON.stringify(settings));
         this._getLayers();
         this._getTerrains();
+        this.sim_funcs = new SIMFuncs();
     }
 
     // matrix points from xyz to long lat
@@ -242,6 +245,7 @@ export class DataGeo {
     }
 
     refreshModel(threejsScene, updatePos = false) {
+        this.sim_funcs.setModel(this.model)
         this.removeMobiusObjs();
         const threeJSGroup = new THREE.Group();
         threeJSGroup.name = 'mobius_geom';
