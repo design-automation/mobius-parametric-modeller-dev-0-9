@@ -176,11 +176,11 @@ export class CodeUtils {
                 let check = true;
                 const returnArgVals = [];
                 for (const arg of args) {
-                    if (arg.name === _parameterTypes.constList) {
+                    if (arg.name === '__constList__') {
                         returnArgVals.push('$p.constants');
                         continue;
                     }
-                    if (arg.name === _parameterTypes.model) {
+                    if (arg.name === '__model__') {
                         // returnArgVals.push('$p.model');
                         continue;
                     }
@@ -197,7 +197,7 @@ export class CodeUtils {
                 if (!check) {
                     codeStr.push(`return null;`);
                 } else {
-                    codeStr.push(`let __return_value__ = mfn.${_parameterTypes.return}(${returnArgVals.join(', ')});`);
+                    codeStr.push(`let __return_value__ = ${returnArgVals.join(', ')};`);
                     if (isMainFlowchart) {
                         codeStr.push(`if (__return_value__ !== undefined && __return_value__ !== null) {` +
                                      `$p.console.push('<p><b>Return: <i>' + ` +
@@ -213,19 +213,19 @@ export class CodeUtils {
             case ProcedureTypes.MainFunction:
                 const argVals = [];
                 for (const arg of args.slice(1)) {
-                    if (arg.name === _parameterTypes.constList) {
+                    if (arg.name === '__constList__') {
                         argVals.push('$p.constants');
                         continue;
                     }
-                    if (arg.name === _parameterTypes.model) {
+                    if (arg.name === '__model__') {
                         // argVals.push('$p.model');
                         continue;
                     }
-                    if (arg.name === _parameterTypes.console) {
+                    if (arg.name === '__console__') {
                         argVals.push('$p.console');
                         continue;
                     }
-                    if (arg.name === _parameterTypes.fileName) {
+                    if (arg.name === '__fileName__') {
                         argVals.push('$p.fileName');
                         continue;
                     }
@@ -384,14 +384,6 @@ export class CodeUtils {
                 // let urlCheck = false;
                 if (isMainFlowchart) {
                     usedFunctions.push(prod.meta.name);
-                // } else {
-                //     for (const urlfunc of _parameterTypes.urlFunctions) {
-                //         const funcMeta = urlfunc.split('.');
-                //         if (funcMeta[0] === prod.meta.module && funcMeta[1] === prod.meta.name) {
-                //             urlCheck = true;
-                //             break;
-                //         }
-                //     }
                 }
                 const prepArgs = [];
                 for (let i = 1; i < args.length; i++) {
@@ -492,17 +484,6 @@ export class CodeUtils {
                 codeStr.push(`printFunc($p.console,\`${prod.args[0].value}\`, ${repGet});`);
             }
         }
-        // if (isMainFlowchart && prod.selectGeom && prod.args[0].jsValue) {
-        //     // const repGet = prod.args[0].jsValue;
-        //     const repGet = this.repGetAttrib(prod.args[0].value);
-        //     const repGetJS = this.repGetAttrib(prod.args[0].jsValue);
-        //     codeStr.push(`try {` +
-        //     `\tmfn.${_parameterTypes.select}(mfn._getModel(), ${repGetJS}, "${repGet}"); ` +
-        //     `} catch (ex) {` +
-        //     `\t$p.message = 'Trying to select geometric entities in node "%node%", but no entity was found';` +
-        //     `}`);
-        // }
-
         if (prod.children) {
             codeStr = codeStr.concat(CodeUtils.getProdListCode(prod.children, existingVars, isMainFlowchart,
                                                                functionName, nodeId, usedFunctions));
@@ -571,13 +552,13 @@ export class CodeUtils {
         if (bracketIndex !== -1) {
             const name = val_1.slice(0, bracketIndex);
             const index = val_1.lastIndexOf(name);
-            // return [`mfn.${_parameterTypes.setattrib}($p.model, ${val_0}, '${name}', ` +
+            // return [`mfn.attrib.Set($p.model, ${val_0}, '${name}', ` +
             //         `${val_1.substring(bracketIndex + 12, index - 2)},`, `);`];
-            return [`mfn.${_parameterTypes.setattrib}(${val_0},` +
+            return [`mfn.attrib.Set(${val_0},` +
                     `[\`${name}\`, ${val_1.substring(bracketIndex + 12, index - 2)}], `, `);`];
         } else {
-            // return [`mfn.${_parameterTypes.setattrib}($p.model, ${val_0}, '${val_1}', null, `, ');'];
-            return [`mfn.${_parameterTypes.setattrib}(${val_0}, \`${val_1}\`, `, ');'];
+            // return [`mfn.attrib.Set($p.model, ${val_0}, '${val_1}', null, `, ');'];
+            return [`mfn.attrib.Set(${val_0}, \`${val_1}\`, `, ');'];
         }
     }
 
@@ -610,10 +591,10 @@ export class CodeUtils {
         }
 
         if (att_index === 'null') {
-            return `mfn.${_parameterTypes.getattrib}(${entity}, '${att_name}', 'one_value')`;
+            return `mfn.attrib.Get(${entity}, '${att_name}', 'one_value')`;
         }
-        return `mfn.${_parameterTypes.getattrib}(${entity}, ['${att_name}', ${att_index}], 'one_value')`;
-        // return `mfn.${_parameterTypes.getattrib}(${entity}, '${att_name}', ${att_index}, 'one_value')`;
+        return `mfn.attrib.Get(${entity}, ['${att_name}', ${att_index}], 'one_value')`;
+        // return `mfn.attrib.Get(${entity}, '${att_name}', ${att_index}, 'one_value')`;
     }
 
     static async getURLContent(url: string): Promise<any> {

@@ -4,7 +4,6 @@ import { InputType, PortUtils } from '@models/port';
 import * as Flatted from 'flatted';
 import { IdGenerator } from '@utils';
 import { ModuleList } from '@shared/functions';
-import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
 import { modifyLocalFuncVar } from '@shared/parser';
 
 export abstract class NodeUtils {
@@ -90,11 +89,6 @@ export abstract class NodeUtils {
 
     static getEndNode(): INode {
         const node = NodeUtils.getNewNode();
-        const returnMeta = _parameterTypes.return.split('.');
-        if (!ModuleList[returnMeta[0]] || !ModuleList[returnMeta[0]][returnMeta[1]]) {
-            console.log('CORE FUNCTION ERROR: Unable to retrieve return procedure, please check "Return" in _ParameterTypes.ts');
-        }
-        const returnFn = ModuleList[returnMeta[0]][returnMeta[1]];
         const newReturn = {
             type: ProcedureTypes.EndReturn,
             ID: 'Return',
@@ -102,8 +96,8 @@ export abstract class NodeUtils {
             meta: {name: '', module: ''},
             children: undefined,
             variable: undefined,
-            argCount: returnFn.argCount,
-            args: returnFn.args,
+            argCount: 1,
+            args: [{name: 'value', value: '', jsValue: ''}],
             print: false,
             enabled: true,
             selected: false,

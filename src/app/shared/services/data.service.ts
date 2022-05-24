@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Funcs } from '@design-automation/mobius-sim-funcs';
+import { SIMFuncs } from '@design-automation/mobius-sim-funcs';
 import { VERSION } from '@env/version';
 import { IEdge } from '@models/edge';
 import { FlowchartUtils, IFlowchart } from '@models/flowchart';
@@ -27,7 +27,7 @@ export class DataService {
     private static _flowchartPosition: string = undefined;
     private static _newFlowchart = true;
 
-    private static _model: Funcs;
+    private static _model: SIMFuncs;
 
     private static _modelOutputView = {};
     private static _testModel = false;
@@ -138,8 +138,8 @@ export class DataService {
 
     get executeModel() {return DataService._model; }
     initiateExecuteModel() {
-        DataService._model = new Funcs();
-        DataService._model._getModel().debug = DataService._mobiusSettings.debug;
+        DataService._model = new SIMFuncs();
+        DataService._model.getModel().debug = DataService._mobiusSettings.debug;
     }
 
     get giViewerSettingsUpdated() {return DataService._giViewerSettingsUpdated; }

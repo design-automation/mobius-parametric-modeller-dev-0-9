@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
-import { Funcs } from '@design-automation/mobius-sim-funcs';
+import { SIMFuncs } from '@design-automation/mobius-sim-funcs';
 import { IArgument } from '@models/code';
 import { IProcedure, ProcedureTypes } from '@models/procedure';
 import { DataService } from '@services';
@@ -24,7 +24,7 @@ export class ProcedureItemComponent implements OnDestroy {
     private keys = Object.keys(ProcedureTypes);
     private ctx = document.createElement('canvas').getContext('2d');
     private ctxB = document.createElement('canvas').getContext('2d');
-    private funcList: Funcs;
+    private funcList: SIMFuncs;
 
     ProcedureTypesArr = this.keys.slice(this.keys.length / 2);
     ModuleDoc = ModuleDocList;
@@ -32,7 +32,7 @@ export class ProcedureItemComponent implements OnDestroy {
     constructor(private dataService: DataService) {
         this.ctx.font = '400 12px Inconsolata';
         this.ctxB.font = '700 12px Inconsolata';
-        this.funcList = new Funcs();
+        this.funcList = new SIMFuncs();
     }
 
     ngOnDestroy() {

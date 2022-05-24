@@ -65,6 +65,7 @@ export class DataThreejs extends DataThreejsLookAt {
     }
     //----------------------------------------------------------------------------------------------
     public async populateScene(model: Model, container) {
+        this.sim_funcs.setModel(model)
         const cameraSettings = localStorage.getItem('gi_camera');
         if (cameraSettings && JSON.parse(cameraSettings)) {
             const cam = JSON.parse(cameraSettings);
@@ -251,8 +252,7 @@ export class DataThreejs extends DataThreejsLookAt {
         if (!altitude && altitude !== 0) {
             altitude = this.directional_light_settings.altitude;
         }
-        if (this.model && this.model.modeldata.attribs && this.model.modeldata.attribs.query
-        && this.sim_funcs.model.hasModelAttrib('directional_light')) {
+        if (this.sim_funcs.model.hasModelAttrib('directional_light')) {
             const model_light_settings: any = this.sim_funcs.model.getModelAttribVal('directional_light');
             if (model_light_settings.constructor === {}.constructor) {
                 if (model_light_settings.hasOwnProperty('altitude')) {
@@ -265,8 +265,7 @@ export class DataThreejs extends DataThreejsLookAt {
         }
         if (scale === 0) { scale = 10000; }
         let azimuth_calc = 90 - azimuth;
-        if (this.model && this.model.modeldata.attribs && this.model.modeldata.attribs.query
-        && this.sim_funcs.model.hasModelAttrib('north')) {
+        if (this.sim_funcs.model.hasModelAttrib('north')) {
             const north_attr: number[] = this.sim_funcs.model.getModelAttribVal('north') as number[];
             const north_vec = new THREE.Vector3(north_attr[0], north_attr[1], 0);
             const y_vec = new THREE.Vector3(0, 1, 0);
@@ -848,10 +847,7 @@ export class DataThreejs extends DataThreejsLookAt {
     // Create Directional Light
     private _addDirectionalLight(): void {
         this.directional_light_settings = JSON.parse(JSON.stringify(this.settings.directional_light));
-        if (this.model
-        && this.model.modeldata.attribs
-        && this.model.modeldata.attribs.query
-        && this.sim_funcs.model.hasModelAttrib('directional_light')) {
+        if (this.sim_funcs.model.hasModelAttrib('directional_light')) {
             const model_light_settings: any = this.sim_funcs.model.getModelAttribVal('directional_light');
             if (model_light_settings.constructor === {}.constructor) {
                 for (const i in model_light_settings) {

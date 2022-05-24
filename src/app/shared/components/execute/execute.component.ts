@@ -129,8 +129,6 @@ export class ExecuteComponent {
         this.dataService.timelineDefault = true;
         this.dataService.initiateExecuteModel();
 
-        // this.dataService.flowchart.model = _parameterTypes.newFn();
-        // this.dataService.flowchart.model.debug = this.dataService.mobiusSettings.debug;
 
         if (this.dataService.consoleClear) {
             this.dataService.clearLog();
@@ -183,10 +181,10 @@ export class ExecuteComponent {
                 // setTimeout for 20ms so that the loading screen has enough time to be loaded in
                 setTimeout(async () => {
                     await this.executeFlowchart();
-                    this.dataService.flowchart.model = this.dataService.executeModel._getModel();
+                    this.dataService.flowchart.model = this.dataService.executeModel.getModel();
                     this.dataService.finalizeLog();
                     this.dataService.log('<br>');
-                    const hudData = this.sim_funcs.model.getModelAttrib('hud') || null;
+                    const hudData = this.dataService.executeModel.model.getModelAttribVal('hud') || null;
                     WindowMessageComponent.SendData({
                         messageType: 'execute_end',
                         data: {
@@ -196,7 +194,7 @@ export class ExecuteComponent {
                 }, 20);
             }
         } catch (ex) {
-            this.dataService.flowchart.model = this.dataService.executeModel._getModel();
+            this.dataService.flowchart.model = this.dataService.executeModel.getModel();
             document.getElementById('spinner-off').click();
         }
     }
@@ -398,7 +396,6 @@ export class ExecuteComponent {
         }
 
         const nodeIndices = {};
-        this.dataService.modelMeta = this.sim_funcs.newMetadata();
         // execute each node
         for (let i = 0; i < this.dataService.flowchart.nodes.length; i++) {
             const node = this.dataService.flowchart.nodes[i];
@@ -418,22 +415,6 @@ export class ExecuteComponent {
                 continue;
             }
 
-            // if the node is not to be executed
-            // if (!executeSet.has(i)) {
-            //     let exCheck = false;
-            //     for (const edge of node.output.edges) {
-            //         if (!edge.target.parentNode.state.hasExecuted) {
-            //             exCheck = true;
-            //         }
-            //     }
-            //     if (exCheck) {
-            //         node.output.value = _parameterTypes.newFn();
-            //         node.output.value.debug = this.dataService.mobiusSettings.debug;
-            //         node.output.value.setData(JSON.parse(node.model));
-            //     }
-            //     continue;
-            // }
-            // execute valid node
             node.model = null;
             globalVars = await this.executeNode(node, funcStrings, globalVars, constantList, nodeIndices, miscData);
         }
@@ -484,7 +465,7 @@ export class ExecuteComponent {
                 'Static Error: Invalid code detected. Check the highlighted lines of code!' +
                 '</h4>');
             document.getElementById('spinner-off').click();
-            this.dataService.flowchart.model = this.dataService.executeModel._getModel();
+            this.dataService.flowchart.model = this.dataService.executeModel.getModel();
             this.dataService.flagModifiedNode(this.dataService.flowchart.nodes[0].id);
             const _category = this.isDev ? 'dev' : 'execute';
             throw new Error('Reserved Word Argument');
@@ -566,7 +547,7 @@ export class ExecuteComponent {
             }
 
 
-            snapshotID = this.dataService.executeModel._getModel().nextSnapshot(node.input.value);
+            snapshotID = this.dataService.executeModel.getModel().nextSnapshot(node.input.value);
             node.model = null;
 
             if (node.type !== 'start') {
@@ -592,7 +573,7 @@ export class ExecuteComponent {
 
             // #########################################################
             // *********************************************************
-            // console.log(fnString.split('<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>')[1]);
+            console.log(fnString.split('<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>')[1]);
             // console.log(fnString);
 
             const fn = new Function('mfn', 'ifn', '$p', fnString);
@@ -689,7 +670,7 @@ export class ExecuteComponent {
                 this.dataService.log('<h4 style="padding: 2px 0px 2px 0px; color:black;">Bypass Node</h4>');
                 return;
             }
-            this.dataService.flowchart.model = this.dataService.executeModel._getModel();
+            this.dataService.flowchart.model = this.dataService.executeModel.getModel();
             document.getElementById('spinner-off').click();
             const endTime = performance.now();
             const duration: number = Math.round(endTime - startTime);

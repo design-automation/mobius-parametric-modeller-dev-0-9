@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { Funcs } from '@design-automation/mobius-sim-funcs';
+import { SIMFuncs } from '@design-automation/mobius-sim-funcs';
 import { IArgument } from '@models/code';
 import { IFlowchart } from '@models/flowchart';
 import { NodeUtils } from '@models/node';
@@ -45,7 +45,7 @@ export class ToolsetComponent implements OnInit {
     private timeOut;
 
     constructor(private dataService: DataService) {
-        this.MobiusFuncs = new Funcs();
+        this.MobiusFuncs = new SIMFuncs();
         this.dataService.toolsetUpdate$.subscribe(() => {
             this.Funcs = [];
             for (const cat in this.AllModules) {

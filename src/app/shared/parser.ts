@@ -1,4 +1,3 @@
-import { _parameterTypes } from '@design-automation/mobius-sim-funcs';
 import { IArgument } from '@models/code';
 import { IFlowchart } from '@models/flowchart';
 import { INode } from '@models/node';
@@ -1106,19 +1105,19 @@ function analyzeQuery(comps: {'type': strType, 'value': string}[],
             if (bracketIndex !== -1) {
                 const arrayName = result.jsStr.substring(0, bracketIndex);
                 const index = result.jsStr.lastIndexOf(arrayName);
-                jsString = ` mfn.${_parameterTypes.getattrib}(${entity},` +
+                jsString = ` mfn.attrib.Get(${entity},` +
                            ` ['${arrayName}', ${result.jsStr.substring(bracketIndex + 12, index - 2)}])`;
-                // jsString = ` mfn.${_parameterTypes.getattrib}(${entity},` +
+                // jsString = ` mfn.attrib.Get(${entity},` +
                 //            ` '${arrayName}', ${result.jsStr.substring(bracketIndex + 12, index - 2)})`;
             } else if (result.jsStr.indexOf('[') !== -1) {
                 bracketIndex = result.jsStr.indexOf('[');
                 const arrayName = result.jsStr.substring(0, bracketIndex);
                 const index = result.jsStr.slice(bracketIndex + 1, -1);
-                jsString = ` mfn.${_parameterTypes.getattrib}(${entity}, ['${arrayName}', ${index}])`;
-                // jsString = ` mfn.${_parameterTypes.getattrib}(${entity}, '${arrayName}', ${index})`; //////////
+                jsString = ` mfn.attrib.Get(${entity}, ['${arrayName}', ${index}])`;
+                // jsString = ` mfn.attrib.Get(${entity}, '${arrayName}', ${index})`; //////////
             } else {
-                jsString = ` mfn.${_parameterTypes.getattrib}(${entity}, '${result.str}')`;
-                // jsString = ` mfn.${_parameterTypes.getattrib}(${entity}, '${result.str}', null)`; //////////
+                jsString = ` mfn.attrib.Get(${entity}, '${result.str}')`;
+                // jsString = ` mfn.attrib.Get(${entity}, '${result.str}', null)`; //////////
             }
             // return {'i': i, 'str': newString, 'jsStr': jsString};
 
@@ -1146,19 +1145,19 @@ function analyzeQuery(comps: {'type': strType, 'value': string}[],
             if (bracketIndex !== -1) {
                 const arrayName = result.jsStr.substring(0, bracketIndex);
                 const index = result.jsStr.lastIndexOf(arrayName);
-                jsString = ` mfn.${_parameterTypes.queryGet}('${arrayName}', ${entity})` +
+                jsString = ` mfn.query.Get('${arrayName}', ${entity})` +
                            `[pythonList(${result.jsStr.substring(bracketIndex + 12, index - 2)}, ` +
-                           `mfn.${_parameterTypes.queryGet}('${arrayName}', ${entity}).length)]`;
+                           `mfn.query.Get('${arrayName}', ${entity}).length)]`;
                 // const att_name = result.jsStr.slice(0, bracketIndex);
                 // const att_index = result.jsStr.slice(bracketIndex + 7, -4);
-                // jsString = ` mfn.${_parameterTypes.queryGet}('${att_name}', ${entity}).slice(${att_index})[0]`;
+                // jsString = ` mfn.query.Get('${att_name}', ${entity}).slice(${att_index})[0]`;
             } else if (result.jsStr.indexOf('.slice(') !== -1) {
                 bracketIndex = result.jsStr.indexOf('.slice(');
                 const arrayName = result.jsStr.substring(0, bracketIndex);
-                jsString = ` mfn.${_parameterTypes.queryGet}('${arrayName}', ${entity})` +
+                jsString = ` mfn.query.Get('${arrayName}', ${entity})` +
                            result.jsStr.substring(bracketIndex);
             } else {
-                jsString = ` mfn.${_parameterTypes.queryGet}('${result.str}', ${entity})`;
+                jsString = ` mfn.query.Get('${result.str}', ${entity})`;
             }
 
 
@@ -1215,11 +1214,11 @@ function analyzeQuery(comps: {'type': strType, 'value': string}[],
             bracketIndex = nComp.jsStr.indexOf('[pythonList(');
             if (bracketIndex !== -1) {
                 newString += `?@${result.str}${operator}${nComp.str} `;
-                jsString = ` mfn.${_parameterTypes.queryFilter}(${entity}, ['${att_name}'` +
+                jsString = ` mfn.query.Filter(${entity}, ['${att_name}'` +
                            `, ${att_index}], '${operator}', ${nComp.jsStr.slice(0, bracketIndex)})${nComp.jsStr.slice(bracketIndex)}`;
             } else {
                 newString += `?@${result.str}${operator}${nComp.str} `;
-                jsString = ` mfn.${_parameterTypes.queryFilter}(${entity}, ['${att_name}'` +
+                jsString = ` mfn.query.Filter(${entity}, ['${att_name}'` +
                            `, ${att_index}], '${operator}', ${nComp.jsStr})`;
             }
 

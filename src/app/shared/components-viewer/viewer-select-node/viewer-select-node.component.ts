@@ -27,8 +27,8 @@ export class ViewerSelectNodeComponent implements OnChanges {
     }
 
     private _getNodeSelect(changes): void {
-        if (!this.model) { return; }
-        const select_node: any = this.sim_funcs.model.getModelAttribVal('select_node');
+        if (!this.model || !this.dataService.executeModel) { return; }
+        const select_node: any = this.dataService.executeModel.model.getModelAttribVal('select_node');
         this.timelineEnabled = null;
         if (!select_node || !select_node.nodes) { return; }
         this.timeline_groups = select_node.nodes;

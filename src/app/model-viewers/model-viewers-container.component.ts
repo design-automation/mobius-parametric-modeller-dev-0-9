@@ -5,7 +5,7 @@ import { Viewers } from './model-viewers.config';
 import { DataService } from '@services';
 import { DataService as GIDataService } from './all-viewers/gi-viewer/data/data.service';
 import { Router } from '@angular/router';
-import { Model, _parameterTypes } from '@design-automation/mobius-sim-funcs';
+import { Model, SIMFuncs } from '@design-automation/mobius-sim-funcs';
 
 const VIEWER_MATCHING = {
     '1': 'GIViewerComponent',
@@ -44,7 +44,7 @@ export class DataViewersContainerComponent implements DoCheck, OnInit, OnDestroy
     constructor(private injector: Injector, private r: ComponentFactoryResolver, private dataService: DataService,
                 private giDataService: GIDataService, private router: Router) {
         let viewCheck: any;
-        this.emptyModel = _parameterTypes.newFn();
+        this.emptyModel = new Model();
         // this.emptyModel.nextSnapshot([]);
 
         const page = this.router.url.split('?')[0]

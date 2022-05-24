@@ -1,4 +1,4 @@
-import { Funcs } from '@design-automation/mobius-sim-funcs';
+import { SIMFuncs } from '@design-automation/mobius-sim-funcs';
 import { VERSION } from '@env/version';
 import { IMobius } from '@models/mobius';
 import { INode } from '@models/node';
@@ -149,7 +149,7 @@ function updateNode(flowchart) {
 
 function checkMissingProd(prodList: any[], fileVersion: string, node: INode) {
     let check = true;
-    const funcs = new Funcs();
+    const funcs = new SIMFuncs();
     for (const prod of prodList) {
         // check the children procedures if the procedure has any
         if (prod.children) {

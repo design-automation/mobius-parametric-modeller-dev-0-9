@@ -107,6 +107,7 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
 
     public dropdownPosition = { x: 0, y: 0 };
 
+    private sim_funcs: SIMFuncs;
     private renderInterval;
     // private isDown = false;
     private lastX: number;
@@ -153,6 +154,7 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
                 this.giSummary = JSON.parse(localStorage.getItem('gi_summary'));
             }
         }
+        this.sim_funcs = new SIMFuncs();
         // this.keyboardService = injector.get(KeyboardService);
         // this.keyboardServiceSub = this.keyboardService.viewerControl$.subscribe(event => {
         //     this._data_threejs.onWindowKeyPress(event);
@@ -263,6 +265,7 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
                 // }
                 if (!this.container) { return; }
                 this.updateModel(this.model);
+                this.sim_funcs.setModel(this.model);
             }
         }
         if (changes['attr_table_select']) {
@@ -496,19 +499,7 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
                     break;
                 case EEntTypeStr[EEntType.COLL]:
                     if (typeof attrib.id === 'number') {
-                        // const coll_parents = this.model.modeldata.geom.query.getCollParents(attrib.id);
-                        // if (coll_parents[0] === -1) { // no parent
-                        //     this.chooseColl(attrib.id);
-                        // } else {
-                        //     coll_parents.forEach(element => {
-                        //         this.chooseColl(element);
-                        //     });
-                        // }
                         this.chooseColl(attrib.id);
-                        // const parent_coll_i: number = this.model.modeldata.geom.snapshot.getCollParent(attrib.id);
-                        // if (parent_coll_i === -1) { // no parent
-                        //     this.chooseColl(attrib.id);
-                        // }
                     } else {
                         attrib.id.forEach((_id) => {
                             this.chooseColl(_id);
@@ -584,15 +575,15 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
     getGISummary(model: Model) {
         let colls = 0, pgons = 0, plines = 0, points = 0, wires = 0, edges = 0, vertices = 0, positions = 0;
         if (this) {
-            colls = this.sim_funcs.model.numEnts(this.nodeIndex, EEntType.COLL);
-            pgons = this.sim_funcs.model.numEnts(this.nodeIndex, EEntType.PGON);
-            plines = this.sim_funcs.model.numEnts(this.nodeIndex, EEntType.PLINE);
-            points = this.sim_funcs.model.numEnts(this.nodeIndex, EEntType.POINT);
-            // faces = this.sim_funcs.model.numEnts(this.nodeIndex, EEntType.FACE);
-            wires = this.sim_funcs.model.numEnts(this.nodeIndex, EEntType.WIRE);
-            edges = this.sim_funcs.model.numEnts(this.nodeIndex, EEntType.EDGE);
-            vertices = this.sim_funcs.model.numEnts(this.nodeIndex, EEntType.VERT);
-            positions = this.sim_funcs.model.numEnts(this.nodeIndex, EEntType.POSI);
+            colls = this.sim_funcs.model.snapshotNumEnts(this.nodeIndex, EEntType.COLL);
+            pgons = this.sim_funcs.model.snapshotNumEnts(this.nodeIndex, EEntType.PGON);
+            plines = this.sim_funcs.model.snapshotNumEnts(this.nodeIndex, EEntType.PLINE);
+            points = this.sim_funcs.model.snapshotNumEnts(this.nodeIndex, EEntType.POINT);
+            // faces = this.sim_funcs.model.snapshotNumEnts(this.nodeIndex, EEntType.FACE);
+            wires = this.sim_funcs.model.snapshotNumEnts(this.nodeIndex, EEntType.WIRE);
+            edges = this.sim_funcs.model.snapshotNumEnts(this.nodeIndex, EEntType.EDGE);
+            vertices = this.sim_funcs.model.snapshotNumEnts(this.nodeIndex, EEntType.VERT);
+            positions = this.sim_funcs.model.snapshotNumEnts(this.nodeIndex, EEntType.POSI);
         }
         const gi_summary = [{title: 'Collections', val: colls},
         {title: 'Polygons', val: pgons},
@@ -964,7 +955,7 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
                     } else {
                         tri_i = scene.select_maps._t.get(intersect0.faceIndex);
                     }
-                    const face = this.sim_funcs.model.getEnts(EEntType.PGON, EEntType.TRI, tri_i); // TODO idx to TId
+                    const face = this.sim_funcs.model.getEnts(EEntType.PGON, EEntType.TRI, tri_i)[0]; // TODO idx to TId
                     const ent_id = `pg_posi${face}`;
                     if (!this.shiftKeyPressed) {
                         this.unselectAll();
@@ -1052,7 +1043,7 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
                     } else {
                         tri_i = scene.select_maps._t.get(intersect0.faceIndex);
                     }
-                    const face = this.sim_funcs.model.getEnts(EEntType.PGON, EEntType.TRI, tri_i); // TODO idx to TId
+                    const face = this.sim_funcs.model.getEnts(EEntType.PGON, EEntType.TRI, tri_i)[0]; // TODO idx to TId
                     const ent_id = `pg_v${face}`;
                     if (!this.shiftKeyPressed) {
                         this.unselectAll();
@@ -1078,7 +1069,7 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
                     } else {
                         tri_i = scene.select_maps._t.get(intersect0.faceIndex);
                     }
-                    const pgon = this.sim_funcs.model.getEnts(EEntType.PGON, EEntType.TRI, tri_i); // TODO idx to TId
+                    const pgon = this.sim_funcs.model.getEnts(EEntType.PGON, EEntType.TRI, tri_i)[0]; // TODO idx to TId
                     // const tri = scene.tris_select_idx_to_i[intersect0.faceIndex];
                     const ent_id = `${EEntTypeStr[EEntType.PGON]}${pgon}`;
                     if (!this.shiftKeyPressed) {
@@ -1125,7 +1116,7 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
                     } else {
                         tri_i = scene.select_maps._t.get(intersect0.faceIndex);
                     }
-                    const face = this.sim_funcs.model.getEnts(EEntType.PGON, EEntType.TRI, tri_i); // TODO idx to TId
+                    const face = this.sim_funcs.model.getEnts(EEntType.PGON, EEntType.TRI, tri_i)[0]; // TODO idx to TId
                     const ent_id = `${EEntTypeStr[EEntType.PGON]}${face}`;
                     if (!this.shiftKeyPressed) {
                         this.unselectAll();
@@ -1147,7 +1138,7 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
                     } else {
                         edge_i = scene.select_maps._e.get(intersect0.index / 2);
                     }
-                    const wire = this.sim_funcs.model.getEnts(EEntType.WIRE, EEntType.EDGE, edge_i); // TODO idx to TId
+                    const wire = this.sim_funcs.model.getEnts(EEntType.WIRE, EEntType.EDGE, edge_i)[0]; // TODO idx to TId
                     const ent_id = `${EEntTypeStr[EEntType.WIRE]}${edge_i}`;
                     if (!this.shiftKeyPressed) {
                         this.unselectAll();
@@ -1164,7 +1155,7 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
                     } else {
                         tri_i = scene.select_maps._t.get(intersect0.faceIndex);
                     }
-                    const face = this.sim_funcs.model.getEnts(EEntType.PGON, EEntType.TRI, tri_i); // TODO idx to TId
+                    const face = this.sim_funcs.model.getEnts(EEntType.PGON, EEntType.TRI, tri_i)[0]; // TODO idx to TId
                     // const tri = scene.tris_select_idx_to_i[intersect0.faceIndex];
                     const ent_id = `${EEntTypeStr[EEntType.PGON]}${face}`;
                     if (!this.shiftKeyPressed) {
@@ -1187,7 +1178,7 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
                     } else {
                         edge_i = scene.select_maps._e.get(intersect0.index / 2);
                     }
-                    const pline = this.sim_funcs.model.getEnts(EEntType.PLINE, EEntType.EDGE, edge_i); // TODO idx to TId
+                    const pline = this.sim_funcs.model.getEnts(EEntType.PLINE, EEntType.EDGE, edge_i)[0]; // TODO idx to TId
                     const ent_id = `${EEntTypeStr[EEntType.PLINE]}${pline}`;
                     if (!this.shiftKeyPressed) {
                         this.unselectAll();
@@ -1208,7 +1199,7 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
             case EEntType.POINT:
                 if (intersect0.object.type === 'Points') {
                     const vert = this.sim_funcs.model.getEnts(EEntType.VERT, EEntType.POSI, intersect0.index); // TODO idx to TId
-                    const _point = this.sim_funcs.model.getEnts(EEntType.POINT, EEntType.VERT, vert[0]); // TODO idx to TId
+                    const _point = this.sim_funcs.model.getEnts(EEntType.POINT, EEntType.VERT, vert[0])[0]; // TODO idx to TId
                     const point = scene.select_maps.pt.get(_point);
                     // const point = scene.points_select_idx_to_i[_point];
                     const ent_id = `${EEntTypeStr[EEntType.POINT]}${point}`;
@@ -1265,7 +1256,7 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
             this.dataService.selected_positions.set(`${parent_ent_id}`, [ent_id]);
         } else if (edge_i !== null) {
             const verts = this.sim_funcs.model.getEnts(EEntType.VERT, EEntType.EDGE, edge_i); // TODO idx to TId
-            const posis = verts.map(vert_i => this.sim_funcs.model.getEnts(EEntType.POSI, EEntType.VERT, vert_i)); // TODO idx to TId
+            const posis = verts.map(vert_i => this.sim_funcs.model.getEnts(EEntType.POSI, EEntType.VERT, vert_i))[0]; // TODO idx to TId
             const children = [];
             posis.map(posi => {
                 const ent_id = `${ent_type_str}${posi}`;
@@ -1621,7 +1612,7 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
         const children = [];
         let labelText = this.indexAsLabel(EEntTypeStr[EEntType.COLL], coll_id, coll_i, EEntType.COLL);
         // pgons
-        const pgons = this.sim_funcs.snapshotGetCollEnts(this.nodeIndex, coll_i, EEntType.PGON);
+        const pgons = this.sim_funcs.model.snapshotGetCollEnts(this.nodeIndex, coll_i, EEntType.PGON);
         const pgons_flat = [].concat(...pgons);
         if (pgons_flat.length) {
             const pgonResult = this.getPgonPosis(pgons_flat);
@@ -1694,6 +1685,10 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
         }
     }
     //----------------------------------------------------------------------------------------------
+    private EntTypeToStr(ent_type: EEntType) {
+        return EEntTypeStr[ent_type];
+    }
+    //----------------------------------------------------------------------------------------------
     enableSelect() {
         return this.selections.length > 1;
     }
@@ -1748,7 +1743,6 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
             indexAsLabel = String(arr.findIndex(ent => ent === ent_i));
         } else {
             indexAsLabel = ent_id;
-            // indexAsLabel = String(this._data_threejs._model.modeldata.attribs.threejs.getIdIndex(type, id));
         }
         return indexAsLabel;
     }

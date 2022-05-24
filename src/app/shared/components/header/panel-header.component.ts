@@ -1,6 +1,6 @@
 import { Component, HostListener, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { Funcs } from '@design-automation/mobius-sim-funcs';
+import { SIMFuncs } from '@design-automation/mobius-sim-funcs';
 import { IArgument } from '@models/code';
 import { IFlowchart } from '@models/flowchart';
 import { InputType } from '@models/port';
@@ -52,7 +52,7 @@ export class PanelHeaderComponent implements OnDestroy {
     urlNodes;
 
     settings;
-    func_categories = Object.keys(Funcs).filter(cat => cat[0] !== '_');
+    func_categories = Object.keys(SIMFuncs).filter(cat => cat[0] !== '_');
     private ctx = document.createElement('canvas').getContext('2d');
     backupDates;
 
@@ -86,7 +86,7 @@ export class PanelHeaderComponent implements OnDestroy {
         if (this.settings['autosave'] === undefined) { this.settings['autosave'] = true; }
         if (this.settings['debug'] === undefined) { this.settings['debug'] = true; }
 
-        const funcs = new Funcs();
+        const funcs = new SIMFuncs();
         this.func_categories = Object.getOwnPropertyNames(funcs).filter(cat => cat[0] !== '_');
 
         for (const cat in this.func_categories) {

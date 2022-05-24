@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { INode } from '@models/node';
-import { Model, _parameterTypes } from '@design-automation/mobius-sim-funcs';
+import { Model } from '@design-automation/mobius-sim-funcs';
 
 @Injectable()
 export class DataOutputService {
-    private emptyModel = _parameterTypes.newFn();
     private iModel = {'nodeID': '', 'getOutput': null, 'model': null};
 
     getViewerData(node: INode, model: Model, getViewOutput: boolean) {

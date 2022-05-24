@@ -127,6 +127,8 @@ export class AttributeComponent implements OnChanges {
 
     columnItalic = 'c2';
 
+    sim_funcs: SIMFuncs
+
     constructor(injector: Injector) {
         this.dataService = injector.get(DataService);
         if (localStorage.getItem('mpm_attrib_current_tab') === null) {
@@ -136,6 +138,7 @@ export class AttributeComponent implements OnChanges {
         this.dataSource.sortingDataAccessor = this._sortingDataAccessor;
         this.dataSourceTopo = new MatTableDataSource();
         this.dataSourceTopo.sortingDataAccessor = this._sortingDataAccessor;
+        this.sim_funcs = new SIMFuncs();
     }
 
     // ngDoCheck() {
@@ -162,6 +165,7 @@ export class AttributeComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         if (changes['model'] && this.model) {
             this.refreshTable();
+            this.sim_funcs.setModel(this.model)
         }
         if (changes['reset']) {
             this.resetTable();

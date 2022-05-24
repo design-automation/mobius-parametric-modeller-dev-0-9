@@ -1,6 +1,6 @@
 import inlinedoc from '@assets/typedoc-json/doc-inline.json';
 import doc from '@assets/typedoc-json/doc.json';
-import { _parameterTypes, Funcs } from '@design-automation/mobius-sim-funcs';
+import { FUNCS_ASYNC, SIMFuncs } from '@design-automation/mobius-sim-funcs';
 import { IArgument } from '@models/code';
 import { IFunction } from '@models/procedure';
 import * as showdown from 'showdown';
@@ -77,16 +77,16 @@ function addDoc(mod, modName, docs) {
         fn['parameters'] = [];
         if (func['signatures'][0].parameters) {
             for (const param of func['signatures'][0].parameters) {
-                let namecheck = true;
-                for (const systemVarName in _parameterTypes) {
-                    if (param.name === _parameterTypes[systemVarName]) {
-                        namecheck = false;
-                        break;
-                    }
-                }
-                if (!namecheck) {
-                    continue;
-                }
+                // let namecheck = true;
+                // for (const systemVarName in _parameterTypes) {
+                //     if (param.name === _parameterTypes[systemVarName]) {
+                //         namecheck = false;
+                //         break;
+                //     }
+                // }
+                // if (!namecheck) {
+                //     continue;
+                // }
                 const pr = {};
 
                 pr['name'] = param.name;
@@ -155,7 +155,7 @@ function extract_params(func: Function, asyncCheck: boolean): [IArgument[], bool
     }
     return [final_result, hasReturn];
 }
-const mobiusFuncs = new Funcs();
+const mobiusFuncs = new SIMFuncs();
 const moduleNames = Object.getOwnPropertyNames(mobiusFuncs);
 
 for (const m_name of moduleNames) {
@@ -172,7 +172,7 @@ for (const m_name of moduleNames) {
         fnObj.name = fn_name;
         fnObj.argCount = func.length;
         let asyncCheck = false;
-        if (_parameterTypes.asyncFuncs.indexOf(`${m_name}.${fn_name}`) !== -1) {
+        if (FUNCS_ASYNC.indexOf(`${m_name}.${fn_name}`) !== -1) {
             asyncCheck = true;
         }
         const args = extract_params(func, asyncCheck);
