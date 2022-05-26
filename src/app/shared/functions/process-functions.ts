@@ -77,6 +77,7 @@ function addDoc(mod, modName, docs) {
         fn['parameters'] = [];
         if (func['signatures'][0].parameters) {
             for (const param of func['signatures'][0].parameters) {
+                if (param.name === '__model__') { continue; }
                 // let namecheck = true;
                 // for (const systemVarName in _parameterTypes) {
                 //     if (param.name === _parameterTypes[systemVarName]) {
