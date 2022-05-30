@@ -483,25 +483,18 @@ export class ProcedureItemComponent implements OnDestroy {
         }
     }
 
-    checkEnum(param, index: number): boolean {
+    checkEnum(paramName: string): boolean {
         try {
-            if (param.name[0] === '_' ||  !this.funcList[this.data.meta.module].__enum__) {
-                return false;
-            }
-            // @ts-ignore
-            const arg = this.ModuleDoc[this.data.meta.module][this.data.meta.name].parameters[index];
-            if (arg.description.toLowerCase().indexOf('enum') === -1 || !this.funcList[this.data.meta.module].__enum__[arg.type]) {
-                return false;
-            }
-            return true;
+            const enumArgs = this.funcList[this.data.meta.module].__enum__
+            if (!enumArgs || !enumArgs[this.data.meta.name] || !enumArgs[this.data.meta.name][paramName]) return false;
+            return true
         } catch (ex) {
             return false;
         }
     }
 
-    getEnum(index: number) {
-        const argType = this.ModuleDoc[this.data.meta.module][this.data.meta.name].parameters[index].type;
-        const enm = this.funcList[this.data.meta.module].__enum__[argType];
+    getEnum(paramName: string) {
+        const enm = this.funcList[this.data.meta.module].__enum__[this.data.meta.name][paramName];
         const enumList = [];
         for (const i in enm) {
             if (! enm.hasOwnProperty(i)) {

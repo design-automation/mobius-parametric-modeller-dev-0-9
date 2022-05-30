@@ -120,22 +120,22 @@ export class ToolsetComponent implements OnInit {
         const newArgs = [];
         for (let i = 0; i < fnData.args.length; i ++) {
             const arg = fnData.args[i];
-            const argDoc = ModuleDocList[fnData.module][fnData.name].parameters[i];
-            if (argDoc && argDoc.description ) {
-                const docText = argDoc.description.toLowerCase();
 
-                if (docText.indexOf('enum') !== -1 && this.MobiusFuncs[fnData.module].__enum__) {
-                    const enm = this.MobiusFuncs[fnData.module].__enum__[argDoc.type];
-                    // tslint:disable-next-line:forin
-                    for (const j in enm) {
-                        newArgs.push({name: arg.name, value: `'${enm[j]}'`, jsValue: `'${enm[j]}'`});
-                        break;
-                    }
-                    continue;
-                } else if (docText.indexOf('optional') !== -1) {
-                    newArgs.push({name: arg.name, value: `null`, jsValue: `null`});
-                    continue;
+            const enumArgs = this.MobiusFuncs[fnData.module].__enum__;
+            if (enumArgs && enumArgs[fnData.name] && enumArgs[fnData.name][arg.name]) {
+                const enm = enumArgs[fnData.name][arg.name];
+                // tslint:disable-next-line:forin
+                for (const j in enm) {
+                    newArgs.push({name: arg.name, value: `'${enm[j]}'`, jsValue: `'${enm[j]}'`});
+                    break;
                 }
+                continue;
+            }
+
+            const argDoc = ModuleDocList[fnData.module][fnData.name].parameters[i];
+            if (argDoc && argDoc.description && argDoc.description.toLowerCase().indexOf('optional') !== -1) {
+                newArgs.push({name: arg.name, value: `null`, jsValue: `null`});
+                continue;
             }
             newArgs.push({name: arg.name, value: arg.value});
         }

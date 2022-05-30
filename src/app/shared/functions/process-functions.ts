@@ -161,7 +161,7 @@ const moduleNames = Object.getOwnPropertyNames(mobiusFuncs);
 
 for (const m_name of moduleNames) {
     if (m_name === '__model__' || m_name.endsWith('Model')) { continue; }
-    const modObj = { '__enum__': mobiusFuncs[m_name].__enum__ };
+    const modObj = {};
     const funcNames = Object.getOwnPropertyNames(Object.getPrototypeOf(mobiusFuncs[m_name]));
     for (const fn_name of funcNames) {
         if (fn_name === 'constructor') { continue; }
