@@ -573,7 +573,7 @@ export class ExecuteComponent {
 
             // #########################################################
             // *********************************************************
-            console.log(fnString.split('<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>')[1]);
+            // console.log(fnString.split('<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>')[1]);
             // console.log(fnString);
 
             const fn = new Function('mfn', 'ifn', '$p', fnString);
