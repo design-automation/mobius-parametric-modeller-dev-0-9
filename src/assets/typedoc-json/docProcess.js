@@ -211,7 +211,8 @@ function genModuleDocs(docs) {
                 }
             }
             if (func.name) {
-                const writtenFnStr = `## ${mod.name}.${func.name}  \n  \n  \n` + replaceText(fnString.replace(/\\n/g, '\n'));
+                const writtenFnStr = `## ${mod.name}.${func.name}  \n  \n  \n` + replaceText(fnString.replace(/\\n/g, '\n'))
+                + `\n[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/${mod.name.toLowerCase()}/${func.name}.ts) `;
                 fs.writeFile(`./src/assets/typedoc-json/docs__/${mod.name.toLowerCase()}/${func.name.toLowerCase()}.md`, writtenFnStr, function(err) {
                     if (err) {
                         return console.log(err);
