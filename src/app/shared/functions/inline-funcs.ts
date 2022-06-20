@@ -119,6 +119,7 @@ const colors = [
 
 const planes = [
     'plnMake(o, x, xy)',
+    'plnFromRay(r)',
     'plnCopy(p)',
     'plnMove(p, v)',
     'plnLMove(p, v)',
@@ -381,6 +382,7 @@ vecEqual = __inline__.vec.vecEqual;
 vecLtoG = __inline__.vec.vecLtoG;
 vecGtoL = __inline__.vec.vecGtoL;
 plnMake = __inline__.plane.plnMake;
+plnFromRay = __inline__.plane.plnFromRay;
 plnCopy = __inline__.plane.plnCopy;
 plnMove = __inline__.plane.plnMove;
 plnRot = __inline__.plane.plnRot;

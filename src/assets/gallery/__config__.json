@@ -53,13 +53,18 @@
             "link": "/assets/gallery/import_examples/"
         },
         {
-            "name": "Skeletal Modeling Demonstrations",
+            "name": "Student Gallery",
             "files": [
                 ["Mars_Science_City.mob", ""],
+                ["The_Valley.mob", ""],
+                ["El_Peix.mob",""],
+                ["The_Mountain_Dwelling.mob",""],
+                ["Hexigloo_Pavillion.mob",""],
                 ["Cooper_Union.mob", ""],
                 ["The_Coral_Reef.mob", ""],
                 ["Florida_Polytechnic_University.mob", ""],
                 ["Tree_column_Pavilion.mob", ""]
+
             ],
             "link": "/assets/gallery/student_examples/"
         },
