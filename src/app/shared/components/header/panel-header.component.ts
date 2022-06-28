@@ -103,10 +103,9 @@ export class PanelHeaderComponent implements OnDestroy {
                 continue;
             }
             const funcName = inlineFuncs[i].split(' = ')[0];
-            const funcModule = inlineFuncs[i].split('.')[1];
-            const funcDir = inlineFuncs[i].split('.')[2];
-            if (InlineDocList[funcModule] && InlineDocList[funcModule][funcDir]) {
-                this.inlineDocs[funcName] = InlineDocList[funcModule][funcDir];
+            const funcDir = inlineFuncs[i].split('.')[1];
+            if (InlineDocList && InlineDocList[funcDir]) {
+                this.inlineDocs[funcName] = InlineDocList[funcDir];
                 if (this.inlineDocs[funcName].parameters) {
                     let j = 0;
                     while (j < this.inlineDocs[funcName].parameters.length) {

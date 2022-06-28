@@ -20,7 +20,9 @@ const constants = [
     'ZX',
     'YX',
     'ZY',
-    'XZ'
+    'XZ',
+    'EUL',
+    'PI2'
 ];
 
 const conversion = [
@@ -258,6 +260,8 @@ RX = __inline__.RX;
 RY = __inline__.RY;
 RZ = __inline__.RZ;
 VO = __inline__.VO;
+EUL = __inline__.EUL;
+PI2 = __inline__.PI2;
 isNum = __inline__.isNum;
 isInt = __inline__.isInt;
 isFlt = __inline__.isFlt;

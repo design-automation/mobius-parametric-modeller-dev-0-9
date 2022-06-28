@@ -46,7 +46,7 @@ function addDoc(mod, modName, docs) {
         const fn = {};
         fn['name'] = func.name;
         fn['module'] = modName;
-        if (modName === 'constants') {
+        if (modName === 'constants' || func['kind'] === 32) {
             fn['description'] = func['comment'].shortText;
             moduleDoc[func.name] = fn;
         }
@@ -120,10 +120,12 @@ for (const mod of doc.children) {
     }
     addDoc(mod, mod.name, moduleDocs);
 }
-for (const mod of inlinedoc.children) {
-    if (mod.name.toLowerCase().startsWith('inline')) { continue; }
-    addDoc(mod, mod.name, inlineDocs);
-}
+
+addDoc(inlinedoc, 'inline', inlineDocs)
+// for (const mod of inlinedoc.children) {
+//     if (mod.name.toLowerCase().startsWith('inline')) { continue; }
+//     addDoc(mod, mod.name, inlineDocs);
+// }
 
 /**
  * MAIN FUNCTIONS
@@ -183,6 +185,10 @@ for (const m_name of moduleNames) {
     }
     module_list[m_name] = modObj;
 }
+
 export const ModuleList = module_list;
 export const ModuleDocList = moduleDocs;
-export const InlineDocList = inlineDocs;
+export const InlineDocList = inlineDocs['inline'];
+
+console.log(inlineDocs)
+console.log(inlinedoc)
