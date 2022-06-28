@@ -1,4 +1,4 @@
-import { SIMFuncs } from '@design-automation/mobius-sim-funcs';
+import { SIMFuncs, FUNCS_DEPRECATED } from '@design-automation/mobius-sim-funcs';
 import { VERSION } from '@env/version';
 import { IMobius } from '@models/mobius';
 import { INode } from '@models/node';
@@ -8,9 +8,6 @@ import * as Flatted from 'flatted';
 
 import { ModuleList, primary_func } from './functions';
 
-// import * as deprecated from '@assets/core/deprecated.json';
-
-const deprecated = {default: []}
 
 export function checkMobFile(file: IMobius) {
     if (file.version === VERSION.version) {
@@ -198,9 +195,9 @@ function checkMissingProd(prodList: any[], fileVersion: string, node: INode) {
         // the part below is only for function procedures, skip everything else
         if (prod.type !== ProcedureTypes.MainFunction) { continue; }
 
-
+        console.log('FUNCS_DEPRECATED', FUNCS_DEPRECATED)
         // @ts-ignore
-        for (const dpFn of deprecated.default) {
+        for (const dpFn of FUNCS_DEPRECATED) {
             if (dpFn.old_func.name.toLowerCase() === prod.meta.name.toLowerCase() &&
                 dpFn.old_func.module.toLowerCase() === prod.meta.module.toLowerCase()) {
                 let data: any;
