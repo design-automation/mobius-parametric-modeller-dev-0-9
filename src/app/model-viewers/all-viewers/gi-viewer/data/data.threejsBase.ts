@@ -161,11 +161,11 @@ export class DataThreejsBase {
         // const orbit_controls = OrbitControls(THREE);
         // this.controls = new orbit_controls(this.camera, this.renderer.domElement);
         this.perspControls = new OrbitControls(this.perspCam, this.renderer.domElement);
-        this.perspControls.enableKeys = false;
+        // this.perspControls.enableKeys = false;
         this.perspControls.update();
 
         this.orthoControls = new OrbitControls(this.orthoCam, this.renderer.domElement);
-        this.orthoControls.enableKeys = false;
+        // this.orthoControls.enableKeys = false;
         // this.orthoControls.screenSpacePanning = false;
         this.orthoControls.screenSpacePanning = true;
         this.orthoControls.enableRotate = false;

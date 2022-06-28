@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
+// import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 import { DataService } from '@services';
 import { ISettings } from './data.threejsSettings';
@@ -789,25 +789,25 @@ export class DataThreejs extends DataThreejsLookAt {
         this.cameraBackgrounds = {};
         new THREE.CubeTextureLoader().load(urls, texture => {
             this.renderer.render(this.scene, this.camera);
-            texture.format = THREE.RGBFormat;
+            texture.format = THREE.RGBAFormat;
             this.cameraBackgrounds['Persp'] = texture;
             this.scene.background = this.cameraBackgrounds[this.currentCamera];
         });
         new THREE.TextureLoader().load(path + 'nz' + format, texture => {
             this.renderer.render(this.scene, this.camera);
-            texture.format = THREE.RGBFormat;
+            texture.format = THREE.RGBAFormat;
             this.cameraBackgrounds['Top'] = texture;
             this.scene.background = this.cameraBackgrounds[this.currentCamera];
         });
         new THREE.TextureLoader().load(path + 'left' + format, texture => {
             this.renderer.render(this.scene, this.camera);
-            texture.format = THREE.RGBFormat;
+            texture.format = THREE.RGBAFormat;
             this.cameraBackgrounds['Left'] = texture;
             this.scene.background = this.cameraBackgrounds[this.currentCamera];
         });
         new THREE.TextureLoader().load(path + 'front' + format, texture => {
             this.renderer.render(this.scene, this.camera);
-            texture.format = THREE.RGBFormat;
+            texture.format = THREE.RGBAFormat;
             this.cameraBackgrounds['Front'] = texture;
             this.scene.background = this.cameraBackgrounds[this.currentCamera];
         });
@@ -985,30 +985,35 @@ export class DataThreejs extends DataThreejsLookAt {
         }
     }
     //----------------------------------------------------------------------------------------------
-    exportGLTF( input ) {
-        let i = 0;
-        input.children.splice(3, 1);
-        input.children.splice(0, 1);
-        while (i < input.children.length) {
-            if (input.children[i].name !== '' || input.children[i].type === 'AmbientLight' ||
-            input.children[i].type === 'HemisphereLight'
-            // || input.children[i].type === 'LineSegments'
-            ) {
-                input.children.splice(i, 1);
-                continue;
-            }
-            i++;
-        }
-        const gltfExporter = new GLTFExporter();
-        const options = {
-            trs: false,
-            onlyVisible: false
-        };
-        gltfExporter.parse( input, function ( result ) {
-                const output = JSON.stringify( result, null, 2 );
-                console.log( output );
-        }, options );
-    }
+    // exportGLTF( input ) {
+    //     let i = 0;
+    //     input.children.splice(3, 1);
+    //     input.children.splice(0, 1);
+    //     while (i < input.children.length) {
+    //         if (input.children[i].name !== '' || input.children[i].type === 'AmbientLight' ||
+    //         input.children[i].type === 'HemisphereLight'
+    //         // || input.children[i].type === 'LineSegments'
+    //         ) {
+    //             input.children.splice(i, 1);
+    //             continue;
+    //         }
+    //         i++;
+    //     }
+    //     const gltfExporter = new GLTFExporter();
+    //     const options = {
+    //         trs: false,
+    //         onlyVisible: false
+    //     };
+    //     gltfExporter.parse( input, 
+    //         result => {
+    //             const output = JSON.stringify( result, null, 2 );
+    //             console.log( output );
+    //         }, 
+    //         (error) => {
+    //             console.log( error )
+    //         },
+    //         options);
+    // }
     //----------------------------------------------------------------------------------------------
     private async _loadFont(fontCode) {
         const p = new Promise<void>(resolve => {

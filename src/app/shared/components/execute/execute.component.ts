@@ -1,6 +1,6 @@
 import { Component, isDevMode } from '@angular/core';
 import { Router } from '@angular/router';
-import { InlineClass } from '@design-automation/mobius-inline-funcs';
+import { InlineFuncs } from '@design-automation/mobius-inline-funcs';
 import { Model, SIMFuncs, EEntType } from '@design-automation/mobius-sim-funcs';
 import { FlowchartUtils } from '@models/flowchart';
 import { INode } from '@models/node';
@@ -573,12 +573,12 @@ export class ExecuteComponent {
 
             // #########################################################
             // *********************************************************
-            // console.log(fnString.split('<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>')[1]);
+            console.log(fnString.split('<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>')[1]);
             // console.log(fnString);
 
             const fn = new Function('mfn', 'ifn', '$p', fnString);
             // execute the function
-            const inline = new InlineClass(this.dataService.mobiusSettings.debug);
+            const inline = new InlineFuncs(this.dataService.mobiusSettings.debug);
             const result = await fn(this.dataService.executeModel, inline, params)();
             node.model = snapshotID;
             if (params['terminated']) {
@@ -661,6 +661,7 @@ export class ExecuteComponent {
             }
             return globalVars;
         } catch (ex) {
+            console.log('error:',ex)
             if (ex.message === '__EXIT__') {
                 node.model = snapshotID;
                 return;
