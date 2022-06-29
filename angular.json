@@ -23,7 +23,8 @@
               "fast-xml-parser",
               "@aws-crypto/crc32",
               "@aws-crypto/sha256-browser",
-              "@doodle3d/clipper-js"
+              "@doodle3d/clipper-js",
+              "itowns"
             ],
             "outputPath": "dist",
             "index": "src/index.html",
