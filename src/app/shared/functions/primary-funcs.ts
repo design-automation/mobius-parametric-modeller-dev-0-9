@@ -159,6 +159,7 @@ const poly2d = [
     'OffsetRound',
     'Stitch',
     'Clean',
+    'Relationship'
 ];
 
 const io = [
@@ -175,6 +176,7 @@ const util = [
     'Select',
     'VrHotspot',
     'VrPanorama',
+    'Text',
     'ParamInfo',
     'EntityInfo',
     'ModelInfo',
