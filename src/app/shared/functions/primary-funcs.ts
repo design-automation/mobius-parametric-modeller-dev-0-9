@@ -99,7 +99,7 @@ const analyze = [
     'Sun',
     'Irradiance',
     'NoiseCRTN',
-    'Ventilation',
+    'Wind',
     'SkyDome',
     'Nearest',
     'ShortestPath',
