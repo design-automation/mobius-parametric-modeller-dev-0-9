@@ -8,6 +8,8 @@ const inline_query_expr = [
 
 const constants = [
     'PI',
+    'PI2',
+    'EUL',
     'VX',
     'VY',
     'VZ',
@@ -20,9 +22,7 @@ const constants = [
     'ZX',
     'YX',
     'ZY',
-    'XZ',
-    'EUL',
-    'PI2'
+    'XZ'
 ];
 
 const conversion = [
@@ -32,7 +32,8 @@ const conversion = [
     'numToCurr(num)',
     'numToStr(num)',
     'radToDeg(rad)',
-    'degToRad(deg)'
+    'degToRad(deg)',
+    'strToJSON(s)'
 ];
 
 const strings = [
@@ -47,8 +48,7 @@ const strings = [
     'strRepl(s1, s2, s3)',
     'strSub(s, from)',
     'strStarts(s1, s2)',
-    'strEnds(s1, s2)',
-    'strToJSON(s)'
+    'strEnds(s1, s2)'
 ];
 
 const lists = [
@@ -225,6 +225,10 @@ const types = [
     'isUndef(val)'
 ];
 
+const html = [
+    'htmlColLeg(size, labels, col_scale?)',
+];
+
 export const inline_func = [
     ['queries', inline_query_expr],
     ['constants', constants],
@@ -243,6 +247,7 @@ export const inline_func = [
     ['geometry', geometry],
     ['random', random],
     ['types', types],
+    ['html', html],
 ];
 
 export const inlineVarString =
@@ -415,4 +420,5 @@ numToStr = __inline__.numToStr;
 numToCurr = __inline__.numToCurr;
 rand = __inline__.rand;
 randInt = __inline__.randInt;
-randPick = __inline__.randPick;`;
+randPick = __inline__.randPick;
+htmlColLeg = __inline__.htmlColLeg;`;
