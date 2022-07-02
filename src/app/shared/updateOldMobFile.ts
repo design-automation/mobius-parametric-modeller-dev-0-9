@@ -195,7 +195,8 @@ function checkMissingProd(prodList: any[], fileVersion: string, node: INode) {
         // the part below is only for function procedures, skip everything else
         if (prod.type !== ProcedureTypes.MainFunction) { continue; }
 
-        console.log('FUNCS_DEPRECATED', FUNCS_DEPRECATED)
+        // console.log('FUNCS_DEPRECATED', FUNCS_DEPRECATED)
+
         // @ts-ignore
         for (const dpFn of FUNCS_DEPRECATED) {
             if (dpFn.old_func.name.toLowerCase() === prod.meta.name.toLowerCase() &&

@@ -98,7 +98,7 @@ const analyze = [
     'Sky',
     'Sun',
     'Irradiance',
-    'CRTN',
+    'NoiseCRTN',
     'Ventilation',
     'SkyDome',
     'Nearest',
