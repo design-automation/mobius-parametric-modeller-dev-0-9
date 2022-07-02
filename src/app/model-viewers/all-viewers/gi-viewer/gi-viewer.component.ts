@@ -519,7 +519,7 @@ export class GIViewerComponent implements OnInit, OnDestroy {
 
     oncopy() {
         const threejs = this.dataService.getThreejsScene()
-        const geoms = Array.from(threejs.selected_geoms.keys());
+        const geoms = Array.from(threejs.selected_geoms.keys()).map( x =>`'${x}'`);
         navigator.clipboard.writeText(`[${geoms.join(', ')}]`)
     }
 
