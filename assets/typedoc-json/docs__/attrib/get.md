@@ -4,7 +4,7 @@
 **Description:** Get attribute values for one or more entities.
 
 
-If entities is null, then model level attributes will be returned.
+If `entities` is null, then model level attributes will be returned.
 
   
   
@@ -13,3 +13,5 @@ If entities is null, then model level attributes will be returned.
   * *attrib:* The attribute. Can be `name`, `[name, index]`, or `[name, key]`.  
   
 **Returns:** One attribute value, or a list of attribute values.  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/attrib/Get.ts) 

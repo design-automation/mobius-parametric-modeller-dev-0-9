@@ -15,7 +15,7 @@ Some functions return the IDs of the entities that are created or modified.
 a fixed number of equal length shorter edges.
 - If the `by_length` method is selected, then each edge is divided into
 shorter edges of the specified length.
-- The length of the last segment will be the remainder.
+The length of the last segment will be the remainder.
 - If the `by_min_length` method is selected,
 then the edge is divided into the number of shorter edges
 with lengths equal to or greater than the minimum length specified.
@@ -28,7 +28,7 @@ with lengths equal to or less than the maximum length specified.
 **Parameters:**  
   * *entities:* Edges, or entities from which edges can be extracted.  
   * *divisor:* Segment length or number of segments.  
-  * *method:* Enum, select the method for dividing edges.  
+  * *method:* Enum, select the method for dividing edge: `'by_number', 'by_length', 'by_min_length'` or `'by_max_length'`.  
   
 **Returns:** Entities, a list of new edges resulting from the divide operation.  
 **Examples:**  
@@ -58,11 +58,17 @@ Multiple holes can be created.
   
   
 **Parameters:**  
-  * *pgon:* A polygon to make holes in.  
+  * *pgon:* A polygon to make holes in. This polygon is modified by the function.  
   * *entities:* List of positions, or nested lists of positions, or entities from which positions
-can be extracted.  
+can be extracted to create the holes.  
   
 **Returns:** Entities, a list of wires resulting from the hole(s).  
+**Examples:**  
+  * <a href="/editor?file=/assets/examples/Functions_edit.Hole_examples.mob&node=1" target="_blank"> Correct Example </a>  
+    A model showing proper usage of edit.Hole, such that a hole is created in the orignal polygons.  
+  * <a href="/editor?file=/assets/examples/Functions_edit.Hole_examples.mob&node=2" target="_blank"> Wrong Example </a>  
+    A model showing potential improper usage of edit.Hole, where the hole entities are outside of the original.
+  
   
   
 ## Weld  
@@ -72,21 +78,27 @@ can be extracted.
 If two vertices are welded, then they share the same position.
 
 
-- When making a weld between vertices, a new position is created. The new position is calculate
-as the average of all the existing positions of the vertices. The vertices will then be linked
-to the new position. This means that if the position is later moved, then all vertices will be
-affected. The new position is returned. The positions that become shared are returned.
-- When breaking a weld between vetices, existing positions are duplicated. Each vertex is then
-linked to one of these duplicate positions. If these positions are later moved, then only one
-vertex will be affected.  The new positions that get generated are returned.
+- When making a weld between vertices (`make_weld`), a new position is created and the old
+  positions are removed. The new position is calculated as the average of all the existing
+  positions of the vertices. The vertices will then be linked to the new position. This means
+  that if the position is later moved, then all vertices will be affected. The new position is
+  returned. The positions that become shared are returned.
+- When breaking a weld between vetices (`break_weld`), existing positions are duplicated. Each
+  vertex is then linked to one of these duplicate positions. If these positions are later moved,
+  then only one vertex will be affected.  The new positions that get generated are returned.
 
   
   
 **Parameters:**  
   * *entities:* Entities, a list of vertices, or entities from which vertices can be extracted.  
-  * *method:* Enum; the method to use, either `make_weld` or `break_weld`.  
+  * *method:* Enum, the method to use: `'make_weld'` or `'break_weld'`.  
   
-**Returns:** void  
+**Returns:** Entities, a list of new positions depending on type of weld.  
+**Examples:**  
+  * <a href="/editor?file=/assets/examples/Functions_edit.Weld_example.mob&node=1" target="_blank">
+Example model </a>  
+    A simple model with polylines, showing how to weld and break vertices.
+  
   
   
 ## Fuse  
@@ -123,7 +135,7 @@ The new positions that get generated are returned.
   * *entities:* Entities, a list of positions, or entities from which positions can be extracted.  
   * *tolerance:* The distance tolerance for fusing positions.  
   
-**Returns:** void  
+**Returns:** Entities, a list of new positions.  
   
   
 ## Ring  
@@ -143,7 +155,7 @@ deletes this edge.
   
 **Parameters:**  
   * *entities:* Polyline(s).  
-  * *method:* Enum; the method to use, either `open` or `close`.  
+  * *method:* Enum, the method to use: ``open`` or ``close``.  
   
 **Returns:** void  
 **Examples:**  
@@ -177,8 +189,8 @@ backwards around the ring. The order of the edges in the ring will remain unchan
   
 **Returns:** void  
 **Examples:**  
-  * `modify.Shift(polygon1, 1)`  
-    Shifts the edges in the polygon wire, so that the every edge moves back by one position
+  * `edit.Shift(polygon1, 1)`  
+    Shifts the edges in the polygon wire, so that every edge moves back by one position
 in the ring. The first edge will become the last edge.  
   * `edit.Shift(polyline1, -1)`  
     Shifts the edges in the closed polyline wire, so that every edge moves up by one position
@@ -205,7 +217,7 @@ front face will be flipped. If the normal is calculated, it will face in the opp
   
 **Returns:** void  
 **Examples:**  
-  * `modify.Reverse(polygon1)`  
+  * `edit.Reverse(polygon1)`  
     Flips polygon and reverses its normal.  
   * `edit.Reverse(polyline1)`  
     Reverses the order of vertices and edges in the polyline.
@@ -225,7 +237,7 @@ which may in turn result in some edges being deleted, and so forth.)
 - When deleting collections, the objects and other collections in the collection are also deleted.
 
 
-Topological entities inside objects  (wires, edges, vertices) cannot be deleted.
+Topological entities inside objects (wires, edges, vertices) cannot be deleted.
 If a topological entity needs to be deleted, then the current approach is create a new object
 with the desired topology, and then to delete the original object.
 
@@ -233,7 +245,7 @@ with the desired topology, and then to delete the original object.
   
 **Parameters:**  
   * *entities:* Positions, points, polylines, polygons, collections.  
-  * *method:* Enum, delete or keep unused positions.  
+  * *method:* Enum, delete or keep unused positions: `'delete_selected'` or `'keep_selected'`.  
   
 **Returns:** void  
 **Examples:**  

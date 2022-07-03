@@ -21,13 +21,13 @@ Returns a dictionary containing the following data.
 
 
 If 'stats' is selected, the dictionary will contain the following numbers:
-1. 'hit_count': the total number of rays that hit an obstruction.
-2. 'miss_count': the total number of rays that did not hit any obstruction.
-3. 'total_dist': the total of all the ray distances.
-4. 'min_dist': the minimum distance for all the rays.
-5. 'max_dist': the maximum distance for all the rays.
-6. 'avg_dist': the average dist for all the rays.
-7. 'dist_ratio': the ratio of 'total_dist' to the maximum distance if not rays hit any
+1. 'hit\_count': the total number of rays that hit an obstruction.
+2. 'miss\_count': the total number of rays that did not hit any obstruction.
+3. 'total\_dist': the total of all the ray distances.
+4. 'min\_dist': the minimum distance for all the rays.
+5. 'max\_dist': the maximum distance for all the rays.
+6. 'avg\_dist': the average dist for all the rays.
+7. 'dist\_ratio': the ratio of 'total\_dist' to the maximum distance if not rays hit any
 obstructions.
 
 
@@ -35,8 +35,8 @@ If 'distances' is selected, the dictionary will contain the following list:
 1. 'distances': A list of numbers, the distance travelled for each ray.
 
 
-If 'hit_pgons' is selected, the dictionary will contain the following list:
-1. 'hit_pgons': A list of polygon IDs, the polygons hit for each ray, or 'null' if no polygon
+If 'hit\_pgons' is selected, the dictionary will contain the following list:
+1. 'hit\_pgons': A list of polygon IDs, the polygons hit for each ray, or 'null' if no polygon
 was hit.
 
 
@@ -58,5 +58,8 @@ If the input is a list of lists of rays, then the output will be a list of dicti
   * *rays:* A ray, a list of rays, or a list of lists of rays.  
   * *entities:* The obstructions, faces, polygons, or collections of faces or polygons.  
   * *dist:* The ray limits, one or two numbers. Either max, or [min, max].  
-  * *method:* Enum; values to return.
+  * *method:* Enum, values to return: `'stats', 'distances', 'hit_pgons', 'intersections'` or `'all'`.  
   
+**Returns:** A dictionary, a list of dictionaries, or null.  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/analyze/Raytrace.ts) 

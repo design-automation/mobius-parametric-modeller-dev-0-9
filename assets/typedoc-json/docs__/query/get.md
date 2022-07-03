@@ -14,11 +14,14 @@ The resulting list of entities will not contain duplicate entities.
   
   
 **Parameters:**  
-  * *ent\_type\_enum:* Enum, the type of entity to get.  
-  * *entities:* Optional, list of entities to get entities from, or null to get all entities in the model.  
+  * *ent\_type\_enum:* Enum, the type of entity to get: `'ps', '_v', '_e', '_w', 'pt', 'pl',
+'pg',` or `'co'`.  
+  * *entities:* (Optional) List of entities to get entities from, or null to get from all entities in the model.  
   
 **Returns:** Entities, a list of entities.  
 **Examples:**  
-  * positions = query.Get('positions', [polyline1, polyline2])  
+  * `positions = query.Get('positions', [polyline1, polyline2])`  
     Returns a list of positions that are part of polyline1 and polyline2.
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/query/Get.ts) 

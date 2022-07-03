@@ -1,7 +1,7 @@
 ## modify.Rotate  
   
   
-**Description:** Rotates entities on plane by angle.
+**Description:** Rotates entities on a plane by an angle.
 
   
   
@@ -9,17 +9,18 @@
   * *entities:* An entity or list of entities to rotate.  
   * *ray:* A ray to rotate around. 
 
-Given a plane, a ray will be created from the plane z axis. 
+Given a plane, a ray will be created from the plane's z axis. 
 
 Given an `xyz` location, a ray will be generated with an origin at this location, and a direction `[0, 0, 1]`. 
 
-Given any entities, the centroid will be extracted, 
-
+Given any entities, the centroid will be extracted,
 and a ray will be generated with an origin at this centroid, and a direction `[0, 0, 1]`.  
   * *angle:* Angle (in radians).  
   
 **Returns:** void  
 **Examples:**  
-  * modify.Rotate(polyline1, plane1, PI)  
+  * `modify.Rotate(polyline1, plane1, PI)`  
     Rotates polyline1 around the z-axis of plane1 by PI (i.e. 180 degrees).
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/modify/Rotate.ts) 

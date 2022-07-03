@@ -4,7 +4,7 @@
 **Description:** Set an attribute value for one or more entities.
 
 
-If entities is null, then model level attributes will be set.
+If `entities` is null, then model level attributes will be set.
 
   
   
@@ -12,5 +12,8 @@ If entities is null, then model level attributes will be set.
   * *entities:* Entities, the entities to set the attribute value for.  
   * *attrib:* The attribute. Can be `name`, `[name, index]`, or `[name, key]`.  
   * *value:* The attribute value, or list of values.  
-  * *method:* Enum
+  * *method:* Enum: `'one_value'` or `'many_values'`.  
   
+**Returns:** void  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/attrib/Set.ts) 

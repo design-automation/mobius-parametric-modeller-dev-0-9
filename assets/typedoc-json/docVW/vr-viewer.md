@@ -37,21 +37,21 @@ consists of one or more polygons that define the area within which you can walk.
 walking around and reach the edge of the navigation mesh polygon, you movement will be automatically
 blocked.
 
-The navigation mesh defines the surface where teh camera will be place. As a result, in order to
+The navigation mesh defines the surface where the camera will be placed. As a result, in order to
 create the expereince of walking, the navigation mesh will need to be raised above the ground plane,
-by for exampel 1.5 meters.
+by for example 1.5 meters.
 
-The polygons used for the navigation mesh must have an attribute call `vr_nav_mesh`, with a boolean
+The polygons used for the navigation mesh must have an attribute called `vr_nav_mesh`, with a boolean
 value. When set to `true`, the polygon will ne treated as a navigation mesh in the VR model.
 
-In the VR Viewer, any polygons that navigation meshes are automatically hidden. 
+In the VR Viewer, any polygons of navigation meshes are automatically hidden. 
 
-Below is screen capture of a model being viewed in teh CAD Viewer, with the navigation mesh
+Below is a screen capture of a model being viewed in the CAD Viewer, with the navigation mesh
 selected.
 
 ![A navigation mesh in the CAD viewer.](assets/typedoc-json/docVW/imgs/viewer_vr_nav_mesh_in_cadv.png)
 
-Below is an screen capture of the same model as above, but in the VR Viewer. In this case you can
+Below is a screen capture of the same model as above, but in the VR Viewer. In this case you can
 see that the navigation mesh has been hidden. 
 
 ![A model with a navigation mesh, in the VR Viewer.](assets/typedoc-json/docVW/imgs/viewer_vr_nav_mesh_in_vrv.png)

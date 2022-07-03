@@ -31,9 +31,11 @@ if list of two numbers, x and y lengths respectively.
   
 **Returns:** Entities, a list of four positions.  
 **Examples:**  
-  * posis = pattern.Rectangle([0,0,0], 10)  
+  * `posis = pattern.Rectangle([0,0,0], 10)`  
     Creates a list of 4 coords, being the vertices of a 10 by 10 square.  
   * `posis = pattern.Rectangle(XY, [10,20])`  
     Creates a list of 4 positions in a rectangle pattern. The rectangle has a width of
 10 (in the X direction) and a length of 20 (in the Y direction).
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/pattern/Rectangle.ts) 

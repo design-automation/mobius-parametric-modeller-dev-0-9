@@ -2,6 +2,7 @@
   
   
 **Description:** Set the geolocation of the Cartesian coordinate system.
+Does the same as the Geolocate function, but with alternate parameters.
 
 
 The Cartesian coordinate system is geolocated by defining two points:
@@ -18,3 +19,5 @@ coordinate system.
   * *elev:* Set the elevation of the Cartesian coordinate system above the ground plane.  
   
 **Returns:** void  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/io/Geoalign.ts) 

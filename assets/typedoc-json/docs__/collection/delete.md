@@ -9,3 +9,5 @@
   * *coll:* The collection or list of collections to be deleted.  
   
 **Returns:** void  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/collection/Delete.ts) 

@@ -32,4 +32,6 @@ The new positions that get generated are returned.
   * *entities:* Entities, a list of positions, or entities from which positions can be extracted.  
   * *tolerance:* The distance tolerance for fusing positions.  
   
-**Returns:** void  
+**Returns:** Entities, a list of new positions.  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/edit/Fuse.ts) 

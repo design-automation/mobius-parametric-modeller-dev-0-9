@@ -19,7 +19,7 @@ The `radius` parameter specifies the size of the arc.
 The `num_positions` parameter specifies the total number of positions to be generated on the arc.
 
 
-The `arc_angle` specifies the angle of the arc, in radians. Angles start at thet X-axis of the
+The `arc_angle` specifies the angle of the arc, in radians. Angles start at the X-axis of the
 origin plane and move in a counter-clockwise direction. Two angles are needed to define an arc,
 a `start_angle` and `end_angle`. The angles may be positive or negative, and may be
 greater than `2*PI` or smaller than `-2*PI`.
@@ -33,18 +33,18 @@ clockwise order.
 
 
 The angle may either be given as a single number, as a list of two numbers, or as `null`:
-- If the angle is given as a single number, then the arc angles will be ser to be
+- If the angle is given as a single number, then the arc angles will be set to be
 `[0, end_angle]`. This means that the start of the arc will coincide with the X-axis
 of the origin plane.
 - If the angle is given as a list of two numbers, then they will be set to be
 `[start_angle, end_angle]`.
 - If the angle is set to `null`, then the arc angles will be set to be
-`[0, 2*PI]` In addition, duplicate positions at start and end of the arc are
+`[0, 2*PI]`. In addition, duplicate positions at start and end of the arc are
 automatically removed.
 
 
-Note that setting the arc angle to null is not the same as setting it to `2*PI`
-When setting the arc angle to `2*PI`, you will get a duplicate positions at start and end
+Note that setting the arc angle to null is not the same as setting it to `2*PI`.
+When setting the arc angle to `2*PI`, you will get duplicate positions at the start and end
 of the arc.
 
   
@@ -66,3 +66,5 @@ to `[0, arc_end_angle]`. If `null` is given, then the angles will be set to `[0,
 starting at an angle of 0 and ending at an angle of 180 degrees, rotating in a counter-clockwise
 direction.
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/pattern/Arc.ts) 

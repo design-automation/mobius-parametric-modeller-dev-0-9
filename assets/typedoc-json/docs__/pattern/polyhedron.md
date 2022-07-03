@@ -40,7 +40,7 @@ For tetrahedrons, octahedrons, and icosahedrons, the `detail` subdivides as foll
 Cubes and dodecahedrons do not have triangular faces. So in these cases, the first level of
 `detail` converts each non-triangular face into triangles by adding a position at the centre of
 the face. The `detail` subdivides as follows:
-- Detail= 0: No subdivision.
+- Detail = 0: No subdivision.
 - Detail = 1: Convert non-triangular faces into triangles.
 - Detail = 2: Each triangle edge is subdivided into two edges.
 - Detail = 3: Each triangle edge is subdivided into three edges.
@@ -90,9 +90,10 @@ pgons = make.Polygon(posis)
 **Parameters:**  
   * *origin:* A <abbr title='A list of three numbers, [x, y, z]'>coordinate</abbr> or a <abbr title='Three lists of three numbers, [origin, x-axis, y-axis]'>plane</abbr>, specifying the origin of the polyhedron.
 If a coordinate is given, then the plane is assumed to be aligned with the global XY plane.  
-  * *radius:* The radius of the polyhedron.  
-  * *detail:* The level of detail for the polyhedron.  
-  * *method:* Enum: The Type of polyhedron to generate.  
+  * *radius:* A number. The radius of the polyhedron.  
+  * *detail:* An integer. The level of detail for the polyhedron.  
+  * *method:* Enum, the Type of polyhedron to generate: `'flat_tetra', 'flat_cube', 'flat_octa',
+'flat_icosa', 'flat_dodeca', 'face_tetra', 'face_cube', 'face_octa', 'face_icosa'` or `'face_dodeca'`.  
   
 **Returns:** Entities, a list of positions.  
 **Examples:**  
@@ -100,3 +101,5 @@ If a coordinate is given, then the plane is assumed to be aligned with the globa
     Creates positions in a regular tetrahedron pattern, with a radius of 20. The
 positions are returned as nested lists, where each list contains the positions for one face.
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/pattern/Polyhedron.ts) 

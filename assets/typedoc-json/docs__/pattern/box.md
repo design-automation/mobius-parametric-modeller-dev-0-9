@@ -57,7 +57,16 @@ posis = ["ps0", "ps1", "ps2", "ps3", "ps4", "ps5", "ps6", "ps7", "ps8", "ps9", "
 ```
 
 
-`posis = pattern.Grid(XY, [10,20,30], [2,3,2], 'columns')`
+`posis = pattern.Box(XY, [10,20,30], [2,3,2], 'columns')`
+```
+posis = [
+    ["ps0", "ps2", "ps4", "ps6", "ps8", "ps10"],
+    ["ps1", "ps3", "ps5", "ps7", "ps9", "ps11"]
+]
+```
+
+
+`posis = pattern.Box(XY, [10,20,30], [2,3,2], 'rows')`
 ```
 posis = [
     ["ps0", "ps1", "ps6", "ps7"],
@@ -67,16 +76,7 @@ posis = [
 ```
 
 
-`posis = pattern.Grid(XY, [10,20,30], [2,3,2], 'rows')`
-```
-posis = [
-    ["ps0", "ps2", "ps4", "ps6", "ps8", "ps10"],
-    ["ps1", "ps3", "ps5", "ps7", "ps9", "ps11"]
-]
-```
-
-
-`posis = pattern.Grid(XY, [10,20,30], [2,3,2], 'layers')`
+`posis = pattern.Box(XY, [10,20,30], [2,3,2], 'layers')`
 ```
 posis = [
     ["ps0", "ps1", "ps2", "ps3", "ps4", "ps5"],
@@ -85,7 +85,7 @@ posis = [
 ```
 
 
-`posis = pattern.Grid(XY, [10,20,30], [2,3,2], 'quads')`
+`posis = pattern.Box(XY, [10,20,30], [2,3,2], 'quads')`
 ```
 posis = [
     ["ps0", "ps2", "ps3", "ps1"],
@@ -109,7 +109,7 @@ plines = make.Polyline(posis, 'open')
 ```
 When the method is set to quads, polygons on the box surface can be generated as follows:
 ```
-posis = pattern.Grid(XY, [10,20,30], [2,3,2], 'quads')
+posis = pattern.Box(XY, [10,20,30], [2,3,2], 'quads')
 pgons = make.Polygon(posis)
 ```
 
@@ -128,7 +128,8 @@ If a single number is given, then the number of columns, rows, and layers are as
 If a list of two numbers is given, then they will be interpreted as `[columns, rows]`,
 and the number of layers is assumed to be equal to the number of rows.
 If a list of three numbers is given, then they will be interpreted as `[columns, rows, layers]`.  
-  * *method:* Enum, define the way the coords will be return as lists.  
+  * *method:* Enum, define the way the coords will be returned as lists: `'flat', 'rows',
+'columns', 'layers'` or `'quads'`.  
   
 **Returns:** Entities, a list of positions, or a list of lists of positions
 (depending on the 'method' setting).  
@@ -140,3 +141,5 @@ This results in a total of 12 (i.e. 3 x 4) positions in the top and bottom layer
 positions in the middle two layers. The positions are returned as nested lists, where each
 sub-list contains positions for one quadrilateral.
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/pattern/Box.ts) 

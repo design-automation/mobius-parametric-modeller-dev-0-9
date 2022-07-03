@@ -139,17 +139,20 @@ Within one node, the topology of an object can be modified and edited. For examp
 
 However, the topology of objects coming in from an input model are immutable and cannot be edited. Trying to edit the topology of such objects will result in an error. 
 
-Here is an example of a flowchart that first creates a polygon in one node, and then tries to edit that polygon in a downstream node, by divide the polygon edges. This results in an error.
+Here is an example of a flowchart that first creates a polygon in one node, and then tries to edit that polygon in a downstream node, by dividing the polygon edges. This results in an error.
 
 ![Editing immutable topology error](assets/typedoc-json/docUI/imgs/flowchart_immutable_error.png)
 
 In such cases, there is a straightforward solution, which is to clone the object before editing it. The `make.Clone` function will make a copy of the polygon (and delete the old polygon). The topology of the copied polygon can then be edited.
 
-Note that although object topology is immutable, object attributes are not immutable. This means that for any incoming objects, the attributes of those objects can all be changed without any issue. For example, by modifying the XYZ attributes of the positions, you can change change the location, orientation, and shape of a polygon with affecting its topology.
+Note that although object topology is immutable, object attributes are not immutable. This means that for any incoming objects, the attributes of those objects can all be changed without any issue. For example, by modifying the XYZ attributes of the positions, you can change the location, orientation, and shape of a polygon without affecting its topology.
 
 **Merging Models**
 
-When a node has multiple inputs, the the models are merged. We refer to the multiple input models as _input models_, and to the model that is creating by merging these input models as the _merged model_. The merging process is performed automatically. The procedure in the node does not have access to the input models prior to merging. It only has access to the merged model.
+When a node has multiple inputs, the models are merged. We refer to the multiple input models as
+_input models_, and to the model that is created by merging these input models as the _merged
+model_. The merging process is performed automatically. The procedure in the node does not have
+access to the input models prior to merging. It only has access to the merged model.
 
 The process of merging models follows certain simple rules, described below. 
 
@@ -197,7 +200,7 @@ Merging models in the `End` node:
 * `'pg0'` in input model 1 has attribute: `att_a: 456`
 * ERROR: Attribute Merge Conflict
 
-This type of error is usually a careless mistake. You ust need to decide which attribute value is the correct one.
+This type of error is usually a careless mistake. You just need to decide which attribute value is the correct one.
 
 Another common example of a merge conflict is when `xyz` attributes of a set of positions get changed, due to an object being transformed in some way. In the example below, a polygon is created in the first node, and the polygon is then later moved (up in the z direction by 8 units).
 

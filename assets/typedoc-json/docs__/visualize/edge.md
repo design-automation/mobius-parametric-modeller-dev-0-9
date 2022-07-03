@@ -5,13 +5,15 @@
 
 
 The method can either be 'visible' or 'hidden'.
-'visible' means that an edge line will be visible.
-'hidden' means that no edge lines will be visible.
+- 'visible' means that an edge line will be visible.
+- 'hidden' means that no edge lines will be visible.
 
   
   
 **Parameters:**  
   * *entities:* A list of edges, or other entities from which edges can be extracted.  
-  * *method:* Enum, visible or hidden.  
+  * *method:* Enum, `'visible'` or `'hidden'`.  
   
 **Returns:** void  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/visualize/Edge.ts) 

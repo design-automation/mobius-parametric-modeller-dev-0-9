@@ -5,7 +5,7 @@
 If a material with the same name already exits, these settings will be added to the existing material.
 
 
-[See the threejs docs](https://threejs.org/docs/#api/en/materials/MeshPhongMaterial)
+[See the threejs docs on Phong materials](https://threejs.org/docs/#api/en/materials/MeshPhongMaterial)
 
 
 In order to assign a material to polygons in the model, a polygon attribute called 'material'
@@ -20,3 +20,5 @@ needs to be created. The value for each polygon must either be null, or must be 
   * *shininess:* The shininess, between 0 and 100.  
   
 **Returns:** void  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/material/Phong.ts) 

@@ -19,17 +19,17 @@ In the bottom right-hand corner:
 
 **Zoom to Fit**
 
-Clicking the 'Zoom to Fit' button when no entities are selected will move the camera so tha the whole model fits in the view. 
+Clicking the 'Zoom to Fit' button when no entities are selected will move the camera so that the whole model fits in the view. 
 
-Clicking the 'Zoom to Fit' button when an entity is selected will move the camera so tha the selected entity fits in the view. 
+Clicking the 'Zoom to Fit' button when an entity is selected will move the camera so that the selected entity fits in the view. 
 
-In both cases, zooming will also move the origin of rotation. For example, if you select an entity, and then click the 'Zoom to Fit' button, then the view gets zoomed to that entity. In addition the view rotation centre point will also be reset to the centroid of that entity. this means that when you rotate the view using 'left mouse button and drag', the view will rotate around the selected entity.
+In both cases, zooming will also move the origin of rotation. For example, if you select an entity, and then click the 'Zoom to Fit' button, then the view gets zoomed to that entity. In addition, the view rotation centre point will also be reset to the centroid of that entity. This means that when you rotate the view using 'left mouse button and drag', the view will rotate around the selected entity.
 
 ![Zoom selected](assets/typedoc-json/docVW/imgs/viewer_cad_zoom_selected_sml.png)
 
 **Selecting Entities**
 
-Selecting entities allow you to:
+Selecting entities allows you to:
 * 'Zoom Fit' the selected entities.
 * See the ID of the selected entity.
 * See the attributes of the selected entities.
@@ -39,13 +39,16 @@ The `Select` button opens up a dropdown menu, allowing you to specify the types 
 ![Select entities dropdown menu](assets/typedoc-json/docVW/imgs/viewer_cad_select_dropdown.png)
 
 The default options are as follows:
-* `co`: Select collections
-* `pt`: Select point objects
-* `pl`: Select polyline objects
-* `pg`: Select polygon objects
+* `co`: Select collections.
+* `pt`: Select point objects.
+* `pl`: Select polyline objects.
+* `pg`: Select polygon objects.
 * `ps`: Select positions.
 
-For example, is you select `pg`, then left clicking on entities in the model select polygons. If you select `ps`, then left clicking will select positions. In the image below, the same polygon was clicked two times: on the left, the 'Select' dropdown was set to `pg`, on the right the dropdown was set to `ps`.
+For example, if you select `pg`, then left clicking on entities in the model will select polygons.
+If you select `ps`, then left clicking will select positions. In the image below, the same polygon
+was clicked two times: on the left, the 'Select' dropdown was set to `pg`, on the right the dropdown
+was set to `ps`.
 
 ![Select polygons versus positions](assets/typedoc-json/docVW/imgs/viewer_cad_select_pg_ps.png)
 
@@ -59,7 +62,7 @@ The options that are shown on the 'Select' dropdown can be set in the viewer set
 
 **Attribute Table**
 
-The CAD viewer is split horizontally into two parts. The top part shows the 3D model, while the bottom parts shows the attributes tables. 
+The CAD viewer is split horizontally into two parts. The top part shows the 3D model, while the bottom parts shows the attribute table. 
 
 The attribute table has a series of tabs:
 * _Model_: Attributes for the whole model.
@@ -68,9 +71,11 @@ The attribute table has a series of tabs:
 * _Sub-entities_: Attributes for sub-entities, in either collections or objects. You must first select the entity for which you want to show sub-entities.
 * _Positions_: Attributes for positions in the model.
 
-Selecting the _Model_ tab will show all the model attributes in the model. For this table, each row in the table represents a different attribute. (In the other tables, attributes are organized in columns.) The table consist of two columns. The left column is the attribute name, and the right column is the attribute value.
+Selecting the _Model_ tab will show all the model attributes in the model. For this table, each row in the table represents a different attribute. (In the other tables, attributes are organized in columns.) The table consists of two columns. The left column is the attribute name, and the right column is the attribute value.
 
-For the collections, objects, and positions, selecting the tab will show a table where rows represents a geometric entity and columns represent attributes. For each attribute, the name is shown in the column header.
+For the collections, objects, and positions, selecting the tab will show a table where rows
+represent a geometric entity and columns represent attributes. For each attribute, the name is shown
+in the column header.
 
 Below is an example of a set of attributes for polygons. In this case, the script has created 5 polygon attributes: `area`, `rel_height`, `rel_area`, `percent_area`, and `num_floors`. 
 
@@ -119,13 +124,13 @@ Note that for topological sub-entities (vertices, edges, wires), the IDs are def
 
 ![Sub-entities of a polygon](assets/typedoc-json/docVW/imgs/viewer_cad_attribs_subentities.png)
 
-above is an example of the topological sub-entities of a four-sided polygon. The sub-entities are as follows:
+Above is an example of the topological sub-entities of a four-sided polygon. The sub-entities are as follows:
 * The polygon ID is `pg48`
 * The polygon has a single wire, `_w48`
 * The wire has a sequence of edges, vertices, and positions:
- * 4 edges: `_e241`, `_e242`, `_e243`, `_e244`. Each edge has two vertices.
- * 4 vertices: `_v241`, `_v242`, `_v243`, `_v244`. Each vertex has one position.
- * 4 positions: `ps44`, `ps137`, `ps138`, `ps91`.
+    * 4 edges: `_e241`, `_e242`, `_e243`, `_e244`. Each edge has two vertices.
+    * 4 vertices: `_v241`, `_v242`, `_v243`, `_v244`. Each vertex has one position.
+    * 4 positions: `ps44`, `ps137`, `ps138`, `ps91`.
 
 ![Relationship between topological entities](assets/typedoc-json/docVW/imgs/viewer_cad_topology.png)
 

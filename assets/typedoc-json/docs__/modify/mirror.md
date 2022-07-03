@@ -6,19 +6,20 @@
   
   
 **Parameters:**  
-  * *entities:* An entity or list of entities to mirros.  
+  * *entities:* An entity or list of entities to mirror.  
   * *plane:* A plane to scale around. 
 
 Given a ray, a plane will be generated that is perpendicular to the ray. 
 
 Given an `xyz` location, a plane will be generated with an origin at that location and with axes parallel to the global axes. 
 
-Given any entities, the centroid will be extracted, 
-
+Given any entities, the centroid will be extracted,
 and a plane will be generated with an origin at the centroid, and with axes parallel to the global axes.  
   
 **Returns:** void  
 **Examples:**  
-  * modify.Mirror(polygon1, plane1)  
+  * `modify.Mirror(polygon1, plane1)`  
     Mirrors polygon1 across plane1.
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/modify/Mirror.ts) 

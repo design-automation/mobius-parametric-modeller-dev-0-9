@@ -23,10 +23,12 @@ backwards around the ring. The order of the edges in the ring will remain unchan
   
 **Returns:** void  
 **Examples:**  
-  * `modify.Shift(polygon1, 1)`  
-    Shifts the edges in the polygon wire, so that the every edge moves back by one position
+  * `edit.Shift(polygon1, 1)`  
+    Shifts the edges in the polygon wire, so that every edge moves back by one position
 in the ring. The first edge will become the last edge.  
   * `edit.Shift(polyline1, -1)`  
     Shifts the edges in the closed polyline wire, so that every edge moves up by one position
 in the ring. The last edge will become the first edge.
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/edit/Shift.ts) 

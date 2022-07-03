@@ -2,20 +2,20 @@
   
 Inserts a local function into the procedure. The local function appears at the top of the procedure, inside the local function area. The function name appears in the left menu, below the `Def Func` button.
 
-A local function is a custom function defined by you. Local functions can server two key purposes:
+A local function is a custom function defined by you. Local functions can serve two key purposes:
 * Local functions allow you to break-down long and complex procedures into more manageable sub-procedures.
 * In cases where one procedure needs to repeat certain operations, it allows you to avoid repeating the same code multiple times.
 
 Clicking the `Def Func` button inserts an empty local function at the top of the procedure. The function has three parts:
 * Name: The function name, for calling the function.
-* Arguments: One or more function arguments. each argument must have a unique name. 
+* Arguments: One or more function arguments. Each argument must have a unique name. 
 * Body: The code that makes up the body of the function. 
 
 The function body can include a `Return` statement, in which case the function will return a value.
 
 As soon as you create a new local function, you will see the name of that function appear in the left menu. Clicking the function name inserts a call to that function into the procedure. 
 
-You can insert multiple calls to the same function. However, the function can only be called in the procedure within which it is define, i.e. it is specific to one node in teh flowchart. That is why it is called 'local'.
+You can insert multiple calls to the same function. However, the function can only be called in the procedure within which it is defined, i.e. it is specific to one node in the flowchart. That is why it is called 'local'.
 
 **Example**
 
@@ -35,11 +35,11 @@ The two function names are listed in the left menu. Clicking the function names 
 
 **Return Values**
 
-A function can either return a value or not. In the example above, the first function returns no value and the second function return a value.
+A function can either return a value or not. In the example above, the first function returns no value and the second function returns a value.
 
 If a local function body contains no `Return` statement, then the function will not return any value. Such functions are usually used to modify some objects passed into the function via the arguments. 
 
-If tha local function body contains a `Return` statement, then the function is assumed to return a value. In that case, calling the function will results in an assignment statement.
+If a local function body contains a `Return` statement, then the function is assumed to return a value. In that case, calling the function will result in an assignment statement.
 
 In the example:
 * Calling the first function results in no assignment: `local.addSum([1,2,3])`.
@@ -57,7 +57,7 @@ Flowchart parameters are the exception to this rule. The flowchart parameters de
 
 **Moving Local Functions**
 
-The order of local functions can be modified using the cut-and-paste keyboard shortcuts. (CTrl-X and CTRL-V on Windows, ⌘-X and ⌘-V on Macs).
+The order of local functions can be modified using the cut-and-paste keyboard shortcuts. (CTRL-X and CTRL-V on Windows, ⌘-X and ⌘-V on Macs).
 
 The order of the functions makes no difference to the code execution.
 
@@ -65,7 +65,9 @@ The order of the functions makes no difference to the code execution.
 
 Local functions can be copied using the copy-and-paste keyboard shortcuts. (CTrl-C and CTRL-V on Windows, ⌘-C and ⌘-V on Macs).
 
-Each local function must have a unique name. The new copied function will therefore be have `_copy` appended to the function name.
+Each local function must have a unique name. The new copied function will therefore have `_copy` appended to the function name.
+
+Moreover, you may consider using [Global Functions](/editor?defaultViewer=doc&docSection=Operations.global_func) if a local function needs to be called in several different nodes.
 
 **Renaming Local Functions**
 

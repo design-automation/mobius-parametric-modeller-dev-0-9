@@ -1,7 +1,7 @@
 ## pattern.Nurbs  
   
   
-**Description:** Creates positions in an NURBS curve pattern, defined a list of coordinates.
+**Description:** Creates positions in a NURBS curve pattern, defined by a list of coordinates.
 
 
 The positions are created along the curve according to the parametric equation of the curve.
@@ -32,8 +32,8 @@ The `num_positions` parameter specifies the total number of positions to be gene
   
 **Parameters:**  
   * *coords:* A list of coordinates (must be at least three).  
-  * *degree:* The degree of the curve, and integer between 2 and 5.  
-  * *close:* Enum, 'close' or 'open'  
+  * *degree:* The degree of the curve, an integer between 2 and 5.  
+  * *close:* Enum, `'close'` or `'open'`.  
   * *num\_positions:* Number of positions to be distributed along the Bezier.  
   
 **Returns:** Entities, a list of positions.  
@@ -41,3 +41,5 @@ The `num_positions` parameter specifies the total number of positions to be gene
   * `posis = pattern.Nurbs([[0,0,0], [10,0,50], [20,0,50], [30,0,0]], 3, 'open', 20)`  
     Creates a list of 20 positions distributed along a Nurbs curve.
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/pattern/Nurbs.ts) 

@@ -197,7 +197,7 @@ There are two main modes: 'Explorer' and 'Developer'.
 
 **Explorer Mode**
 
-If you you choose 'Explorer Mode', then the person looking at the published script will see a
+If you choose 'Explorer Mode', then the person looking at the published script will see a
 simplified user interface. This user interface is designed for people who just want to explore your
 script (changing parameters, executing the script, and viewing the results). The user interface does
 not include the Flowchart pane or the Editor pane, so they will not see any of the code. The
@@ -230,14 +230,55 @@ In 'Developer Mode', you can set:
 
 **Types of Links**
 
-Finally, when generating your link, there are two options:
-* _Create_Link_: Creates a URL link that you can share with other people, on social media or by
+When generating your link, there are two options:
+* \_Create\_Link\_: Creates a URL link that you can share with other people, on social media or by
   email. People who follow the link will be able to interact with your published Mobius script.
-* _Create Embed Code_: Creates a small snippet of code that can be embedded into another webpage,
+* \_Create Embed Code\_: Creates a small snippet of code that can be embedded into another webpage,
   for example a blog. The embed code will result in a small embedded window (called an `iframe`) to
   be created. The size of the embedded window can be specified by editing the dimensions in the code
   snippet. The default is `width='100%' height='600px'`.
 
+**Link parameters**
+
+Alternatively, you can edit the link manually to mix-and-match the defaults and available viewers.
+
+DEFAULT PANE (Visible on the Left of the screen):
+```
+mobius-09.design-automation.net/about     -> Show Front Page on load
+mobius-09.design-automation.net/dashboard -> Show Dashboard on load    
+mobius-09.design-automation.net/gallery   -> Show Gallery on load 
+mobius-09.design-automation.net/flowchart -> Show Flowchart on load
+mobius-09.design-automation.net/editor    -> Show Editor on load 
+```
+ACTIVE VIEWER (Visible on the Right of screen):
+```
+defaultViewer=console                     -> Show console on load
+defaultViewer=cad                         -> Show CAD viewer on load
+defaultViewer=geo                         -> Show Geo viewer on load
+defaultViewer=vr                          -> Show VR viewer on load
+defaultViewer=doc                         -> Show Docs viewer on load
+default (no "defaultViewer" parameter)    -> Show CAD viewer on load
+```
+AVAILABLE VIEWERS (The viewers on the right of the screen that are available):
+```
+showViewer=cad                      -> Show CAD viewer only
+showViewer=geo                      -> Show Geo viewer only
+showViewer=vr                       -> Show VR viewer only
+showViewer=console                  -> Show Console only
+showViewer=doc                      -> Show Help only
+showViewer=[cad,vr]                 -> Show combination of viewers listed above
+default (no "showViewer" parameter) -> Show all viewers
+```
+AUTO-LOADING FILES:
+```
+file=<`file_url`>          -> Load file/model on loading Mobius
+node=<`node_index`>        -> Switch to node with index [`node_index`] on load 
+```
+
+The first URL parameter starts with "?", any subsequent parameter starts with "&".
+```
+mobius-09.design-automation.net/editor?file=.../.../file1abc.mob&showViewer=[cad,vr]&defaultViewer=vr
+```
 ## SETTINGS
 
 Opens a dialog box to set various Mobius settings.

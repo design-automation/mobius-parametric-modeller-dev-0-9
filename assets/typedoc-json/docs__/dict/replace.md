@@ -11,3 +11,5 @@
   * *new\_keys:* The new key or list of keys.  
   
 **Returns:** void  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/dict/Replace.ts) 

@@ -15,10 +15,12 @@ deletes this edge.
   
 **Parameters:**  
   * *entities:* Polyline(s).  
-  * *method:* Enum; the method to use, either `open` or `close`.  
+  * *method:* Enum, the method to use: ``open`` or ``close``.  
   
 **Returns:** void  
 **Examples:**  
   * `edit.Ring([polyline1,polyline2,...], method='close')`  
     If open, polylines are changed to closed; if already closed, nothing happens.
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/edit/Ring.ts) 

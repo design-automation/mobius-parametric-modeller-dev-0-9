@@ -17,8 +17,10 @@ front face will be flipped. If the normal is calculated, it will face in the opp
   
 **Returns:** void  
 **Examples:**  
-  * `modify.Reverse(polygon1)`  
+  * `edit.Reverse(polygon1)`  
     Flips polygon and reverses its normal.  
   * `edit.Reverse(polyline1)`  
     Reverses the order of vertices and edges in the polyline.
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/edit/Reverse.ts) 

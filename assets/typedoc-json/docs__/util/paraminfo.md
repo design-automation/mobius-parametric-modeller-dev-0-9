@@ -1,9 +1,11 @@
 ## util.ParamInfo  
   
   
-**Description:** Returns am html string representation of the parameters in this model.
+**Description:** Returns a html string representation of the parameters in the model.
 The string can be printed to the console for viewing.  
   
 **Parameters:**  
   
-**Returns:** Text that summarises what is in the model.  
+**Returns:** A dictionary that summarises what is in the model.  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/util/ParamInfo.ts) 

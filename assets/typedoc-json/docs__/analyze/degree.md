@@ -46,6 +46,8 @@ These positions should be part of the network.
   * *alpha:* The alpha value for the centrality calculation, ranging on [0, 1]. With value 0,
 disregards edge weights and solely uses number of edges in the centrality calculation. With value 1,
 disregards number of edges and solely uses the edge weights in the centrality calculation.  
-  * *method:* Enum, the method to use, directed or undirected.  
+  * *method:* Enum, the method to use: `'directed'` or `'undirected'`.  
   
 **Returns:** A dictionary containing the results.  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/analyze/Degree.ts) 

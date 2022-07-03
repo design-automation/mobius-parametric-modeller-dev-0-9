@@ -14,6 +14,8 @@ This ignores the intersections between planes and polygon face triangles.
   
 **Returns:** A list of xyz intersection coordinates.  
 **Examples:**  
-  * coords = intersect.PlaneEdge(plane, polyline1)  
+  * `coords = intersect.PlaneEdge(plane, polyline1)`  
     Returns a list of coordinates where the plane intersects with the edges of polyline1.
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/intersect/PlaneEdge.ts) 

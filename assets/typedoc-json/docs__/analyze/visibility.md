@@ -4,8 +4,8 @@
 **Description:** Calculates the visibility of a set of target positions from a set of origins.
 
 
-Typically, the origins are created as centroids of a set of windows. The targets are a set of positions
-whose visibility is to be analysed.
+Typically, the origins are created as centroids of a set of windows. The targets are a set of
+positions whose visibility is to be analysed.
 
 
 The visibility is calculated by shooting rays out from the origins towards the targets.
@@ -20,8 +20,12 @@ Returns a dictionary containing different visibility metrics.
   
   
 **Parameters:**  
-  * *origins:* A list of Rays or Planes, to be used as the origins for calculating the uobstructed views.  
+  * *sensors:* A list of Rays or Planes, to be used as the origins for calculating the
+unobstructed views.  
   * *entities:* The obstructions: faces, polygons, or collections.  
   * *radius:* The maximum radius of the visibility analysis.  
-  * *targets:* The traget positions.
+  * *targets:* The target positions.  
   
+**Returns:** A dictionary containing different visibility metrics.  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/analyze/Visibility.ts) 

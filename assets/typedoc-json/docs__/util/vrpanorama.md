@@ -9,10 +9,13 @@ the hotspot, the panorama images will be loaded into the view.
   * *point:* The point object to be used for creating a panorama. If this point is already
 defined as a VR hotspot, then the panorama hotspot will inherit the name and camera angle.  
   * *back\_url:* The URL of the 360 degree panorama image to be used for the background.  
-  * *back\_rot:* undefined  
+  * *back\_rot:* The rotation of the background panorama image, in degrees, in the
+counter-clockwise direction. If `null`, then rotation will be 0.  
   * *fore\_url:* The URL of the 360 degree panorama image to be used for the foreground. If `null`
 then no foreground image will be used.  
   * *fore\_rot:* The rotation of the forground panorama image, in degrees, in the
 counter-clockwise direction. If `null`, then the foreground rotation will be equal to the background rotation.  
   
 **Returns:** void  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/util/VrPanorama.ts) 

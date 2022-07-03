@@ -1,8 +1,10 @@
 ## analyze.Sky  
   
   
-**Description:** Calculate an approximation of the sky exposure factor, for a set sensors positioned at specified locations.
-The sky exposure factor for each sensor is a value between 0 and 1, where 0 means that it has no exposure
+**Description:** Calculate an approximation of the sky exposure factor, for a set sensors positioned at specified
+locations.
+The sky exposure factor for each sensor is a value between 0 and 1, where 0 means that it has no
+exposure
 and 1 means that it has maximum exposure.
 
 
@@ -20,13 +22,16 @@ If the ray hits no obstructions, then the sky dome is not obstructed.
 The exposure factor at each sensor point is calculated as follows:
 1. Shoot rays to all sky dome points.
 2. If the ray hits an obstruction, assign a weight of 0 to that ray.
-3. If a ray does not hit any obstructions, assign a weight between 0 and 1, depending on the incidence angle.
+3. If a ray does not hit any obstructions, assign a weight between 0 and 1, depending on the
+incidence angle.
 4. Calculate the total solar expouse by adding up the weights for all rays.
-5. Divide by the maximum possible exposure for an unobstructed sensor with a direction pointing straight up.
+5. Divide by the maximum possible exposure for an unobstructed sensor with a direction pointing
+straight up.
 
 
 If 'weighted' is selected, then
-the exposure calculation takes into account the angle of incidence of the ray to the sensor direction.
+the exposure calculation takes into account the angle of incidence of the ray to the sensor
+direction.
 Rays parallel to the sensor direction are assigned a weight of 1.
 Rays at an oblique angle are assigned a weight equal to the cosine of the angle
 betweeen the sensor direction and the ray.
@@ -40,10 +45,11 @@ The higher the level of detail, the more accurate but also the slower the analys
 
 
 The number of rays are as follows:
-0 = 89 rays,
-1 = 337 rays,
-2 = 1313 rays,
-3 = 5185 rays.
+0 = 145 rays,
+1 = 580 rays,
+2 = 1303 rays,
+3 = 2302 rays.
+4 = 5220 rays.
 
 
 Returns a dictionary containing exposure results.
@@ -56,9 +62,14 @@ Returns a dictionary containing exposure results.
   
   
 **Parameters:**  
-  * *origins:* A list of coordinates, a list of Rays or a list of Planes, to be used as the origins for calculating exposure.  
-  * *detail:* An integer between 1 and 3 inclusive, specifying the level of detail for the analysis.  
+  * *sensors:* A list of coordinates, a list of Rays or a list of Planes, to be used as the
+origins for calculating exposure.  
   * *entities:* The obstructions, faces, polygons, or collections of faces or polygons.  
-  * *limits:* The max distance for raytracing.  
-  * *method:* Enum; sky method.
+  * *radius:* The max distance for raytracing.  
+  * *detail:* An integer between 1 and 4 inclusive, specifying the level of detail for the
+analysis.  
+  * *method:* Enum, the sky method: `'weighted', 'unweighted'` or `'all'`.  
   
+**Returns:** A dictionary containing solar exposure results.  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/analyze/Sky.ts) 

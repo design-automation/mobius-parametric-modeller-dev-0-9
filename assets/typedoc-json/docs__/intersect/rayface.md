@@ -15,6 +15,8 @@ This ignores the intersections between rays and edges (including polyline edges)
   
 **Returns:** A list of xyz intersection coordinates.  
 **Examples:**  
-  * coords = intersect.RayFace(ray, polygon1)  
-    Returns a list of coordinates where the ray  intersects with the polygon.
+  * `coords = intersect.RayFace(ray, polygon1)`  
+    Returns a list of coordinates where the ray intersects with the polygon.
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/intersect/RayFace.ts) 

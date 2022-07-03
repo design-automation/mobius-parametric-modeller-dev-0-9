@@ -1,26 +1,34 @@
 ## query.Type  
   
   
-**Description:** Checks the type of an entity.
+**Description:** Checks the type of an entity. 
 
-
-- For is\_used\_posi, returns true if the entity is a posi, and it is used by at least one vertex.
+- For is\_used\_posi, returns true if the entity is a posi, and it is used by at least one
+  vertex.
 - For is\_unused\_posi, it returns the opposite of is\_used\_posi.
 - For is\_object, returns true if the entity is a point, a polyline, or a polygon.
 - For is\_topology, returns true if the entity is a vertex, an edge, a wire, or a face.
-- For is\_point\_topology, is\_polyline\_topology, and is\_polygon\_topology, returns true.
-if the entity is a topological entity, and it is part of an object of the specified type.
-- For is\_open, returns true if the entity is a wire or polyline and is open. For is\_closed, it returns the opposite of is\_open.
+- For is\_point\_topology, is\_polyline\_topology, and is\_polygon\_topology, returns true if the
+  entity is a topological entity, and it is part of an object of the specified type.
+- For is\_open, returns true if the entity is a wire or polyline and is open.
+- For is\_closed, it returns the opposite of is\_open.
 - For is\_hole, returns true if the entity is a wire, and it defines a hole in a face.
 - For has\_holes, returns true if the entity is a face or polygon, and it has holes.
 - For has\_no\_holes, it returns the opposite of has\_holes.  
   
 **Parameters:**  
   * *entities:* An entity, or a list of entities.  
-  * *type\_query\_enum:* Enum, select the conditions to test agains.  
+  * *type\_query\_enum:* Enum, select the conditions to test against: `'exists', 'is_position',
+'is_used_posi', 'is_unused_posi', 'is_vertex', 'is_edge', 'is_wire', 'is_point',
+'is_polyline', 'is_polygon', 'is_collection', 'is_object', 'is_topology',
+'is_point_topology', 'is_polyline_topology', 'is_polygon_topology', 'is_open',
+'is_closed', 'is_hole', 'has_holes'` or `'has_no_holes'`.  
   
-**Returns:** Boolean or list of boolean in input sequence.  
+**Returns:** Boolean or list of booleans in input sequence.  
 **Examples:**  
-  * query.Type([polyline1, polyline2, polygon1], is\_polyline )  
-    Returns a list [true, true, false] if polyline1 and polyline2 are polylines but polygon1 is not a polyline.
+  * `query.Type([polyline1, polyline2, polygon1], is_polyline)`  
+    Returns a list `[true, true, false]` if polyline1 and polyline2 are polylines but
+polygon1 is not a polyline.
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/query/Type.ts) 

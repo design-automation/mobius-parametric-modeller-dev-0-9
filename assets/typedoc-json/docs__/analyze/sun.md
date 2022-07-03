@@ -1,8 +1,10 @@
 ## analyze.Sun  
   
   
-**Description:** Calculate an approximation of the solar exposure factor, for a set sensors positioned at specfied locations.
-The solar exposure factor for each sensor is a value between 0 and 1, where 0 means that it has no exposure
+**Description:** Calculate an approximation of the solar exposure factor, for a set sensors positioned at specfied
+locations.
+The solar exposure factor for each sensor is a value between 0 and 1, where 0 means that it has
+no exposure
 and 1 means that it has maximum exposure.
 
 
@@ -11,7 +13,8 @@ Geolocation is specified by a model attributes as follows:
  - @geolocation={'longitude':123,'latitude':12}.
 North direction is specified by a model attribute as follows, using a vector:
  - @north==[1,2]
-If no north direction is specified, then [0,1] is the default (i.e. north is in the direction of the y-axis);
+If no north direction is specified, then [0,1] is the default (i.e. north is in the direction of
+the y-axis);
 
 
 Each sensor has a location and direction, specified using either rays or planes.
@@ -28,18 +31,23 @@ If the ray hits no obstructions, then the sky dome is not obstructed.
 The exposure factor at each sensor point is calculated as follows:
 1. Shoot rays to all sky dome points.
 2. If the ray hits an obstruction, assign a wight of 0 to that ray.
-3. If a ray does not hit any obstructions, assign a weight between 0 and 1, depending on the incidence angle.
+3. If a ray does not hit any obstructions, assign a weight between 0 and 1, depending on the
+incidence angle.
 4. Calculate the total solar expouse by adding up the weights for all rays.
 5. Divide by the maximum possible solar exposure for an unobstructed sensor.
 
 
-The solar exposure calculation takes into account the angle of incidence of the sun ray to the sensor direction.
+The solar exposure calculation takes into account the angle of incidence of the sun ray to the
+sensor direction.
 Sun rays that are hitting the sensor straight on are assigned a weight of 1.
-Sun rays that are hitting the sensor at an oblique angle are assigned a weight equal to the cosine of the angle.
+Sun rays that are hitting the sensor at an oblique angle are assigned a weight equal to the
+cosine of the angle.
 
 
-If 'direct_exposure' is selected, then the points on the sky dome will follow the path of the sun throughout the year.
-If 'indirect_exposure' is selected, then the points on the sky dome will consist of points excluded by
+If 'direct\_exposure' is selected, then the points on the sky dome will follow the path of the
+sun throughout the year.
+If 'indirect\_exposure' is selected, then the points on the sky dome will consist of points
+excluded by
 the path of the sun throughout the year.
 
 
@@ -88,9 +96,15 @@ If one  of the 'indirect' methods is selected, the dictionary will contain:
   
   
 **Parameters:**  
-  * *origins:* A list of coordinates, a list of Rays or a list of Planes, to be used as the origins for calculating exposure.  
-  * *detail:* An integer between 1 and 3 inclusive, specifying the level of detail for the analysis.  
+  * *sensors:* A list of coordinates, a list of Rays or a list of Planes, to be used as the
+origins for calculating exposure.  
   * *entities:* The obstructions, faces, polygons, or collections of faces or polygons.  
-  * *limits:* The max distance for raytracing.  
-  * *method:* Enum; solar method.
+  * *radius:* The max distance for raytracing.  
+  * *detail:* An integer between 1 and 3 inclusive, specifying the level of detail for the
+analysis.  
+  * *method:* Enum, solar method: `'direct_weighted', 'direct_unweighted', 'indirect_weighted'`,
+or `'indirect_unweighted'`.  
   
+**Returns:** A dictionary containing solar exposure results.  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/analyze/Sun.ts) 

@@ -9,6 +9,8 @@
   
 **Parameters:**  
   * *entities:* An edge or list of edges.  
-  * *edge\_query\_enum:* Enum, select the types of edges to return.  
+  * *edge\_query\_enum:* Enum, select the types of edges to return: `'previous', 'next', 'both'` or `'touching'`.  
   
-**Returns:** Entities, an edge or list of edges  
+**Returns:** Entities, an edge or list of edges, or null.  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/query/Edge.ts) 

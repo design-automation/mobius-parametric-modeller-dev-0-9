@@ -8,7 +8,7 @@
 a fixed number of equal length shorter edges.
 - If the `by_length` method is selected, then each edge is divided into
 shorter edges of the specified length.
-- The length of the last segment will be the remainder.
+The length of the last segment will be the remainder.
 - If the `by_min_length` method is selected,
 then the edge is divided into the number of shorter edges
 with lengths equal to or greater than the minimum length specified.
@@ -21,7 +21,7 @@ with lengths equal to or less than the maximum length specified.
 **Parameters:**  
   * *entities:* Edges, or entities from which edges can be extracted.  
   * *divisor:* Segment length or number of segments.  
-  * *method:* Enum, select the method for dividing edges.  
+  * *method:* Enum, select the method for dividing edge: `'by_number', 'by_length', 'by_min_length'` or `'by_max_length'`.  
   
 **Returns:** Entities, a list of new edges resulting from the divide operation.  
 **Examples:**  
@@ -30,3 +30,5 @@ with lengths equal to or less than the maximum length specified.
   * `segments2 = make.Divide(edge1, 5, by_length)`  
     If edge1 has length 13, creates two new edges of length 5 and one new edge of length 3.
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/edit/Divide.ts) 

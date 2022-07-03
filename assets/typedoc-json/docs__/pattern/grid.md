@@ -107,14 +107,17 @@ If a list of two numbers is given, then they will be interpreted as `[width, len
   * *num\_positions:* Number of columns and rows of positions in the grid.
 If a single number is given, then the number of columns and rows are assumed to be equal.
 If a list of two numbers is given, then they will be interpreted as `[columns, rows]`.  
-  * *method:* Enum, define the way the coords will be return as lists.  
+  * *method:* Enum, define the way the coords will be return as lists: `'flat', 'rows',
+'columns'` or `'quads'`.  
   
 **Returns:** Entities, a list of positions, or a list of lists of positions
 (depending on the 'method' setting).  
 **Examples:**  
-  * posis = pattern.Grid([0,0,0], 10, 3, 'flat')  
+  * `posis = pattern.Grid([0,0,0], 10, 3, 'flat')`  
     Creates a list of 9 positions on a 3x3 square grid with a size of 10.  
   * `posis = pattern.Grid([0,0,0], [10,20], [3,4], 'flat')`  
     Creates a list of 12 positions on a 3x4 grid. The grid as a width of 10
 and a length of 20. The positions are returned as a flat list.
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/pattern/Grid.ts) 

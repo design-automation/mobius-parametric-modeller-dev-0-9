@@ -11,7 +11,7 @@ which may in turn result in some edges being deleted, and so forth.)
 - When deleting collections, the objects and other collections in the collection are also deleted.
 
 
-Topological entities inside objects  (wires, edges, vertices) cannot be deleted.
+Topological entities inside objects (wires, edges, vertices) cannot be deleted.
 If a topological entity needs to be deleted, then the current approach is create a new object
 with the desired topology, and then to delete the original object.
 
@@ -19,7 +19,7 @@ with the desired topology, and then to delete the original object.
   
 **Parameters:**  
   * *entities:* Positions, points, polylines, polygons, collections.  
-  * *method:* Enum, delete or keep unused positions.  
+  * *method:* Enum, delete or keep unused positions: `'delete_selected'` or `'keep_selected'`.  
   
 **Returns:** void  
 **Examples:**  
@@ -31,3 +31,5 @@ only if they are not being used by other objects.
     Deletes everything except `polygon1` from the model. The topology and positions for
 `polygon1` will not be deleted.
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/edit/Delete.ts) 

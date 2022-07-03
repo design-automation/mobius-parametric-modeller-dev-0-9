@@ -5,13 +5,15 @@
 
 
 The method can either be 'faceted' or 'smooth'.
-'faceted' means that the normal direction for each vertex will be perpendicular to the polygon to which it belongs.
-'smooth' means that the normal direction for each vertex will be the average of all polygons welded to this vertex.
+- 'faceted' means that the normal direction for each vertex will be perpendicular to the polygon to which it belongs.
+- 'smooth' means that the normal direction for each vertex will be the average of all polygons welded to this vertex.
 
   
   
 **Parameters:**  
   * *entities:* Vertices belonging to polygons, or entities from which polygon vertices can be extracted.  
-  * *method:* Enum, the types of normals to create, faceted or smooth.  
+  * *method:* Enum, the types of normals to create: `'faceted'` or `'smooth'`.  
   
 **Returns:** void  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/visualize/Mesh.ts) 

@@ -10,7 +10,7 @@ For edges to be connected, vertices must be welded.
 For example, if the network consists of multiple polylines, then the vertcies of those polylines must be welded.
 
 
-Centralities are calculate based on distances between positions.
+Centralities are calculated based on distances between positions.
 The distance between two positions is the shortest path between those positions.
 The shortest path is the path where the sum of the weights of the edges along the path is the minimum.
 
@@ -24,7 +24,7 @@ Closeness centrality is calculated by inverting the sum of the distances to all 
 Harmonic centrality is calculated by summing up the inverted distances to all other positions.
 
 
-Betweenness centrality os calculated in two steps.
+Betweenness centrality is calculated in two steps.
 First, the shortest path between every pair of nodes is calculated.
 Second, the betweenness centrality of each node is then the total number of times the node is traversed
 by the shortest paths.
@@ -50,9 +50,12 @@ Returns a dictionary containing the results.
   
 **Parameters:**  
   * *source:* A list of positions, or entities from which positions can be extracted.
-These positions should be part of the network.  
+These positions should be part of the network.
+If null, all positions in the model will be used.  
   * *entities:* The network, edges, or entities from which edges can be extracted.  
-  * *method:* Enum, the method to use, directed or undirected.  
-  * *cen\_type:* Enum, the data to return, positions, edges, or both.  
+  * *method:* Enum, the method to use: `'directed'` or `'undirected'`.  
+  * *cen\_type:* Enum, the type of centrality: `'betweenness', 'closeness'` or `'harmonic'`.  
   
-**Returns:** A list of centrality values, between 0 and 1.  
+**Returns:** A dictionary containing the results (posis and centrality values, between 0 and 1.)  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/analyze/Centrality.ts) 

@@ -5,7 +5,7 @@
 If a material with the same name already exits, these settings will be added to the existing material.
 
 
-[See the threejs docs](https://threejs.org/docs/#api/en/materials/MeshPhysicalMaterial)
+[See the threejs docs on Physical materials](https://threejs.org/docs/#api/en/materials/MeshPhysicalMaterial)
 
 
 In order to assign a material to polygons in the model, a polygon attribute called 'material'
@@ -21,3 +21,5 @@ needs to be created. The value for each polygon must either be null, or must be 
   * *reflectivity:* The reflectivity, between 0 (non-reflective) and 1 (reflective).  
   
 **Returns:** void  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/material/Physical.ts) 

@@ -1,7 +1,7 @@
 ## pattern.Interpolate  
   
   
-**Description:** Creates positions in an spline pattern. Returns a list of new positions.
+**Description:** Creates positions in a spline pattern. Returns a list of new positions.
 It is a type of interpolating spline (a curve that goes through its control points).
 
 
@@ -20,16 +20,16 @@ For more information, see the wikipedia article:
 
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Catmull-Rom_examples_with_parameters..png"
-alt="Curve types" width="100">
+alt="Curve types" width="150">
 
   
   
 **Parameters:**  
   * *coords:* A list of coordinates.  
-  * *type:* Enum, the type of interpolation algorithm.  
+  * *type:* Enum, the type of interpolation algorithm: 'centripetal', 'chordal', or 'catmullrom'.  
   * *tension:* Curve tension, between 0 and 1. This only has an effect when the 'type' is set
 to 'catmullrom'.  
-  * *close:* Enum, 'open' or 'close'.  
+  * *close:* Enum, `'open'` or `'close'`.  
   * *num\_positions:* Number of positions to be distributed distributed along the spline.  
   
 **Returns:** Entities, a list of positions.  
@@ -38,3 +38,5 @@ to 'catmullrom'.
 'chordal','close', 0.2, 50)`  
     Creates a list of 50 positions distributed along a spline curve pattern.
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/pattern/Interpolate.ts) 

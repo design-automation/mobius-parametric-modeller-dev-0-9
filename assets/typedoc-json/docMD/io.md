@@ -11,37 +11,40 @@ The `io` module has functions for importing and exporting.
 **Parameters:**  
   * *data:* The data to be read (from URL or from Local Storage).  
   
-**Returns:** the data.  
+**Returns:** The data.  
   
   
 ## Write  
   
   
-**Description:** Write data to the hard disk or to the local storage.  
+**Description:** Write data to the hard disk or to the local storage.
+Depending on your browser's download settings,
+a dialog box may pop up to manually confirm the action if writing to the hard disk.  
   
 **Parameters:**  
   * *data:* The data to be saved (can be the url to the file).  
-  * *file\_name:* The name to be saved in the file system (file extension should be included).  
-  * *data\_target:* Enum, where the data is to be exported to.  
+  * *file\_name:* The name to be saved in the file system as a string (file extension should be included).  
+  * *data\_target:* Enum, where the data is to be exported to: `'Save to Hard Disk'` or `'Save to Local Storage'`.  
   
-**Returns:** whether the data is successfully saved.  
+**Returns:** Whether the data is successfully saved. (True/false)  
   
   
 ## ImportData  
   
   
-**Description:** Imports a string of data into the model.
+**Description:** Imports a string of geometry data into the model, in various formats.
+The geometry will be added to the model.
 
   
   
 **Parameters:**  
-  * *model\_data:* The model data  
-  * *data\_format:* Enum, the file format.  
+  * *model\_data:* The model data.  
+  * *data\_format:* Enum, the file format: `'gi', 'sim', 'obj', 'geojson'` or `'CityJSON'`.  
   
-**Returns:** A list of the positions, points, polylines, polygons and collections added to the model.  
+**Returns:** A collection of entities added to the model.  
 **Examples:**  
-  * io.Import ("my_data.obj", obj)  
-    Imports the data from my_data.obj, from local storage.
+  * `io.ImportData (data_str, "obj")`  
+    Imports the data in obj format.
   
   
   
@@ -53,22 +56,24 @@ The `io` module has functions for importing and exporting.
 
 There are two ways of specifying the file location to be imported:
 - A url, e.g. "https://www.dropbox.com/xxxx/my_data.obj"
-- A file name in the local storage, e.g. "my_data.obj".
+- A file name in the local storage, e.g. "my\_data.obj". See documentation on local storage in
+the menu for more info.
 
 
-To place a file in local storage, go to the Mobius menu, and select 'Local Storage' from the dropdown.
+To place a file in local storage, go to the Mobius menu, and select 'Local Storage' from the
+dropdown.
 Note that a script using a file in local storage may fail when others try to open the file.
 
   
   
 **Parameters:**  
-  * *data\_url:* The url to retrieve the data from  
-  * *data\_format:* Enum, the file format.  
+  * *data\_url:* The url to retrieve the data from.  
+  * *data\_format:* Enum, the file format: `'gi', 'sim', 'obj', 'geojson'` or `'CityJSON'`.  
   
 **Returns:** A list of the positions, points, polylines, polygons and collections added to the model.  
 **Examples:**  
-  * io.Import ("my_data.obj", obj)  
-    Imports the data from my_data.obj, from local storage.
+  * `io.Import ("my_data.obj", obj)`  
+    Imports the data from my\_data.obj, from local storage.
   
   
   
@@ -78,7 +83,7 @@ Note that a script using a file in local storage may fail when others try to ope
 **Description:** Export data from the model as a file.
 
 
-If you expore to your  hard disk,
+If you export to your hard disk,
 it will result in a popup in your browser, asking you to save the file.
 
 
@@ -87,15 +92,17 @@ If you export to Local Storage, there will be no popup.
   
   
 **Parameters:**  
-  * *entities:* Optional. Entities to be exported. If null, the whole model will be exported.  
+  * *entities:* (Optional) Entities to be exported. If null, the whole model will be exported.  
   * *file\_name:* Name of the file as a string.  
-  * *data\_format:* Enum, the file format.  
-  * *data\_target:* Enum, where the data is to be exported to.  
+  * *data\_format:* Enum, the export file format: `'gi', 'sim', 'obj_v', 'obj_ps', 'geojson'`
+or `'gltf'`.  
+  * *data\_target:* Enum, where the data is to be exported to: `'Save to Hard Disk'` or
+`'Save to Local Storage'`.  
   
-**Returns:** void.  
+**Returns:** void  
 **Examples:**  
-  * io.Export (#pg, 'my_model.obj', obj)  
-    Exports all the polgons in the model as an OBJ.
+  * `io.Export (#pg, 'my\_model.obj', 'obj', 'Save to Hard Disk')`  
+    Exports all the polygons in the model as an OBJ, saved to the hard disk.
   
   
   
@@ -107,20 +114,28 @@ If you export to Local Storage, there will be no popup.
   
   
 **Parameters:**  
-  * *entities:* Optional. Entities to be exported. If null, the whole model will be exported.  
-  * *data\_format:* Enum, the file format.  
+  * *entities:* (Optional) Entities to be exported. If null, the whole model will be exported.  
+  * *data\_format:* Enum, the export file format: `'gi', 'sim', 'obj_v', 'obj_ps', 'geojson'` or `'gltf'`.  
   
-**Returns:** the model data as a string.  
+**Returns:** The model data as a string.  
 **Examples:**  
-  * io.Export (#pg, 'my_model.obj', obj)  
-    Exports all the polgons in the model as an OBJ.
+  * `io.Export (#pg, 'my_model.obj', 'obj')`  
+    Exports all the polygons in the model as an OBJ.
   
   
   
 ## Geolocate  
   
   
-**Description:** Set the geolocation of the Cartesian coordinate system.  
+**Description:** Set the geolocation of the Cartesian coordinate system.
+Does the same as the Geoalign function, but with alternate parameters.
+
+
+The Cartesian coordinate system is geolocated by defining two points:
+- The latitude-longitude of the Cartesian origin.
+- The counter-clockwise rotation around the Cartesian origin, in radians.
+
+  
   
 **Parameters:**  
   * *lat\_long:* Set the latitude and longitude of the origin of the Cartesian coordinate system.  
@@ -134,6 +149,7 @@ If you export to Local Storage, there will be no popup.
   
   
 **Description:** Set the geolocation of the Cartesian coordinate system.
+Does the same as the Geolocate function, but with alternate parameters.
 
 
 The Cartesian coordinate system is geolocated by defining two points:
@@ -162,6 +178,6 @@ based on the geolocation of the model.
   * *lat\_long:* Latitude and longitude coordinates.  
   * *elev:* Set the elevation of the Cartesian coordinate system above the ground plane.  
   
-**Returns:** XYZ coordinates  
+**Returns:** XYZ coordinates.  
   
   

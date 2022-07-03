@@ -9,7 +9,7 @@ generated. The origin can be specified as either a <abbr title='A list of three 
 is given, then a plane will be automatically generated, aligned with the global XY plane.
 
 
-The positions will be generated along an straight line aligned with the X axis of the origin
+The positions will be generated along a straight line aligned with the X axis of the origin
 plane.
 
 
@@ -20,7 +20,9 @@ Returns the list of new positions.
 **Parameters:**  
   * *origin:* A <abbr title='A list of three numbers, [x, y, z]'>coordinate</abbr> or a <abbr title='Three lists of three numbers, [origin, x-axis, y-axis]'>plane</abbr>.
 If a coordinate is given, then the plane is assumed to be aligned with the global XY plane.  
-  * *length:* The length of the line along which positions will be generated.  
-  * *num\_positions:* undefined  
+  * *length:* A number. The length of the line along which positions will be generated.  
+  * *num\_positions:* An integer. The number of positions to be generated.  
   
 **Returns:** Entities, a list of new positions.  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/pattern/Line.ts) 

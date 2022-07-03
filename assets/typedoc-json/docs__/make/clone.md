@@ -8,6 +8,8 @@
   
 **Returns:** Entities, the cloned entity or a list of cloned entities.  
 **Examples:**  
-  * copies = make.Copy([position1,polyine1,polygon1])  
-    Creates a copy of position1, polyine1, and polygon1.
+  * `copies = make.Clone([position1,polyine1,polygon1])`  
+    Creates a copy of position1, polyline1, and polygon1 and deletes the originals.
   
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/make/Clone.ts) 

@@ -13,11 +13,14 @@ The boolean operation is then performed between each polyline or polygon in A, a
 If A is an empty list, then an empty list is returned.
 If B is an empty list, then the A list is returned.
 
-  
+
+The input polygons or polylines are not deleted.  
   
 **Parameters:**  
   * *a\_entities:* A list of polyline or polygons, or entities from which polyline or polygons can be extracted.  
   * *b\_entities:* A list of polygons, or entities from which polygons can be extracted.  
-  * *method:* Enum, the boolean operator to apply.  
+  * *method:* Enum, the boolean operator to apply: `'intersect', 'difference'` or `'symmetric'`.  
   
 **Returns:** A list of new polylines and polygons.  
+
+[Source Code](https://github.com/design-automation/mobius-sim-funcs/blob/main/src/modules/functions/poly2d/Boolean.ts) 
