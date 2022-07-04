@@ -179,6 +179,7 @@ export class ThreejsViewerComponent implements OnInit, DoCheck, OnChanges, OnDes
         this._height = this.container.offsetHeight; // container.client_height;
 
         this._data_threejs = this.dataService.getThreejsScene();
+        this.sim_funcs.setModel(this.model)
         if (this.model && this._data_threejs.model !== this.model) {
             this.updateModel(this.model);
         }
