@@ -20,10 +20,8 @@ Returns a dictionary containing different metrics.
 **Parameters:**  
   * *sensors:* A list of Rays or Planes, to be used as the origins for calculating the unobstructed views.  
   * *entities:* The obstructions: faces, polygons, or collections.  
-  * *radius:* The maximum radius of the visibility analysis.  
-  * *roads:* Polylines defining the road segments as noise sources.  
-  * *noise\_levels:* undefined  
-  * *length:* The length of each road segment.  
+  * *limits:* The maximum radius of the visibility analysis.  
+  * *sources:* Positions defining the noise sources.  
   
 **Returns:** A dictionary containing different visibility metrics.  
 
