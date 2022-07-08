@@ -554,7 +554,7 @@ export class DataThreejs extends DataThreejsLookAt {
             if (element.type === 'LineBasicMaterial') {
                 const mat = new THREE.LineDashedMaterial({
                     color: element.color || 0,
-                    vertexColors: element.vertexColors,
+                    vertexColors: element.vertexColors ? true : false,
                     linewidth: element.linewidth ||  1,
                     scale: 1,
                     dashSize: 1000,
@@ -566,7 +566,7 @@ export class DataThreejs extends DataThreejsLookAt {
             } else {
                 const mat = new THREE.LineDashedMaterial({
                     color: element.color || 0,
-                    vertexColors: element.vertexColors,
+                    vertexColors: element.vertexColors ? true : false,
                     linewidth: element.linewidth ||  1,
                     scale: element.scale || 1,
                     dashSize: element.dashSize || 2,
