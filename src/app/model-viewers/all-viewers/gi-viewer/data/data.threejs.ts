@@ -769,6 +769,10 @@ export class DataThreejs extends DataThreejsLookAt {
         div.style.maxWidth = '200px';
         div.style.whiteSpace = 'pre-wrap';
         div.style.fontSize = '14px';
+        console.log(window.location)
+        if (window.location.pathname.startsWith('/publish')) {
+            div.style.top = '80px'
+        }
         return {
             element: div
         };
