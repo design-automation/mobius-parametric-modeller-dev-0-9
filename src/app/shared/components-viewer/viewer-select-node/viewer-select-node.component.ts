@@ -11,10 +11,9 @@ export class ViewerSelectNodeComponent implements OnChanges {
     @Input() model: Model;
     @Input() nodeIndex: number;
 
-    timelineEnabled = null;
-    timeline_groups = null;
-    timelineIndex = null;
-    timelineValue = null;
+    timeline_groups = [];
+    timelineIndex = '';
+    timelineValue = '';
 
     constructor(private dataService: DataService) {}
 
@@ -29,22 +28,33 @@ export class ViewerSelectNodeComponent implements OnChanges {
     private _getNodeSelect(changes): void {
         if (!this.model || !this.dataService.executeModel) { return; }
         const select_node: any = this.dataService.executeModel.model.getModelAttribVal('select_node');
-        this.timelineEnabled = null;
         if (!select_node || !select_node.nodes) { return; }
         this.timeline_groups = select_node.nodes;
         const currentIndex = this.timeline_groups.indexOf(this.dataService.node.name);
+
+        const dropdown = document.getElementById('nodeSelect_dropdown').classList
+        const slider = document.getElementById('nodeSelect_slider').classList
+
         if (currentIndex !== -1) {
-            this.timelineEnabled = 1;
-            this.timelineIndex = currentIndex.toString();
             this.timelineValue = this.dataService.node.name;
+            this.timelineIndex = currentIndex.toString();
             if (select_node.widget === 'dropdown') {
-                this.timelineEnabled = 2;
+                if (dropdown.contains('hidden')) { dropdown.remove('hidden') }
+                if (!slider.contains('hidden')) { slider.add('hidden') }
+            } else {
+                if (slider.contains('hidden')) { slider.remove('hidden') }
+                if (!dropdown.contains('hidden')) { dropdown.add('hidden') }    
             }
+        } else {
+            if (!slider.contains('hidden')) { slider.add('hidden') }
+            if (!dropdown.contains('hidden')) { dropdown.add('hidden') }    
         }
+
         if (changes['model'] && this.dataService.timelineDefault && select_node.default) {
             setTimeout(() => {
                 this.updateNode(select_node.default);
-            }, 10);
+            }, 0);
+            this.dataService.timelineDefault = false;
         }
     }
 
