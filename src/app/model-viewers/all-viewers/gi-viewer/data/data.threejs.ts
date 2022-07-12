@@ -687,9 +687,12 @@ export class DataThreejs extends DataThreejsLookAt {
                 [lengthCheck[1], lengthCheck[2]] = [lengthCheck[2], lengthCheck[1]];
                 [coords[0], coords[1]] = [coords[1], coords[0]];
             }
-            const rotQuat = this._rotateQuaternion(coords);
-            geom.applyQuaternion(rotQuat);
-            geom.translate(coords[1].x, coords[1].y, coords[1].z);
+
+            // const rotQuat = this._rotateQuaternion(coords);
+            // geom.applyQuaternion(rotQuat);
+            // geom.translate(coords[1].x, coords[1].y, coords[1].z);
+            const rotMatrix = this._rotateMatrix(coords);
+            geom.applyMatrix4(rotMatrix);
 
             let color = new THREE.Color(0);
             if (pgons_labels[i].color  && pgons_labels[i].color.length === 3) {
@@ -716,17 +719,38 @@ export class DataThreejs extends DataThreejsLookAt {
         this.renderer.render(this.scene, this.camera);
     }
     //----------------------------------------------------------------------------------------------
-    private _rotateQuaternion(targetCoords: [THREE.Vector3, THREE.Vector3, THREE.Vector3]): THREE.Quaternion {
-        const v1y = new THREE.Vector3(0, 1, 0);
-        const v2x = new THREE.Vector3().copy(targetCoords[2]).sub(targetCoords[1]).normalize();
-        const v2y = new THREE.Vector3().copy(targetCoords[0]).sub(targetCoords[1]).normalize();
-        const n1 = new THREE.Vector3(0, 0, 1);
-        const n2 = v2x.cross(v2y);
-        const quat1 = new THREE.Quaternion().setFromUnitVectors(n1, n2);
-        const quat2 = new THREE.Quaternion().setFromUnitVectors(v1y.applyQuaternion(quat1), v2y);
-        const QuatFinal = quat2.multiply(quat1);
-        return QuatFinal;
+    // private _rotateQuaternion(targetCoords: [THREE.Vector3, THREE.Vector3, THREE.Vector3]): THREE.Quaternion {
+    //     const v1y = new THREE.Vector3(0, 1, 0);
+    //     const v2x = new THREE.Vector3().copy(targetCoords[2]).sub(targetCoords[1]).normalize();
+    //     const v2y = new THREE.Vector3().copy(targetCoords[0]).sub(targetCoords[1]).normalize();
+    //     const n1 = new THREE.Vector3(0, 0, 1);
+    //     const n2 = v2x.cross(v2y);
+    //     const quat1 = new THREE.Quaternion().setFromUnitVectors(n1, n2);
+    //     const quat2 = new THREE.Quaternion().setFromUnitVectors(v1y.applyQuaternion(quat1), v2y);
+    //     const QuatFinal = quat2.multiply(quat1);
+    //     return QuatFinal;
+    // }
+
+    private _rotateMatrix(targetCoords: [THREE.Vector3, THREE.Vector3, THREE.Vector3]): THREE.Matrix4 {
+        const o = new THREE.Vector3().copy(targetCoords[1])
+        const x = new THREE.Vector3().copy(targetCoords[2]).sub(targetCoords[1]).normalize();
+        const y = new THREE.Vector3().copy(targetCoords[0]).sub(targetCoords[1]).normalize();
+        const z: THREE.Vector3 = new THREE.Vector3().crossVectors(x,y);
+
+        // origin translate matrix
+        const m1: THREE.Matrix4 = new THREE.Matrix4();
+        m1.setPosition(o);
+        // xfrom matrix
+        const m2: THREE.Matrix4 = new THREE.Matrix4();
+        m2.makeBasis(x, y, z);
+        // combine two matrices
+        const m3: THREE.Matrix4 = new THREE.Matrix4();
+        // first xform, then translate to origin, so m1 x m2
+        m3.multiplyMatrices(m1, m2);
+        // return the combined matrix
+        return m3;
     }
+
     //----------------------------------------------------------------------------------------------
     /**
      * Add threejs positions to the scene
