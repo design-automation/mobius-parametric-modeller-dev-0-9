@@ -184,6 +184,7 @@ export class DataAframe {
         this.removeMobiusObjs();
         const threeJSGroup = new AFRAME.THREE.Group();
         this.navMeshEnabled = false;
+        if (!this.model) { return; }
         try {
             this.sim_funcs.setModel(this.model);
             const all_pgons = this.sim_funcs.model.getEnts(EEntType.PGON);
