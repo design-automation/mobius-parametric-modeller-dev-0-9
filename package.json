@@ -24,9 +24,9 @@
     "e2e": "ng e2e",
     "preinstall": "git submodule update --init",
     "postinstall": "npm run moduleDocs && npm run mod3js",
-    "moduleDocs": "node version.js && node src\\assets\\typedoc-json\\docProcess.js && npm run resizeImg",
+    "moduleDocs": "node version.js && node src/assets/typedoc-json/docProcess.js && npm run resizeImg",
     "mod3js": "node mod3js.js",
-    "resizeImg": "node ./src/assets/gallery/img_resize.js"
+    "resizeImg": "node src/assets/gallery/img_resize.js"
   },
   "private": true,
   "dependencies": {

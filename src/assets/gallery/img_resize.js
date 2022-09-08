@@ -2,7 +2,12 @@ const sharp = require('sharp');
 const galleryConfig = require('./__config__.json').data;
 
 function resizeImg(fileIn, fileOut) {
-    sharp(fileIn).resize({ height:116, width:156}).toFile(fileOut)
+    sharp(fileIn).resize({ height:116, width:156}).toFile(fileOut).catch(ex => {
+        console.log('~~~~~ Error', )
+        console.log('      fileIn:', fileIn,)
+        console.log('      fileOut:', fileOut, ex)
+        console.log('      error:', ex)
+    })
 }
 
 galleryConfig.forEach(section => {
