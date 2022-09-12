@@ -190,5 +190,3 @@ export const ModuleList = module_list;
 export const ModuleDocList = moduleDocs;
 export const InlineDocList = inlineDocs['inline'];
 
-console.log(inlineDocs)
-console.log(inlinedoc)

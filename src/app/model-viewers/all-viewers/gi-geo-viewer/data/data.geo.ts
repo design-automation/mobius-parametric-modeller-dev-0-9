@@ -295,8 +295,8 @@ export class DataGeo {
 
         threeJSGroup.position.copy(cameraTargetPosition);
         threeJSGroup.position.z += 0.1;
-        threeJSGroup.lookAt(new THREE.Vector3(0, 0, 0));
-        threeJSGroup.rotateY(Math.PI);
+
+        itowns.OrientationUtils.quaternionFromEnuToGeocent(this.camTarget, threeJSGroup.quaternion) 
 
         // if there's a north attribute
         if (this.sim_funcs.model.hasModelAttrib('north')) {
@@ -319,11 +319,16 @@ export class DataGeo {
         threeJSGroup.updateMatrixWorld(true);
         this.view.scene.add(threeJSGroup);
 
-        // this._addGround(threejsScene, cameraTargetPosition);
-        if (threejsScene._all_objs_sphere) {
+        if (threejsScene._all_objs_sphere && threejsScene._all_objs_sphere.radius) {
             this.scale = threejsScene._all_objs_sphere.radius;
         } else {
-            this.scale = 1;
+            try {
+                const boxHelper = new THREE.BoxHelper(this.view.scene.getObjectByName('mobius_geom'));
+                boxHelper.geometry.computeBoundingSphere();
+                this.scale = boxHelper.geometry.boundingSphere.radius;
+            } catch (ex) {
+                this.scale = 100;
+            }
         }
 
         const lightTarget = new THREE.Object3D();

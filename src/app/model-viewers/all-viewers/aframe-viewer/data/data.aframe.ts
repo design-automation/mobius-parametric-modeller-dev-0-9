@@ -476,7 +476,7 @@ export class DataAframe {
             // const xyzs = this.sim_funcs.model.getAttribVal(EEntType.POSI, pts_posis, 'xyz');
             // const ptAttribs = this.sim_funcs.model.getAttribVal(EEntType.POINT, pts, 'vr_hotspot');
 
-            const pts = <string[]> this.sim_funcs.query.Get(<any> 'ps', null);
+            const pts = <string[]> this.sim_funcs.query.Get(<any> 'pt', null);
             const xyzs = this.sim_funcs.attrib.Get(this.sim_funcs.query.Get(<any> 'ps', pts), 'xyz');
             const ptAttribs = this.sim_funcs.attrib.Get(pts, 'vr_hotspot');
 
