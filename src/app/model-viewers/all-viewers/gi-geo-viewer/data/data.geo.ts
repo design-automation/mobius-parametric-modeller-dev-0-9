@@ -79,7 +79,7 @@ export class DataGeo {
         this.container = document.getElementById('threejs-geo-container');
         this.view = new itowns.GlobeView(this.container, placement);
         this.view.controls.enableDamping = false;
-        this.view.controls.rotateSpeed = 1;
+        this.view.controls.rotateSpeed = 0.5;
         this.view.mainLoop.gfxEngine.renderer.setPixelRatio( window.devicePixelRatio );
         this.view.mainLoop.gfxEngine.renderer.shadowMap.enabled = true;
         this.view.mainLoop.gfxEngine.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
