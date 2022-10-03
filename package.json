@@ -8,7 +8,7 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "npm run moduleDocs && node --max_old_space_size=16384 node_modules/@angular/cli/bin/ng serve",
+    "start": "npm run moduleDocs && node --max_old_space_size=16384 node_modules/@angular/cli/bin/ng serve --host 0.0.0.0",
     "startProd": "npm run moduleDocs && node --max_old_space_size=16384 node_modules/@angular/cli/bin/ng serve -c production --host 172.23.95.231",
     "docs": "./node_modules/.bin/compodoc -p src/tsconfig.app.json",
     "deploy": "npm run moduleDocs && npm run build-prod && npx ngh",
