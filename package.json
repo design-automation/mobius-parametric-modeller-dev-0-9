@@ -8,7 +8,7 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "npm run moduleDocs && node --max_old_space_size=16384 node_modules/@angular/cli/bin/ng serve --host 0.0.0.0",
+    "start": "npm run moduleDocs && node --max_old_space_size=16384 node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --port 4300",
     "startProd": "npm run moduleDocs && node --max_old_space_size=16384 node_modules/@angular/cli/bin/ng serve -c production --host 172.23.95.231",
     "docs": "./node_modules/.bin/compodoc -p src/tsconfig.app.json",
     "deploy": "npm run moduleDocs && npm run build-prod && npx ngh",
@@ -26,7 +26,8 @@
     "postinstall": "npm run moduleDocs && npm run mod3js",
     "moduleDocs": "node version.js && node src/assets/typedoc-json/docProcess.js && npm run resizeImg",
     "mod3js": "node mod3js.js",
-    "resizeImg": "node src/assets/gallery/img_resize.js"
+    "resizeImg": "node src/assets/gallery/img_resize.js",
+    "genPeg": "peggy src/app/shared/parser/PEG_parser_arg_format.pegjs && peggy src/app/shared/parser/PEG_parser_arg_code.pegjs && peggy src/app/shared/parser/PEG_parser_var_format.pegjs && peggy src/app/shared/parser/PEG_parser_var_code.pegjs && node src/app/shared/parser/process_generated_code.js"
   },
   "private": true,
   "dependencies": {
@@ -91,6 +92,7 @@
     "karma-jasmine-html-reporter": "^1.5.0",
     "node": "^16.4.0",
     "npm": "~6.14.8",
+    "peggy": "^2.0.1",
     "protractor": "~7.0.0",
     "sharp": "^0.29.1",
     "ts-node": "^8.5.4",
