@@ -4,11 +4,10 @@
 
 Parse
   = _ expr: (
-    Expression
-  / LongElement
+    EmptyObj
   / Dict
   / List
-  / EmptyObj
+  / Expression
  ) _ {return expr;}
 
 Dict "dictionary"
@@ -39,10 +38,10 @@ ExprOperator = "+" / "-" / "*" / "/" / "%" / "&&" / "||" / ConditionalSymbols { 
 ExprTerm "term"
   = "(" _ expr:Expression _ ")" { return '(' + expr + ')'; }
   / Func
-  / LongElement
   / MobiusNullFilter
   / MobiusNullAttr
   / MobiusNullQuery
+  / LongElement
   / Negation
   / EmptyObj
   / Boolean
@@ -61,13 +60,12 @@ Func "function call"
 
 LongElement
   = _ expr: LongElmTerm _ tail: ( LongElmTail _) + {
-    return tail.reduce((r, e) =>  r + e[0], expr)
+    console.log(tail)
+    return tail.reduce((r, e) =>  r + e[0],  expr)
   }
 
 LongElmTerm
   = "(" _ expr:Expression _ ")" { return '(' + expr + ')'; }
-  / Dict
-  / List
   / Func
   / MobiusNullFilter
   / MobiusNullAttr
@@ -86,7 +84,7 @@ LongElmTail
   / ListItem
 
 ListSlice
-  = '[' _ from: Expression? _ ':' _ to: Expression? _ ']' { 
+  = '[' _ from: Expression _ ':' _ to: Expression ? _ ']' { 
     return '[' + (from ? from:'') + ':' + (to ? to:'') + ']';
   }
 
@@ -99,7 +97,7 @@ ListItem
 MobiusAttr
   = '@' _ attr: IdentifierUnmod ls:('[' Expression ']')? { 
     if (ls) return '@' + attr + '[' + ls[1] + ']';
-    return '@' + attr;
+    return '@' + expr2;
   }
  
 MobiusFilter
@@ -116,7 +114,7 @@ MobiusQuery
 MobiusNullAttr
   = _ '@' _ attr: IdentifierUnmod ls:('[' Expression ']')? { 
     if (ls) return '@' + attr + '[' + ls[1] + ']';
-    return '@' + attr;
+    return '@' + expr2;
   }
   
 MobiusNullFilter
@@ -126,11 +124,11 @@ MobiusNullFilter
   }
   
 MobiusNullQuery
-  = _ '#' _ eType: MobiusName _ recursive: ( '#' _ MobiusName _)* { 
+  = _ '#' _ expr2: MobiusName _ recursive: ( '#' _ MobiusName _)* { 
     if (recursive.length > 0) {
-      return recursive.reduce((result, element) => result + '#' + element[2] + ' ', '#' + eType + ' ');
+      return recursive.reduce((result, element) => result + '#' + element[2] + ' ', '#' + expr2 + ' ');
     }
-    return '#' + eType;
+    return '#' + expr2;
   }
   
 
@@ -149,7 +147,7 @@ MobiusName "Mobius Name"
      / '_v' / '_t' / '_e' / '_w' / 'mo') { return text(); }
 
 ConditionalSymbols "Compare"
-  = ('===' / '==' / '!==' / '!=' / '<=' / '>='/ '<' / '>') { return text(); }
+  = ('===' / '==' / '!=' / '<=' / '>='/ '<' / '>') { return text(); }
 
 Number "Number" = neg: '-'? num: (PositiveFloat / PositiveInteger) {return (neg? neg: '') + num; }
   

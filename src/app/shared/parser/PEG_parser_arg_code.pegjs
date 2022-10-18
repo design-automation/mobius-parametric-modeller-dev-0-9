@@ -4,22 +4,23 @@
 
 Parse
   = _ expr: (
-    EmptyObj
+    Expression
+  / LongElement
   / Dict
   / List
-  / Expression
- ) _ {return expr;}
+  / EmptyObj
+ ) _ { return expr; }
 
 Dict "dictionary"
-  = head: '{' _? expr1:(String / Number) _? ':' _? expr2:(Expression / List / Dict)
-    tail: (',' _? exprk:(String / Number) _? ':' _? exprv:(Expression / List / Dict) _?) * '}' {
+  = head: '{' _? expr1:(String / Number / IdentifierUnmod) _? ':' _? expr2:(Expression / List / Dict)
+    tail: (',' _? exprk:(String / Number / IdentifierUnmod) _? ':' _? exprv:(Expression / List / Dict) _?) * '}' {
   	return '{' + expr1 + ': ' + expr2 + tail.reduce(function(result, element) {
       	return result + ', ' + element[2] + ': ' + element[6]
     }, '') + '}';
   }
   
 List "list"
-  = head: '[' _? expr1:Expression _? tail: (',' _? exprt:(Expression / List / Dict) _?) * ']' {
+  = head: '[' _? expr1:(Expression / List / Dict) _? tail: (',' _? exprt:(Expression / List / Dict) _?) * ']' {
   	return '[' + expr1 + tail.reduce(function (result, element) {
       	return result + ', ' + element[2]
     }, '') + ']';
@@ -38,12 +39,12 @@ ExprOperator = "+" / "-" / "*" / "/" / "%" / "&&" / "||" / ConditionalSymbols { 
 ExprTerm "term"
   = "(" _ expr:Expression _ ")" { return '(' + expr + ')'; }
   / Func
-  / MobiusFilter
-  / MobiusAttr
-  / MobiusQuery
-  / ListSlice
-  / ListItem
+  / LongElement
+  / MobiusNullFilter
+  / MobiusNullAttr
+  / MobiusNullQuery
   / Negation
+  / EmptyObj
   / Boolean
   / Identifier
   / Number
@@ -58,37 +59,80 @@ Func "function call"
     }, '') + ')';
   }
   
+LongElement
+  = _ expr: LongElmTerm _ tail: ( LongElmTail _) + {
+    return tail.reduce((r, e) =>  e[0].replace(/<<RESULT>>/g, r), expr)
+  }
+
+LongElmTerm
+  = "(" _ expr:Expression _ ")" { return '(' + expr + ')'; }
+  / Dict
+  / List
+  / Func
+  / MobiusNullFilter
+  / MobiusNullAttr
+  / MobiusNullQuery
+  / Negation
+  / Boolean
+  / Identifier
+  / Number
+  / String
+
+LongElmTail
+  = MobiusFilter
+  / MobiusAttr
+  / MobiusQuery
+  / ListSlice
+  / ListItem
+
 ListSlice
-  = _ list: Identifier _ '[' _ from: Expression _ ':' _ to: Expression ? _ ']' _ { 
-  if (to) return list + '.slice(' + from + ', ' + to + ')'
-  return list + '.slice(' + from + ')'
+  = '[' _ from: Expression? _ ':' _ to: Expression? _ ']' { 
+    if (to) return '<<RESULT>>.slice(' + from + ', ' + to + ')'
+    return '<<RESULT>>.slice(' + from + ')'
   }
 
 // SIMPLE TERMS 
 ListItem
-  = _ expr1: Identifier _ recursive: ( '[' _ Expression _ ']' _)+  { 
-    return recursive.reduce((r, e) => r + '[pythonList(' + e[2] + ', ' + r + '.length)]', expr1); 
+  = '[' _ idx: Expression _ ']' { 
+    return '<<RESULT>>[pythonList(' + idx + ', <<RESULT>>.length)]'; 
   }
 
 MobiusAttr
-  = _ expr1: (MobiusQuery / MobiusAttrTerm)? _ '@' _ expr2: IdentifierUnmod expr3:('[' Expression ']')? { 
-    if (expr3) return 'mfn.attrib.Get(' + expr1 + ', [\'' + expr2 +'\', ' + expr3[1] + '])'
-    return 'mfn.attrib.Get(' + expr1 + ', \'' + expr2 +'\')'
+  = '@' _ attr: IdentifierUnmod ls:('[' Expression ']')? { 
+    if (ls) return 'mfn.attrib.Get(<<RESULT>>, [\'' + attr +'\', ' + ls[1] + '])'
+    return 'mfn.attrib.Get(<<RESULT>>, \'' + attr +'\')'
   }
  
-MobiusQuery
-  = _ expr1: (MobiusAttrTerm)? _ '#' _ expr2: MobiusName _ recursive: ( '#' _ MobiusName _ )* {
-    if (recursive.length > 0) {
-      const str = 'mfn.query.Get(\'' + expr2 + '\', ' + expr1 + ')'
-      return recursive.reduce((result, element) => 'mfn.query.Get(\'' + element[2] + '\', '+ result + ')', str);
-    }
-    return 'mfn.query.Get(\'' + expr2 + '\', ' + expr1 + ')';
+MobiusFilter 
+  = '?' _ '@' _ attr: IdentifierUnmod li:('[' Expression ']')? _ condSym:ConditionalSymbols _ condVal: Expression { 
+  if (li) return 'mfn.query.Filter(<<RESULT>>, [\''+ attr + '\', ' + li[1] + '], \''+condSym +'\', '+condVal+')'; 
+  return 'mfn.query.Filter(<<RESULT>>, [\''+ attr + '\', null], \''+condSym +'\', '+condVal+')'; 
   }
 
-MobiusFilter 
-  = _ expr1: (MobiusQuery / MobiusAttrTerm)? _ '?' _ '@' _ expr2: IdentifierUnmod li:('[' Expression ']')? _ condSym:ConditionalSymbols _ expr3: Expression { 
-  if (li) return 'mfn.query.Filter('+ expr1+ ', ['+ expr2 + ', ' + li[1] + '], '+condSym +', '+expr3+')'; 
-  return 'mfn.query.Filter('+ expr1+ ', ['+ expr2 + ', null], '+condSym +', '+expr3+')'; 
+MobiusQuery
+  = '#' _ eType: MobiusName {
+    return 'mfn.query.Get(\'' + eType + '\', <<RESULT>>)';
+  }
+
+MobiusNullAttr
+  = _ '@' _ attr: IdentifierUnmod ls:('[' Expression ']')? { 
+    if (ls) return 'mfn.attrib.Get(null, [\'' + attr +'\', ' + ls[1] + '])'
+    return 'mfn.attrib.Get(null, \'' + attr +'\')'
+  }
+ 
+MobiusNullFilter 
+  = _ '?' _ '@' _ attr: IdentifierUnmod li:('[' Expression ']')? _ condSym:ConditionalSymbols _ condVal: Expression { 
+  if (li) return 'mfn.query.Filter(null, ['+ attr + ', ' + li[1] + '], '+condSym +', '+condVal+')'; 
+  return 'mfn.query.Filter(null, ['+ attr + ', null], '+condSym +', '+condVal+')'; 
+  }
+
+MobiusNullQuery
+  = _ '#' _ eType: MobiusName _ recursive: ( '#' _ MobiusName _ )* {
+    if (recursive.length > 0) {
+      const str = 'mfn.query.Get(\'' + eType + '\', null)'
+      return recursive.reduce((result, element) => 'mfn.query.Get(\'' + element[2] + '\', '+ result + ')', str);
+    }
+    return 'mfn.query.Get(\'' + eType + '\', null)';
   }
 
 MobiusAttrTerm = 
@@ -115,7 +159,7 @@ MobiusName "Mobius Name"
      / '_v' / '_t' / '_e' / '_w' / 'mo') { return text(); }
 
 ConditionalSymbols "Compare"
-  = ('===' / '==' / '!=' / '<=' / '>='/ '<' / '>') { return text(); }
+  = ('===' / '==' / '!==' / '!=' / '<=' / '>='/ '<' / '>') { return text(); }
 
 Number "Number" = neg: '-'? num: (PositiveFloat / PositiveInteger) {return (neg? neg: '') + num; }
   
