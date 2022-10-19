@@ -36,7 +36,7 @@ Expression
 
 ExprOperator = "+" / "-" / "*" / "/" / "%" / "&&" / "||" / ConditionalSymbols { return text() }
 
-ExprTerm "term"
+ExprTerm "expression, number, string or identifier"
   = "(" _ expr:Expression _ ")" { return '(' + expr + ')'; }
   / Func
   / LongElement

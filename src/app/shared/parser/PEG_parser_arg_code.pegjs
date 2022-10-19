@@ -36,7 +36,7 @@ Expression
 
 ExprOperator = "+" / "-" / "*" / "/" / "%" / "&&" / "||" / ConditionalSymbols { return text() }
 
-ExprTerm "term"
+ExprTerm "expression, number, string or identifier"
   = "(" _ expr:Expression _ ")" { return '(' + expr + ')'; }
   / Func
   / LongElement
@@ -53,7 +53,7 @@ ExprTerm "term"
 Func "function call"
   = expr1:IdentifierUnmod _ '(' _ arg1: (Dict/ List / Expression / String) ?
     tail: (',' _ argn: (Dict/ List / Expression / String) _ ) * ')' {
-    const rep = expr1 // <<<<<<<<<<< FUNCTION CALL >>>>>>>>>>>
+    const rep = options.funcReplace[expr1]
   	return rep + '(' + (arg1? arg1: '') + tail.reduce(function(result, element) {
       	return result + ', ' + element[2]
     }, '') + ')';
@@ -135,19 +135,19 @@ MobiusNullQuery
     return 'mfn.query.Get(\'' + eType + '\', null)';
   }
 
-MobiusAttrTerm = 
-    Func
-  / ListSlice
-  / ListItem
-  / Identifier
-  
+
 // BASIC TEMRS
 Negation "Negation"
   = op: ('!'/'-') _ expr: (ExprTerm) { return op + expr;}
 
 Identifier "Identifier"
   = [a-zA-Z_][a-zA-Z0-9_\-]* {
-    const VAR_USED = null
+    if (options.funcReplace[text()]){
+        return 'JSON.parse(JSON.stringify(' + options.funcReplace[text()] + '))';
+    } else if (options.specialVars.has(text())) {
+      return text();
+    }
+    options.varUsed.add(text());
     return text() + '_';
   }
   
@@ -181,4 +181,4 @@ EmptyObj = EmptyList / EmptyDict
 EmptyList = _ ("[" _ "]") { return '[]'; }
 EmptyDict = _ ("{" _ "}") { return '{}'; }
 
-_ "whitespace" = [ \t\n\r]*
+_ = [ \t\n\r]*

@@ -244,7 +244,7 @@ function peg$parse(input, options) {
   var peg$e12 = peg$literalExpectation("%", false);
   var peg$e13 = peg$literalExpectation("&&", false);
   var peg$e14 = peg$literalExpectation("||", false);
-  var peg$e15 = peg$otherExpectation("term");
+  var peg$e15 = peg$otherExpectation("expression, number, string or identifier");
   var peg$e16 = peg$literalExpectation("(", false);
   var peg$e17 = peg$literalExpectation(")", false);
   var peg$e18 = peg$otherExpectation("function call");

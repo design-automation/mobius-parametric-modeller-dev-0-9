@@ -17,6 +17,7 @@ import { CodeUtils } from './code.util';
 
 export const pythonListFunc = `
 function pythonList(x, l){
+    if (typeof x === 'string') { return x; }
     if (x < 0) {
         return x + l;
     }

@@ -27,7 +27,7 @@
     "moduleDocs": "node version.js && node src/assets/typedoc-json/docProcess.js && npm run resizeImg",
     "mod3js": "node mod3js.js",
     "resizeImg": "node src/assets/gallery/img_resize.js",
-    "genPeg": "peggy src/app/shared/parser/PEG_parser_arg_format.pegjs && peggy src/app/shared/parser/PEG_parser_arg_code.pegjs && peggy src/app/shared/parser/PEG_parser_var_format.pegjs && peggy src/app/shared/parser/PEG_parser_var_code.pegjs && node src/app/shared/parser/process_generated_code.js"
+    "genPeg": "peggy src/app/shared/parser/PEG_parser_arg_format.pegjs && peggy src/app/shared/parser/PEG_parser_arg_code.pegjs && peggy src/app/shared/parser/PEG_parser_var_code.pegjs && node src/app/shared/parser/process_generated_code.js"
   },
   "private": true,
   "dependencies": {

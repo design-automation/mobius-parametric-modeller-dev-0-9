@@ -453,7 +453,9 @@ export class ProcedureItemComponent implements OnDestroy {
                 this.data.variable.forEach(v => this.markLinkedArguments(v, topProdList));
                 const varInp = this.data.args[0];
                 if (varInp && varInp.value && varInp.value.startsWith('[') && varInp.value.endsWith(']')) {
-                    varInp.usedVars.forEach(v => this.markLinkedArguments(v, topProdList));
+                    if (varInp.usedVars) {
+                        varInp.usedVars.forEach(v => this.markLinkedArguments(v, topProdList));
+                    }
                 }
             } else if (this.data.args[index].usedVars && this.data.args[index].usedVars[0]) {
                 this.markLinkedArguments(this.data.args[index].usedVars[0], topProdList);
