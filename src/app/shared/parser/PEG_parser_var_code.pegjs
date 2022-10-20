@@ -53,8 +53,9 @@ ExprOperator = "+" / "-" / "*" / "/" / "%" / "&&" / "||" / ConditionalSymbols { 
 
 ExprTerm "expression, number, string or identifier"
   = "(" _ expr:Expression _ ")" { return '(' + expr + ')'; }
-  / Func
   / LongElement
+  / List
+  / Func
   / MobiusNullFilter
   / MobiusNullAttr
   / MobiusNullQuery
@@ -155,9 +156,10 @@ Negation "Negation"
 
 Identifier "Identifier"
   = [a-zA-Z_][a-zA-Z0-9_\-]* {
-    if (options.funcReplace[text()]){
-        return 'JSON.parse(JSON.stringify(' + options.funcReplace[text()] + '))';
-    } else if (options.specialVars.has(text())) {
+    if (options.specialVars.has(text())) {
+      if (options.funcReplace[text()]){
+          return 'JSON.parse(JSON.stringify(' + options.funcReplace[text()] + '))';
+      } 
       return text();
     }
     options.varUsed.add(text());

@@ -38,8 +38,9 @@ ExprOperator = "+" / "-" / "*" / "/" / "%" / "&&" / "||" / ConditionalSymbols { 
 
 ExprTerm "expression, number, string or identifier"
   = "(" _ expr:Expression _ ")" { return '(' + expr + ')'; }
-  / Func
   / LongElement
+  / List
+  / Func
   / MobiusNullFilter
   / MobiusNullAttr
   / MobiusNullQuery

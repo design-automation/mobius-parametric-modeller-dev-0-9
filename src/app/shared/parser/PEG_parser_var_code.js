@@ -377,9 +377,10 @@ function peg$parse(input, options) {
   };
   var peg$f18 = function(op, expr) { return op + expr;};
   var peg$f19 = function() {
-    if (options.funcReplace[text()]){
-        return 'JSON.parse(JSON.stringify(' + options.funcReplace[text()] + '))';
-    } else if (options.specialVars.has(text())) {
+    if (options.specialVars.has(text())) {
+      if (options.funcReplace[text()]){
+          return 'JSON.parse(JSON.stringify(' + options.funcReplace[text()] + '))';
+      } 
       return text();
     }
     options.varUsed.add(text());
@@ -1163,27 +1164,30 @@ function peg$parse(input, options) {
       s0 = peg$FAILED;
     }
     if (s0 === peg$FAILED) {
-      s0 = peg$parseFunc();
+      s0 = peg$parseLongElement();
       if (s0 === peg$FAILED) {
-        s0 = peg$parseLongElement();
+        s0 = peg$parseList();
         if (s0 === peg$FAILED) {
-          s0 = peg$parseMobiusNullFilter();
+          s0 = peg$parseFunc();
           if (s0 === peg$FAILED) {
-            s0 = peg$parseMobiusNullAttr();
+            s0 = peg$parseMobiusNullFilter();
             if (s0 === peg$FAILED) {
-              s0 = peg$parseMobiusNullQuery();
+              s0 = peg$parseMobiusNullAttr();
               if (s0 === peg$FAILED) {
-                s0 = peg$parseNegation();
+                s0 = peg$parseMobiusNullQuery();
                 if (s0 === peg$FAILED) {
-                  s0 = peg$parseEmptyObj();
+                  s0 = peg$parseNegation();
                   if (s0 === peg$FAILED) {
-                    s0 = peg$parseBoolean();
+                    s0 = peg$parseEmptyObj();
                     if (s0 === peg$FAILED) {
-                      s0 = peg$parseIdentifier();
+                      s0 = peg$parseBoolean();
                       if (s0 === peg$FAILED) {
-                        s0 = peg$parseNumber();
+                        s0 = peg$parseIdentifier();
                         if (s0 === peg$FAILED) {
-                          s0 = peg$parseString();
+                          s0 = peg$parseNumber();
+                          if (s0 === peg$FAILED) {
+                            s0 = peg$parseString();
+                          }
                         }
                       }
                     }
