@@ -34,7 +34,8 @@ Expression
     }, head);
   }
 
-ExprOperator = "+" / "-" / "*" / "/" / "%" / "&&" / "||" / ConditionalSymbols { return text() }
+ExprOperator
+  = "+" / "-" / "*" / "/" / "%" / "&&" / "||" / ConditionalSymbols { return text() }
 
 ExprTerm "expression, number, string or identifier"
   = "(" _ expr:Expression _ ")" { return '(' + expr + ')'; }
@@ -160,7 +161,7 @@ MobiusName "Mobius Name"
   = ('ps' / 'pt' / 'pl' / 'pg' / 'co'
      / '_v' / '_t' / '_e' / '_w' / 'mo') { return text(); }
 
-ConditionalSymbols "Compare"
+ConditionalSymbols
   = ('===' / '==' / '!==' / '!=' / '<=' / '>='/ '<' / '>') { return text(); }
 
 Number "Number" = neg: '-'? num: (PositiveFloat / PositiveInteger) {return (neg? neg: '') + num; }
@@ -171,9 +172,13 @@ PositiveFloat "Float" = [0-9]* '.' [0-9]+ { return text(); }
   
 String "String" = StringDbl / StringSgl
 
-StringDbl "String - Double Quote" = '"' [^\"\n]+ '"' { return text(); }
+StringDbl "String - Double Quote" 
+  = '"' [^\"\n]+ '"' { return text(); }
+  / '""'
   
-StringSgl "String - Single Quote" = "'" [^\'\n]* "'" { return text(); }
+StringSgl "String - Single Quote" 
+  = "'" [^\'\n]* "'" { return text(); }
+  / "''"
 
 Boolean "Boolean" = bool: (BooleanTrue / BooleanFalse) { return bool;}
 BooleanTrue "Boolean true" = [Tt][Rr][Uu][Ee] { return 'true'; }

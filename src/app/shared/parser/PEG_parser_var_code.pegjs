@@ -27,7 +27,10 @@ Dict "dictionary"
   }
   
 List "list"
-  = head: '[' _? expr1:(Expression / List / Dict) _? tail: (',' _? exprt:(Expression / List / Dict) _?) * ']' {
+  = head: '[' _? expr1:(Expression / List / Dict) _? tail: (',' _? exprt:(Expression / List / Dict) _?) * closingBrack: ']'? {
+    if (!closingBrack) {
+      throw Error('Error: missing closing "]" in "' + text() + '"')
+    }
   	return '[' + expr1 + tail.reduce(function (result, element) {
       	return result + ', ' + element[2]
     }, '') + ']';
@@ -49,7 +52,8 @@ Expression
     }, head);
   }
 
-ExprOperator = "+" / "-" / "*" / "/" / "%" / "&&" / "||" / ConditionalSymbols { return text() }
+ExprOperator
+  = "+" / "-" / "*" / "/" / "%" / "&&" / "||" / ConditionalSymbols { return text() }
 
 ExprTerm "expression, number, string or identifier"
   = "(" _ expr:Expression _ ")" { return '(' + expr + ')'; }
@@ -109,8 +113,17 @@ ListSlice
 
 // SIMPLE TERMS 
 ListItem
-  = '[' _ idx: Expression _ ']' { 
+  // = '[' _ idx: Expression _ ']' { 
+  //   return '<<RESULT>>[pythonList(' + idx + ', <<RESULT>>.length)]'; 
+  // }
+  = '[' _ idx: Expression _ listClose: ']' ? {
+    if (!listClose) { 
+      throw Error('Error: missing closing "]" in "' + text() + '"')
+    }
     return '<<RESULT>>[pythonList(' + idx + ', <<RESULT>>.length)]'; 
+  }
+  / '[' _ {
+    throw Error('Error: missing list index in "' + text() + '"')
   }
 
 MobiusAttr
@@ -118,29 +131,40 @@ MobiusAttr
     if (ls) return '<<RESULT>>@' + attr + '[' + ls[1] + ']';
     return '<<RESULT>>@' + attr;
   }
+  / _ '@' _ { throw Error('Error: attribute name required after "@"') }
  
 MobiusFilter
   = '?' _ '@' _ attr: IdentifierUnmod li:('[' Expression ']')? _ condSym: ConditionalSymbols _ condVal: Expression { 
   if (li) return '<<RESULT>>?@' + attr + '[' + li[1] + ']' + condSym + condVal; 
   return '<<RESULT>>?@' + attr + condSym + condVal; 
   }
+  / _  '?' _ '@' _ attr: IdentifierUnmod li:('[' Expression ']')? _ condSym: ConditionalSymbols  { throw Error('Error: missing condition value in "' + text() + '"') }
+  / _  '?' _ '@' _ attr: IdentifierUnmod li:('[' Expression ']')?   { throw Error('Error: missing conditional clause in "' + text() + '"') }
+  / _ '?' _ '@' _ { throw Error('Error: attribute name required after "?@" in "' + text() + '"') }
+  / _ '?' _ { throw Error('Error: "@" required after "?" in "' + text() + '"') }
 
 MobiusQuery
   = '#' _ eType: MobiusName {
     return '<<RESULT>>#' + eType;
   }
+  / _ '#' _ { throw Error('Error: object types ("ps", "pt", "pl", "pg", "co", "_v", "_t", "_e" or "_w") required after "#" in "' + text() + '"') }
 
 MobiusNullAttr
   = _ '@' _ attr: IdentifierUnmod ls:('[' Expression ']')? { 
     if (ls) return '@' + attr + '[' + ls[1] + ']';
     return '@' + attr;
   }
-  
+  / _ '@' _ { throw Error('Error: attribute name required after "@"') }
+
 MobiusNullFilter
   = _ '?' _ '@' _ attr: IdentifierUnmod li:('[' Expression ']')? _ condSym: ConditionalSymbols _ condVal: Expression { 
   if (li) return '?@' + attr + '[' + li[1] + ']' + condSym + condVal; 
   return '?@' + attr + condSym + condVal; 
   }
+  / _  '?' _ '@' _ attr: IdentifierUnmod li:('[' Expression ']')? _ condSym: ConditionalSymbols  { throw Error('Error: missing condition value in "' + text() + '"') }
+  / _  '?' _ '@' _ attr: IdentifierUnmod li:('[' Expression ']')?   { throw Error('Error: missing conditional clause in "' + text() + '"') }
+  / _ '?' _ '@' _ { throw Error('Error: attribute name required after "?@" in "' + text() + '"') }
+  / _ '?' _ { throw Error('Error: "@" required after "?" in "' + text() + '"') }
 
 MobiusNullQuery
   = _ '#' _ eType: MobiusName _ recursive: ( '#' _ MobiusName _)* { 
@@ -149,7 +173,8 @@ MobiusNullQuery
     }
     return '#' + eType;
   }
-  
+  / _ '#' _ { throw Error('Error: object types ("ps", "pt", "pl", "pg", "co", "_v", "_t", "_e" or "_w") required after "#" in "' + text() + '"') }
+
 // BASIC TEMRS
 Negation "Negation"
   = op: ('!'/'-') _ expr: (ExprTerm) { return op + expr;}
@@ -173,7 +198,7 @@ MobiusName "Mobius Name"
   = ('ps' / 'pt' / 'pl' / 'pg' / 'co'
      / '_v' / '_t' / '_e' / '_w' / 'mo') { return text(); }
 
-ConditionalSymbols "Compare"
+ConditionalSymbols
   = ('===' / '==' / '!==' / '!=' / '<=' / '>='/ '<' / '>') { return text(); }
 
 Number "Number" = neg: '-'? num: (PositiveFloat / PositiveInteger) {return (neg? neg: '') + num; }
@@ -184,7 +209,7 @@ PositiveFloat "Float" = [0-9]* '.' [0-9]+ { return text(); }
   
 String "String" = StringDbl / StringSgl
 
-StringDbl "String - Double Quote" = '"' [^\"\n]+ '"' { return text(); }
+StringDbl "String - Double Quote" = '"' [^\"\n]* '"' { return text(); }
   
 StringSgl "String - Single Quote" = "'" [^\'\n]* "'" { return text(); }
 
@@ -193,7 +218,11 @@ BooleanTrue "Boolean true" = [Tt][Rr][Uu][Ee] { return 'true'; }
 BooleanFalse "Boolean false" = [Ff][Aa][Ll][Ss][Ee] { return 'false'; }
 
 EmptyObj = EmptyList / EmptyDict
-EmptyList = _ ("[" _ "]") { return '[]'; }
-EmptyDict = _ ("{" _ "}") { return '{}'; }
+EmptyList 
+  = _ "[" _ "]" { return '[]'; }
+  / _ "[" _ { throw Error('Error: "]" expected') }
+EmptyDict
+  = _ "{" _ "}" { return '{}'; }
+  / _ "{" _ { throw Error('Error: dictionary expected') }
 
 _ = [ \t\n\r]*

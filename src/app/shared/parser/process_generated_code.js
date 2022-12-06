@@ -1,4 +1,4 @@
-// const fs = require('fs');
+const fs = require('fs');
 
 // const argVar = `"use strict"
 // var extra = {
@@ -17,9 +17,17 @@
 //     }
 //     options.varUsed.add(text());`
 
-// let argFormat = fs.readFileSync('src/app/shared/parser/PEG_parser_arg_format.js').toString()
-// // argFormat = argFormat.replace('"use strict";\n\n', argVar)
-// // argFormat = argFormat.replace('  parse: peg$parse\n};', argExport)
+const argError = `
+  let i = 0;
+  while (i < expected.length) {
+    const eI = expected[i];
+    if (eI.description === "whitespace") { expected.splice(i, 1)}
+    else { i++ }
+  }
+  return "Expected " + describeExpected(expected) + " but " + describeFound(found) + " found.";`
+let argFormat = fs.readFileSync('src/app/shared/parser/PEG_parser_arg_format.js').toString()
+argFormat = argFormat.replace('  return "Expected " + describeExpected(expected) + " but " + describeFound(found) + " found.";', argError)
+fs.writeFileSync('src/app/shared/parser/PEG_parser_arg_format.js', argFormat)
 
 // let argCode = fs.readFileSync('src/app/shared/parser/PEG_parser_arg_code.js').toString()
 // // argCode = argCode.replace('"use strict";\n\n', argVar)
